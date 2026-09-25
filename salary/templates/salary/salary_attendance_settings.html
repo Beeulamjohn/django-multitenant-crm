@@ -1,0 +1,859 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Attendance Settings | FlowTenant</title>
+    <link
+        rel="stylesheet"
+        href="{% static 'css/salary_attendance_settings.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="salary-settings-layout">
+
+    <aside class="salary-sidebar">
+
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+        <nav class="salary-sidebar-nav">
+           
+
+
+            <a
+                href="{% url 'salary_settings_page' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-sliders"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Salary Settings
+                </span>
+
+            </a>
+            <a
+                href="{% url 'salary_payroll_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-money-check-dollar"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Payroll Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_attendance_settings' %}"
+                class="salary-nav-link active"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Attendance Settings
+                </span>
+
+            </a>
+
+            <a
+                href="{% url 'salary_payslip_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Payslip Settings
+                </span>
+
+            </a>
+
+            <a
+                href="{% url 'salary_tax_deductions_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Tax & Deductions
+                </span>
+
+            </a>
+
+            <a
+                href="{% url 'salary_bonus_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-gift"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Bonus Settings
+                </span>
+
+            </a>
+            <a
+                href="{% url 'employee_salary_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-user-tie"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Employee Salary
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_notification_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_theme_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-palette"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+
+        </nav>
+
+    </aside>
+    <main class="salary-main-content">
+
+
+        <header class="salary-page-header">
+
+
+            <div class="salary-page-header-text">
+
+
+                <div class="salary-breadcrumb">
+
+                    <span>Salary</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Attendance</span>
+
+                </div>
+
+
+                <h1>
+                    Attendance Settings
+                </h1>
+
+
+                <p>
+                    Configure employee attendance,
+                    working hours, overtime, late marks,
+                    absence rules and salary integration.
+                </p>
+
+            </div>
+
+
+           
+
+
+        </header>
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        <span>
+                            {{ message }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            class="attendance-form"
+        >
+
+            {% csrf_token %}
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon blue">
+
+                        <i class="fas fa-calendar-week"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Working Days
+                        </h2>
+
+                        <p>
+                            Select the normal working days
+                            for your company.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="days-grid">
+
+
+                    <label class="day-item">
+
+                        {{ form.monday }}
+
+                        <span>Monday</span>
+
+                    </label>
+
+
+                    <label class="day-item">
+
+                        {{ form.tuesday }}
+
+                        <span>Tuesday</span>
+
+                    </label>
+
+
+                    <label class="day-item">
+
+                        {{ form.wednesday }}
+
+                        <span>Wednesday</span>
+
+                    </label>
+
+
+                    <label class="day-item">
+
+                        {{ form.thursday }}
+
+                        <span>Thursday</span>
+
+                    </label>
+
+
+                    <label class="day-item">
+
+                        {{ form.friday }}
+
+                        <span>Friday</span>
+
+                    </label>
+
+
+                    <label class="day-item">
+
+                        {{ form.saturday }}
+
+                        <span>Saturday</span>
+
+                    </label>
+
+
+                    <label class="day-item">
+
+                        {{ form.sunday }}
+
+                        <span>Sunday</span>
+
+                    </label>
+
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon green">
+
+                        <i class="fas fa-clock"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Working Hours
+                        </h2>
+
+                        <p>
+                            Define employee working hours
+                            and break duration.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Work Start Time
+                        </label>
+
+                        {{ form.work_start_time }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Work End Time
+                        </label>
+
+                        {{ form.work_end_time }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Break Hours
+                        </label>
+
+                        {{ form.break_hours }}
+
+                    </div>
+
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon orange">
+
+                        <i class="fas fa-user-clock"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Late & Early Exit Rules
+                        </h2>
+
+                        <p>
+                            Configure late attendance and
+                            early exit rules.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="rule-grid">
+
+
+                    <label class="switch-row">
+
+                        {{ form.late_mark_enabled }}
+
+                        <span>
+                            Enable Late Mark
+                        </span>
+
+                    </label>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Late Grace Period
+                            <small>(Minutes)</small>
+                        </label>
+
+                        {{ form.late_mark_minutes }}
+
+                    </div>
+
+
+                    <label class="switch-row">
+
+                        {{ form.early_exit_enabled }}
+
+                        <span>
+                            Enable Early Exit
+                        </span>
+
+                    </label>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Early Exit Grace Period
+                            <small>(Minutes)</small>
+                        </label>
+
+                        {{ form.early_exit_minutes }}
+
+                    </div>
+
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon purple">
+
+                        <i class="fas fa-business-time"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Overtime
+                        </h2>
+
+                        <p>
+                            Configure overtime calculation
+                            and salary integration.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="rule-grid">
+
+
+                    <label class="switch-row">
+
+                        {{ form.overtime_enabled }}
+
+                        <span>
+                            Enable Overtime
+                        </span>
+
+                    </label>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Overtime After Hours
+                        </label>
+
+                        {{ form.overtime_after_hours }}
+
+                    </div>
+
+
+                    <label class="switch-row">
+
+                        {{ form.include_overtime_in_salary }}
+
+                        <span>
+                            Include Overtime in Salary
+                        </span>
+
+                    </label>
+
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon red">
+
+                        <i class="fas fa-user-xmark"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Attendance Status Rules
+                        </h2>
+
+                        <p>
+                            Configure half-day, absence and
+                            leave behaviour.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="rule-grid">
+
+
+                    <label class="switch-row">
+
+                        {{ form.half_day_enabled }}
+
+                        <span>
+                            Enable Half Day
+                        </span>
+
+                    </label>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Half Day After Hours
+                        </label>
+
+                        {{ form.half_day_hours }}
+
+                    </div>
+
+
+                    <label class="switch-row">
+
+                        {{ form.auto_absent_enabled }}
+
+                        <span>
+                            Automatically Mark Absent
+                        </span>
+
+                    </label>
+
+
+                    <label class="switch-row">
+
+                        {{ form.leave_requires_approval }}
+
+                        <span>
+                            Leave Requires Approval
+                        </span>
+
+                    </label>
+
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon teal">
+
+                        <i class="fas fa-money-check-dollar"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Salary Integration
+                        </h2>
+
+                        <p>
+                            Control how attendance affects
+                            employee salary calculations.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="switch-list">
+
+
+                    <label class="switch-row">
+
+                        {{ form.deduct_absence_from_salary }}
+
+                        <span>
+                            Deduct Absence From Salary
+                        </span>
+
+                    </label>
+
+
+                    <label class="switch-row">
+
+                        {{ form.deduct_late_from_salary }}
+
+                        <span>
+                            Deduct Late Marks From Salary
+                        </span>
+
+                    </label>
+
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon pink">
+
+                        <i class="fas fa-bell"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Attendance Notifications
+                        </h2>
+
+                        <p>
+                            Configure attendance-related
+                            notifications.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="switch-list">
+
+
+                    <label class="switch-row">
+
+                        {{ form.attendance_notifications }}
+
+                        <span>
+                            Attendance Notifications
+                        </span>
+
+                    </label>
+
+
+                    <label class="switch-row">
+
+                        {{ form.late_notifications }}
+
+                        <span>
+                            Late Notifications
+                        </span>
+
+                    </label>
+
+
+                    <label class="switch-row">
+
+                        {{ form.absence_notifications }}
+
+                        <span>
+                            Absence Notifications
+                        </span>
+
+                    </label>
+
+
+                </div>
+
+            </section>
+
+            {% if form.errors %}
+
+                <div class="form-errors">
+
+                    <div class="error-title">
+
+                        <i class="fas fa-triangle-exclamation"></i>
+
+                        Please correct the following errors:
+
+                    </div>
+
+
+                    {{ form.non_field_errors }}
+
+
+                    {% for field in form %}
+
+                        {% for error in field.errors %}
+
+                            <p>
+                                <strong>
+                                    {{ field.label }}:
+                                </strong>
+
+                                {{ error }}
+
+                            </p>
+
+                        {% endfor %}
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="form-actions">
+
+
+                <a
+                    href="{% url 'salary_settings_page' %}"
+                    class="cancel-btn"
+                >
+
+                    <i class="fas fa-arrow-left"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+
+                    <i class="fas fa-save"></i>
+
+                    Save Attendance Settings
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

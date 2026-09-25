@@ -1,0 +1,776 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme_settings.theme|default:'light' }}"
+    data-font-size="{{ theme_settings.font_size|default:'medium' }}"
+    data-sidebar-style="{{ theme_settings.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Theme & Appearance | FlowTenant
+    </title>
+
+    <style>
+
+        :root {
+            --accent-color:
+                {{ theme_settings.accent_color|default:"#2563eb" }};
+        }
+
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/theme_appearance.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="employee-settings-layout">
+
+    <aside class="employee-sidebar">
+        <div class="employee-sidebar-logo">
+
+            <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+        </div>
+        <nav class="employee-sidebar-nav">
+
+
+            <a
+                href="{% url 'employee_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-home"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_general_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sliders"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    General
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_profile_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-id-card"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Employee Profile
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_departments_roles_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sitemap"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Departments & Roles
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_attendance_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Attendance
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_leave_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-minus"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Leave
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_payroll_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-money-check-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Payroll
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_tax_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Tax & Statutory
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_notification_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_document_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-folder-open"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Documents
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_report_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-chart-column"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_security_settings' %}"
+                class="employee-nav-link"
+            >
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Security & Permissions
+                </span>
+
+            </a>
+
+            <a
+                href="{% url 'employee_theme_settings' %}"
+                class="employee-nav-link active"
+            >
+
+                <span class="employee-nav-icon">
+
+                    <i class="fas fa-palette"></i>
+
+                </span>
+
+                <span class="employee-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+
+        </nav>
+        
+
+    </aside>
+    <main class="employee-main-content">
+        <header class="employee-page-header">
+
+
+            <div>
+
+                <div class="employee-breadcrumb">
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>
+                        Theme & Appearance
+                    </span>
+
+                </div>
+
+
+                <h1>
+                    Theme & Appearance
+                </h1>
+
+
+                <p>
+                    Customize the appearance of your Employee
+                    Management settings.
+                </p>
+
+            </div>
+
+
+            
+
+        </header>
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="success-message">
+
+                    <i class="fas fa-circle-check"></i>
+
+                    <span>
+                        {{ message }}
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+        {% if error %}
+
+            <div class="error-message">
+
+                <i class="fas fa-circle-exclamation"></i>
+
+                {{ error }}
+
+            </div>
+
+        {% endif %}
+
+        <form
+            method="POST"
+            class="theme-form"
+        >
+
+            {% csrf_token %}
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon blue">
+
+                        <i class="fas fa-sun"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Theme
+                        </h2>
+
+                        <p>
+                            Choose the overall appearance of
+                            the Employee settings interface.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="theme-options">
+
+
+                    {% for radio in form.theme %}
+
+                        <label
+                            class="theme-option"
+                            for="{{ radio.id_for_label }}"
+                        >
+
+                            {{ radio.tag }}
+
+                            <span class="theme-preview
+                                {% if forloop.counter == 1 %}
+                                    light-preview
+                                {% else %}
+                                    dark-preview
+                                {% endif %}
+                            ">
+
+                                {% if forloop.counter == 1 %}
+
+                                    <i class="fas fa-sun"></i>
+
+                                {% else %}
+
+                                    <i class="fas fa-moon"></i>
+
+                                {% endif %}
+
+                            </span>
+
+
+                            <span class="theme-option-content">
+
+                                <strong>
+                                    {{ radio.choice_label }}
+                                </strong>
+
+                                <small>
+
+                                    {% if forloop.counter == 1 %}
+
+                                        Clean and bright interface.
+
+                                    {% else %}
+
+                                        Dark interface for
+                                        comfortable viewing.
+
+                                    {% endif %}
+
+                                </small>
+
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon purple">
+
+                        <i class="fas fa-paintbrush"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Accent Color
+                        </h2>
+
+                        <p>
+                            Select the primary color used
+                            throughout Employee settings.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="color-setting">
+
+                    <div class="color-picker-wrapper">
+
+                        {{ form.accent_color }}
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Interface Accent
+                        </strong>
+
+                        <p>
+                            Used for buttons, active menus,
+                            links and highlights.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% for error in form.accent_color.errors %}
+
+                    <small class="field-error">
+                        {{ error }}
+                    </small>
+
+                {% endfor %}
+
+            </section>
+
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon green">
+
+                        <i class="fas fa-sliders"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Interface Settings
+                        </h2>
+
+                        <p>
+                            Configure the size and layout of
+                            the Employee settings interface.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Font Size
+                        </label>
+
+                        {{ form.font_size }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Sidebar Style
+                        </label>
+
+                        {{ form.sidebar_style }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Dashboard Layout
+                        </label>
+
+                        {{ form.dashboard_layout }}
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon orange">
+
+                        <i class="fas fa-display"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Display Options
+                        </h2>
+
+                        <p>
+                            Control additional interface behavior.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="toggle-list">
+
+
+                    <label class="toggle-row">
+
+                        <div>
+
+                            <strong>
+                                Compact Mode
+                            </strong>
+
+                            <p>
+                                Reduce spacing between interface
+                                elements.
+                            </p>
+
+                        </div>
+
+                        {{ form.compact_mode }}
+
+                    </label>
+
+
+                    <label class="toggle-row">
+
+                        <div>
+
+                            <strong>
+                                Reduced Animation
+                            </strong>
+
+                            <p>
+                                Reduce interface animations
+                                and transitions.
+                            </p>
+
+                        </div>
+
+                        {{ form.reduced_motion }}
+
+                    </label>
+
+
+                    <label class="toggle-row">
+
+                        <div>
+
+                            <strong>
+                                Show Breadcrumbs
+                            </strong>
+
+                            <p>
+                                Display the Settings navigation
+                                breadcrumb.
+                            </p>
+
+                        </div>
+
+                        {{ form.show_breadcrumbs }}
+
+                    </label>
+
+
+                    <label class="toggle-row">
+
+                        <div>
+
+                            <strong>
+                                Show Company Name
+                            </strong>
+
+                            <p>
+                                Display the current company name
+                                in the settings header.
+                            </p>
+
+                        </div>
+
+                        {{ form.show_company_name }}
+
+                    </label>
+
+
+                </div>
+
+            </section>
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'employee_settings' %}"
+                    class="cancel-button"
+                >
+
+                    <i class="fas fa-arrow-left"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+
+                    <i class="fas fa-check"></i>
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </main>
+
+</div>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const themeRadios =
+            document.querySelectorAll(
+                'input[name="theme"]'
+            );
+
+        const root =
+            document.documentElement;
+
+
+        themeRadios.forEach(
+            function (radio) {
+
+                radio.addEventListener(
+                    "change",
+                    function () {
+
+                        root.dataset.theme =
+                            this.value;
+
+                    }
+                );
+
+            }
+        );
+
+
+        const colorPicker =
+            document.querySelector(
+                ".color-picker"
+            );
+
+
+        if (colorPicker) {
+
+            colorPicker.addEventListener(
+                "input",
+                function () {
+
+                    root.style.setProperty(
+                        "--accent-color",
+                        this.value
+                    );
+
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

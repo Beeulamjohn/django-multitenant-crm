@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Forgot Password | FlowTenant</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/forgot.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="forgot-container">
+
+    <div class="left-panel">
+
+        <img src="{% static 'images/flowte.png' %}"
+             alt="FlowTenant">
+
+        <h1>Forgot Your Password?</h1>
+
+        <p>
+            Don't worry. Enter your registered email
+            address and we'll create a password reset
+            link for your FlowTenant account.
+        </p>
+
+    </div>
+
+
+    <div class="right-panel">
+
+        <div class="forgot-box">
+
+            <div class="icon-box">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+
+            <h2>Reset Password</h2>
+
+            <p class="subtitle">
+                Enter your registered email address.
+            </p>
+
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="message-box">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="input-box">
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email Address"
+                        autocomplete="email"
+                        required>
+
+                </div>
+
+
+                <button type="submit">
+                    Generate Reset Link
+                </button>
+
+            </form>
+
+
+            {% if reset_link %}
+
+                <div class="reset-link-box">
+
+                    <p>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Password reset link generated successfully.
+                    </p>
+
+                    <a href="{{ reset_link }}">
+                        Click here to change your password
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+
+            <a href="{% url 'login' %}"
+               class="back-link">
+
+                ← Back to Login
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

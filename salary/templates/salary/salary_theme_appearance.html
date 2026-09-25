@@ -1,0 +1,891 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Theme & Appearance | FlowTenant
+    </title>
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+
+        }
+
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/salary_theme_appearance.css' %}"
+    >
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="salary-theme-layout">
+
+    <aside class="salary-sidebar">
+
+
+                 <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+
+
+        <nav class="salary-sidebar-nav">
+            
+
+
+            <a
+                href="{% url 'salary_settings_page' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-home"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Salary Settings
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="{% url 'salary_payroll_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-money-check-dollar"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Payroll Settings
+                </span>
+
+            </a>
+            <a
+                href="{% url 'salary_attendance_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Attendance Settings
+                </span>
+
+            </a>
+            <a
+                href="{% url 'salary_payslip_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Payslip Settings
+                </span>
+
+            </a>
+
+            <a
+                href="{% url 'salary_tax_deductions_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Tax & Deductions
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_bonus_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-gift"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Bonus Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_salary_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-user-tie"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Employee Salary
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_notification_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+            <a
+                href="{% url 'salary_theme_settings' %}"
+                class="salary-nav-link active"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-palette"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+
+        
+    </aside>
+
+
+    <main class="salary-main-content">
+
+
+        <header class="salary-page-header">
+
+
+            <div>
+
+                <div class="salary-breadcrumb">
+
+                    <span>
+                        Settings
+                    </span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>
+                        Salary
+                    </span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>
+                        Theme & Appearance
+                    </span>
+
+                </div>
+
+
+                <div class="salary-title-row">
+
+                    <div class="salary-title-icon">
+
+                        <i class="fas fa-palette"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h1>
+                            Theme & Appearance
+                        </h1>
+
+                        <p>
+                            Customize the appearance and interface
+                            of your salary management section.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+           
+
+
+        </header>
+        {% if messages %}
+
+            <div class="messages-container">
+
+                {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+
+                        {% if message.tags == "success" %}
+
+                            <i class="fas fa-circle-check"></i>
+
+                        {% else %}
+
+                            <i class="fas fa-circle-exclamation"></i>
+
+                        {% endif %}
+
+                        <span>
+                            {{ message }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+        <form
+            method="POST"
+            class="theme-form"
+        >
+
+            {% csrf_token %}
+
+            <section class="theme-card">
+
+
+                <div class="theme-card-header">
+
+                    <div class="theme-card-icon blue">
+
+                        <i class="fas fa-circle-half-stroke"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Theme
+                        </h2>
+
+                        <p>
+                            Choose how the salary interface should
+                            appear.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="theme-card-body">
+
+
+                    <div class="form-group">
+
+                        <label for="{{ form.theme.id_for_label }}">
+                            Theme
+                        </label>
+
+                        {{ form.theme }}
+
+                        {% if form.theme.errors %}
+
+                            <div class="field-error">
+                                {{ form.theme.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="theme-preview">
+
+
+                        <div class="preview-option light-preview">
+
+                            <div class="preview-top"></div>
+
+                            <div class="preview-content">
+
+                                <div></div>
+                                <div></div>
+                                <div></div>
+
+                            </div>
+
+                            <span>
+                                Light
+                            </span>
+
+                        </div>
+
+
+                        <div class="preview-option dark-preview">
+
+                            <div class="preview-top"></div>
+
+                            <div class="preview-content">
+
+                                <div></div>
+                                <div></div>
+                                <div></div>
+
+                            </div>
+
+                            <span>
+                                Dark
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <section class="theme-card">
+
+
+                <div class="theme-card-header">
+
+                    <div class="theme-card-icon purple">
+
+                        <i class="fas fa-paintbrush"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Accent Color
+                        </h2>
+
+                        <p>
+                            Choose the primary color used throughout
+                            the salary interface.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="theme-card-body">
+
+
+                    <div class="color-setting">
+
+
+                        <div class="form-info">
+
+                            <h3>
+                                Primary Accent Color
+                            </h3>
+
+                            <p>
+                                This color is used for active navigation,
+                                buttons, links and interface highlights.
+                            </p>
+
+                        </div>
+
+
+                        <div class="color-control">
+
+                            {{ form.accent_color }}
+
+                            <span
+                                id="accentValue"
+                                class="accent-value"
+                            >
+                                {{ appearance.accent_color|default:"#2563eb" }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="theme-card">
+
+
+                <div class="theme-card-header">
+
+                    <div class="theme-card-icon green">
+
+                        <i class="fas fa-font"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Typography
+                        </h2>
+
+                        <p>
+                            Control the text size used throughout
+                            salary settings.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="theme-card-body">
+
+
+                    <div class="form-group">
+
+                        <label for="{{ form.font_size.id_for_label }}">
+                            Font Size
+                        </label>
+
+                        {{ form.font_size }}
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="theme-card">
+
+
+                <div class="theme-card-header">
+
+                    <div class="theme-card-icon orange">
+
+                        <i class="fas fa-table-cells-large"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Layout
+                        </h2>
+
+                        <p>
+                            Configure the way salary information
+                            is displayed.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="theme-card-body">
+
+
+                    <div class="two-column-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Dashboard Layout
+                            </label>
+
+                            {{ form.dashboard_layout }}
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Sidebar Style
+                            </label>
+
+                            {{ form.sidebar_style }}
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="theme-card">
+
+
+                <div class="theme-card-header">
+
+                    <div class="theme-card-icon cyan">
+
+                        <i class="fas fa-globe"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Regional Settings
+                        </h2>
+
+                        <p>
+                            Configure language and timezone preferences.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="theme-card-body">
+
+
+                    <div class="two-column-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Language
+                            </label>
+
+                            {{ form.language }}
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Time Zone
+                            </label>
+
+                            {{ form.time_zone }}
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="theme-card">
+
+
+                <div class="theme-card-header">
+
+                    <div class="theme-card-icon red">
+
+                        <i class="fas fa-sliders"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Interface Options
+                        </h2>
+
+                        <p>
+                            Control additional interface behavior.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="theme-options">
+
+
+                    <div class="theme-option-row">
+
+                        <div>
+
+                            <h3>
+                                Show Breadcrumbs
+                            </h3>
+
+                            <p>
+                                Display the navigation breadcrumb
+                                at the top of salary pages.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            {{ form.show_breadcrumbs }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <div class="theme-option-row">
+
+                        <div>
+
+                            <h3>
+                                Show Page Description
+                            </h3>
+
+                            <p>
+                                Display descriptive text below
+                                page titles.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            {{ form.show_page_description }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <div class="theme-option-row">
+
+                        <div>
+
+                            <h3>
+                                Compact Cards
+                            </h3>
+
+                            <p>
+                                Reduce spacing inside salary
+                                settings cards.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            {{ form.compact_cards }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <div class="theme-option-row">
+
+                        <div>
+
+                            <h3>
+                                Enable Animations
+                            </h3>
+
+                            <p>
+                                Enable interface hover and
+                                transition animations.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            {{ form.animations_enabled }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+            {% if form.errors %}
+
+                <div class="form-errors">
+
+                    <div class="error-title">
+
+                        <i class="fas fa-circle-exclamation"></i>
+
+                        Please correct the following errors.
+
+                    </div>
+
+
+                    {{ form.errors }}
+
+                </div>
+
+            {% endif %}
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'salary_dashboard' %}"
+                    class="cancel-button"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+
+                    <i class="fas fa-floppy-disk"></i>
+
+                    Save Theme Settings
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </main>
+
+</div>
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const colorInput =
+            document.querySelector(
+                ".accent-color-input"
+            );
+
+        const accentValue =
+            document.getElementById(
+                "accentValue"
+            );
+
+
+        if (!colorInput) {
+            return;
+        }
+
+
+        colorInput.addEventListener(
+            "input",
+            function () {
+
+                const value =
+                    colorInput.value;
+
+
+                document.documentElement.style
+                    .setProperty(
+                        "--accent-color",
+                        value
+                    );
+
+
+                if (accentValue) {
+
+                    accentValue.textContent =
+                        value;
+
+                }
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

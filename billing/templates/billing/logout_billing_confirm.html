@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Billing Logout</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/logout.css' %}">
+
+</head>
+
+<body>
+
+    <div class="logout-box">
+
+        <div class="logout-icon">
+            <i class="fas fa-sign-out-alt"></i>
+        </div>
+
+        <h2>Are you sure you want to logout?</h2>
+
+        <p>
+            You will be signed out of your Billing Dashboard.
+        </p>
+
+        <form method="POST"
+              action="{% url 'logout_billing' %}">
+
+            {% csrf_token %}
+
+            <button type="submit"
+                    class="btn-logout">
+
+                <i class="fas fa-sign-out-alt"></i>
+
+                Logout
+
+            </button>
+            <a href="{% url 'billing_dashboard' %}"
+           class="btn-cancel">
+
+            Cancel
+
+        </a>
+
+        </form>
+
+        
+
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+
+</body>
+
+</html>

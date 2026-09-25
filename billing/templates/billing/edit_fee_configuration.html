@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Fee Configuration</title>
+    <link rel="stylesheet"
+          href="{% static 'css/configuration.css' %}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>
+            <i class="fas fa-edit"></i>
+            Edit Fee Configuration
+        </h1>
+        <a href="{% url 'fee_configuration' %}"
+           class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back
+        </a>
+    </div>
+    <div class="card">
+        <h2>Update Fee Details</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="input-box">
+    <label>Student</label>
+    <select name="student">
+        <option value="">
+            Select Student
+        </option>
+        {% for student in students %}
+        <option value="{{ student.id }}"
+        {% if fee.student and fee.student.id == student.id %}
+        selected
+        {% endif %}
+        >
+            {{ student.admission_number }}
+            -
+            {{ student.first_name }}
+            {{ student.last_name }}
+        </option>
+        {% endfor %}
+    </select>
+</div>
+                <div class="input-box">
+                    <label>Course</label>
+                    <input type="text"
+                           name="course"
+                           value="{{ fee.course }}"
+                           autocomplete="off"
+                           required>
+                </div>
+                <div class="input-box">
+                    <label>Department</label>
+                    <input type="text"
+                           name="department"
+                           value="{{ fee.department }}"
+                           autocomplete="off"
+                           required>
+                </div>
+                <div class="input-box">
+                    <label>Fee Type</label>
+                    <select name="fee_type">
+                        <option value="Admission Fee"
+                        {% if fee.fee_type == "Admission Fee" %}
+                        selected
+                        {% endif %}>
+                            Admission Fee
+                        </option>
+                        <option value="Tuition Fee"
+                        {% if fee.fee_type == "Tuition Fee" %}
+                        selected
+                        {% endif %}>
+                            Tuition Fee
+                        </option>
+                        <option value="Exam Fee"
+                        {% if fee.fee_type == "Exam Fee" %}
+                        selected
+                        {% endif %}>
+                            Exam Fee
+                        </option>
+                        <option value="Library Fee"
+                        {% if fee.fee_type == "Library Fee" %}
+                        selected
+                        {% endif %}>
+                            Library Fee
+                        </option>
+                        <option value="Transport Fee"
+                        {% if fee.fee_type == "Transport Fee" %}
+                        selected
+                        {% endif %}>
+                            Transport Fee
+                        </option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <label>Amount</label>
+                    <input type="number"
+                           name="amount"
+                           value="{{ fee.amount }}"
+                           autocomplete="off"
+                           required>
+                </div>
+            </div>
+            <button type="submit"
+                    class="save-btn">
+                <i class="fas fa-save"></i>
+                Update Configuration
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

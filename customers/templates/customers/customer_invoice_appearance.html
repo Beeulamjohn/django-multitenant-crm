@@ -1,0 +1,845 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html
+    lang="en"
+    data-theme="{{ appearance_settings.theme|default:'light' }}"
+    data-font-size="medium"
+    data-dashboard-layout="grid"
+    data-sidebar-style="expanded"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Invoice Appearance | FlowTenant</title>
+
+    <style>
+
+        :root {
+            --accent-color: {{ appearance_settings.accent_color|default:'#2563eb' }};
+            --primary: var(--accent-color);
+        }
+
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/customer_invoice_appearance.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<div class="settings-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="settings-sidebar">
+
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="{% url 'customer_billing_settings' %}">
+                    <i class="fas fa-home"></i>
+                    <span>Billing Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'customer_company_profile' %}">
+                    <i class="fas fa-building"></i>
+                    <span>Company Profile</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'customer_invoice_settings' %}">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>Invoice Settings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'customer_payment_settings' %}">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payment Settings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'customer_tax_gst_settings' %}">
+                    <i class="fas fa-percent"></i>
+                    <span>Tax &amp; GST</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'customer_discount_settings' %}">
+                    <i class="fas fa-tags"></i>
+                    <span>Discount Settings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'customer_notification_settings' %}">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="{% url 'customer_invoice_appearance' %}">
+                    <i class="fas fa-palette"></i>
+                    <span>Invoice Appearance</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'customer_bank_payment_settings' %}">
+                    <i class="fas fa-building-columns"></i>
+                    <span>Bank &amp; Payment</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'customer_security_settings' %}">
+                    <i class="fas fa-shield-halved"></i>
+                    <span>Security</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="settings-content">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div class="header-left">
+
+                <div class="header-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+
+                <div>
+
+                    <h1>Invoice Appearance</h1>
+
+                    <p>
+                        Customize the appearance of customer invoices.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGES -->
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        <span>{{ message }}</span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- FORM -->
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="appearance-form"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- THEME -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-circle-half-stroke"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Invoice Theme</h2>
+
+                        <p>
+                            Choose the theme for your customer invoice.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="theme-options">
+
+
+                    <label class="theme-option">
+
+                        <input
+                            type="radio"
+                            name="theme"
+                            value="light"
+                            {% if appearance_settings.theme|default:"light" == "light" %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <div class="theme-label">
+
+                            <i class="fas fa-sun"></i>
+
+                            <strong>Light</strong>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="theme-option">
+
+                        <input
+                            type="radio"
+                            name="theme"
+                            value="dark"
+                            {% if appearance_settings.theme == "dark" %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <div class="theme-label">
+
+                            <i class="fas fa-moon"></i>
+
+                            <strong>Dark</strong>
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- COLORS AND LAYOUT -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Colors &amp; Layout</h2>
+
+                        <p>
+                            Customize the invoice color and layout.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="accent_color">
+                            Accent Color
+                        </label>
+
+                        <input
+                            type="color"
+                            id="accent_color"
+                            name="accent_color"
+                            value="{{ appearance_settings.accent_color|default:'#2563eb' }}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="layout">
+                            Invoice Layout
+                        </label>
+
+                        <select
+                            id="layout"
+                            name="layout"
+                        >
+
+                            <option
+                                value="standard"
+                                {% if appearance_settings.layout == "standard" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Standard
+                            </option>
+
+                            <option
+                                value="modern"
+                                {% if appearance_settings.layout == "modern" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Modern
+                            </option>
+
+                            <option
+                                value="compact"
+                                {% if appearance_settings.layout == "compact" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Compact
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- COMPANY LOGO -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Company Logo</h2>
+
+                        <p>
+                            Configure the logo shown on the invoice.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label class="checkbox-label">
+
+                            <input
+                                type="checkbox"
+                                name="show_logo"
+                                {% if appearance_settings.show_logo %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>Show Company Logo</span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="logo">
+                            Upload Logo
+                        </label>
+
+                        <input
+                            type="file"
+                            id="logo"
+                            name="logo"
+                            accept="image/*"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="logo_position">
+                            Logo Position
+                        </label>
+
+                        <select
+                            id="logo_position"
+                            name="logo_position"
+                        >
+
+                            <option
+                                value="left"
+                                {% if appearance_settings.logo_position == "left" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Left
+                            </option>
+
+                            <option
+                                value="center"
+                                {% if appearance_settings.logo_position == "center" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Center
+                            </option>
+
+                            <option
+                                value="right"
+                                {% if appearance_settings.logo_position == "right" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Right
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                {% if appearance_settings.logo %}
+
+                    <div class="logo-preview">
+
+                        <img
+                            src="{{ appearance_settings.logo.url }}"
+                            alt="Company Logo"
+                        >
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <!-- COMPANY INFORMATION -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Company Information</h2>
+
+                        <p>
+                            Choose what company information appears on invoices.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="checkbox-grid">
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="show_company_name"
+                            {% if appearance_settings.show_company_name %}checked{% endif %}
+                        >
+                        <span>Company Name</span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="show_company_address"
+                            {% if appearance_settings.show_company_address %}checked{% endif %}
+                        >
+                        <span>Company Address</span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="show_company_phone"
+                            {% if appearance_settings.show_company_phone %}checked{% endif %}
+                        >
+                        <span>Company Phone</span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="show_company_email"
+                            {% if appearance_settings.show_company_email %}checked{% endif %}
+                        >
+                        <span>Company Email</span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="show_company_website"
+                            {% if appearance_settings.show_company_website %}checked{% endif %}
+                        >
+                        <span>Company Website</span>
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- CUSTOMER INFORMATION -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Customer Information</h2>
+
+                        <p>
+                            Choose customer information shown on the invoice.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="checkbox-grid">
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="show_customer_address"
+                            {% if appearance_settings.show_customer_address %}checked{% endif %}
+                        >
+                        <span>Customer Address</span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="show_customer_phone"
+                            {% if appearance_settings.show_customer_phone %}checked{% endif %}
+                        >
+                        <span>Customer Phone</span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="show_customer_email"
+                            {% if appearance_settings.show_customer_email %}checked{% endif %}
+                        >
+                        <span>Customer Email</span>
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- INVOICE DETAILS -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Invoice Details</h2>
+
+                        <p>
+                            Select additional information to display.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="checkbox-grid">
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="show_tax_details"
+                            {% if appearance_settings.show_tax_details %}checked{% endif %}
+                        >
+                        <span>Show Tax Details</span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="show_payment_details"
+                            {% if appearance_settings.show_payment_details %}checked{% endif %}
+                        >
+                        <span>Show Payment Details</span>
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="show_bank_details"
+                            {% if appearance_settings.show_bank_details %}checked{% endif %}
+                        >
+                        <span>Show Bank Details</span>
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-align-center"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Footer &amp; Terms</h2>
+
+                        <p>
+                            Customize the invoice footer and terms.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="checkbox-label">
+
+                        <input
+                            type="checkbox"
+                            name="show_footer"
+                            {% if appearance_settings.show_footer %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <span>Show Invoice Footer</span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="footer_text">
+                        Footer Text
+                    </label>
+
+                    <input
+                        type="text"
+                        id="footer_text"
+                        name="footer_text"
+                        value="{{ appearance_settings.footer_text|default:'' }}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="terms_text">
+                        Terms &amp; Conditions
+                    </label>
+
+                    <textarea
+                        id="terms_text"
+                        name="terms_text"
+                        rows="5"
+                    >{{ appearance_settings.terms_text|default:'' }}</textarea>
+
+                </div>
+
+            </section>
+
+
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'customer_billing_settings' %}"
+                    class="cancel-btn"
+                >
+
+                    <i class="fas fa-xmark"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+
+                    <i class="fas fa-floppy-disk"></i>
+
+                    Save Invoice Appearance
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /*
+        Optional live preview.
+
+        The saved value is still controlled by Django.
+        This only changes the page immediately when the
+        user clicks Light or Dark.
+    */
+
+    const themeInputs = document.querySelectorAll(
+        'input[name="theme"]'
+    );
+
+    themeInputs.forEach(function (input) {
+
+        input.addEventListener("change", function () {
+
+            document.documentElement.setAttribute(
+                "data-theme",
+                this.value
+            );
+
+        });
+
+    });
+
+
+    /*
+        Live accent color preview.
+    */
+
+    const accentInput = document.getElementById(
+        "accent_color"
+    );
+
+    if (accentInput) {
+
+        accentInput.addEventListener(
+            "input",
+            function () {
+
+                document.documentElement.style.setProperty(
+                    "--accent-color",
+                    this.value
+                );
+
+            }
+        );
+
+    }
+
+</script>
+
+</body>
+
+</html>

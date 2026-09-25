@@ -1,0 +1,836 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Account Settings | FlowTenant CRM</title>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link rel="stylesheet"
+          href="{% static 'css/account_setting.css' %}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+<main class="main-content">
+    <div class="page-header">
+        <div>
+            <h1>
+                <i class="fa-solid fa-user-gear"></i>
+                Account Settings
+            </h1>
+            <p>
+                Manage your profile information, account security,
+                password, login sessions and connected devices.
+            </p>
+        </div>
+        <div class="header-actions">
+            <a href="{% url 'company_settings' %}"
+               class="btn-secondary">
+               Back
+            </a>
+        </div>
+    </div>
+    <div class="breadcrumb">
+        <a href="{% url 'dashboard' %}">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </a>
+        <span>
+            <i class="fa-solid fa-angle-right"></i>
+        </span>
+        <span class="active">
+            Account Settings
+        </span>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+                <i class="fa-solid fa-circle-check"></i>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="settings-grid">
+        <aside class="profile-card">
+            <div class="profile-cover"></div>
+            <div class="profile-image">
+                {% if profile.profile_picture %}
+                    <img src="{{ profile.profile_picture.url }}"
+                         alt="Profile Picture">
+                {% else %}
+                    <img src="{% static 'images/default-user.png' %}"
+                         alt="Profile">
+                {% endif %}
+            </div>
+            <div class="profile-content">
+                <h2>
+                    {{ profile.full_name|default:request.user.username }}
+                </h2>
+                <p>
+                    @{{ request.user.username }}
+                </p>
+                <span class="role-badge">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Account Owner
+                </span>
+            </div>
+            <div class="profile-info">
+                <div class="info-row">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div>
+                        <label>Email</label>
+                        <span>
+                            {{ request.user.email }}
+                        </span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-phone"></i>
+                    <div>
+                        <label>Mobile</label>
+                        <span>
+                            {{ profile.mobile_number|default:"Not Added" }}
+                        </span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <div>
+                        <label>Joined</label>
+                        <span>
+                            {{ request.user.date_joined|date:"d M Y" }}
+                        </span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-clock"></i>
+                    <div>
+                        <label>Last Login</label>
+                        <span>
+                            {{ request.user.last_login|date:"d M Y H:i" }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="account-status">
+                <h4>
+                    Account Status
+                </h4>
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-circle-check text-success"></i>
+                        Email Verified
+                    </li>
+                    <li>
+                        {% if profile.two_factor_enabled %}
+                            <i class="fa-solid fa-lock text-success"></i>
+                            Two-Factor Enabled
+                        {% else %}
+                            <i class="fa-solid fa-lock-open text-warning"></i>
+                            Two-Factor Disabled
+                        {% endif %}
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-user-check text-success"></i>
+                        Active Account
+                    </li>
+                </ul>
+            </div>
+            <div class="quick-actions">
+                <h4>
+                    Quick Actions
+                </h4>
+                <a href="{% url 'change_password' %}"
+                   class="quick-btn">
+                    <i class="fa-solid fa-key"></i>
+                    Change Password
+                </a>
+                <a href="#login-history"
+                   class="quick-btn">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    Login History
+                </a>
+                <a href="#devices"
+                   class="quick-btn">
+                    <i class="fa-solid fa-laptop"></i>
+                    Active Devices
+                </a>
+              
+<form method="POST"
+      action="{% url 'logout_all_devices' %}"
+      class="logout-actions"
+      onsubmit="return confirm('Are you sure you want to logout from all other devices?');">
+
+    {% csrf_token %}
+
+    <button type="submit"
+            class="btn-danger">
+
+        <i class="fas fa-power-off"></i>
+
+        Logout All Devices
+
+    </button>
+
+</form>
+
+
+            </div>
+        </aside>
+        <section class="content-area">
+<div class="settings-card">
+    <div class="card-header">
+        <div>
+            <h2>
+                <i class="fa-solid fa-id-card"></i>
+                Account Information
+            </h2>
+            <p>
+                Update your personal information and profile details.
+            </p>
+        </div>
+    </div>
+    <div class="card-body">
+        <form method="POST"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="profile-upload-section">
+                <div class="profile-preview">
+                    {% if profile.profile_picture %}
+                        <img src="{{ profile.profile_picture.url }}"
+                             id="previewImage"
+                             alt="Profile Picture">
+                    {% else %}
+                        <img src="{% static 'images/default-user.png' %}"
+                             id="previewImage"
+                             alt="Profile Picture">
+                    {% endif %}
+                </div>
+                <div class="upload-details">
+                    <label class="upload-btn">
+                        <i class="fa-solid fa-camera"></i>
+                        Choose Profile Picture
+                        {{ form.profile_picture }}
+                    </label>
+                    <small>
+                        JPG, PNG or WEBP<br>
+                        Maximum Size : 2 MB
+                    </small>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>
+                        <i class="fa-solid fa-user"></i>
+                        Full Name
+                    </label>
+                    {{ form.full_name }}
+                    {% if form.full_name.errors %}
+                        <div class="form-error">
+                            {{ form.full_name.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>
+                        <i class="fa-solid fa-at"></i>
+                        Username
+                    </label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="form-error">
+                            {{ form.username.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>
+                        <i class="fa-solid fa-envelope"></i>
+                        Email Address
+                    </label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="form-error">
+                            {{ form.email.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>
+                        <i class="fa-solid fa-phone"></i>
+                        Mobile Number
+                    </label>
+                    {{ form.mobile_number }}
+                    {% if form.mobile_number.errors %}
+                        <div class="form-error">
+                            {{ form.mobile_number.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="setting-box">
+                <div class="setting-left">
+                    <h4>
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Two-Factor Authentication
+                    </h4>
+                    <p>
+                        Enable an extra layer of security for your account.
+                    </p>
+                </div>
+                <div class="setting-right">
+                    <label class="switch">
+                        {{ form.two_factor_enabled }}
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="details-grid">
+                <div class="detail-box">
+                    <label>
+                        Account Created
+                    </label>
+                    <span>
+                        {{ request.user.date_joined|date:"d M Y" }}
+                    </span>
+                </div>
+                <div class="detail-box">
+                    <label>
+                        Last Login
+                    </label>
+                    <span>
+                        {{ request.user.last_login|date:"d M Y H:i" }}
+                    </span>
+                </div>
+                <div class="detail-box">
+                    <label>
+                        User ID
+                    </label>
+                    <span>
+                        #{{ request.user.id }}
+                    </span>
+                </div>
+                <div class="detail-box">
+                    <label>
+                        Account Status
+                    </label>
+                    <span class="status-active">
+                        Active
+                    </span>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button type="submit"
+                        class="btn-primary">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Update Profile
+                </button>
+                <a href="{% url 'change_password' %}"
+                   class="btn-secondary">
+                    <i class="fa-solid fa-key"></i>
+                    Change Password
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="settings-card">
+    <div class="card-header">
+        <div>
+            <h2>
+                <i class="fa-solid fa-shield-halved"></i>
+                Security Settings
+            </h2>
+            <p>
+                Protect your account by managing your password and security
+                options.
+            </p>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="security-item">
+            <div class="security-left">
+                <div class="security-icon">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <div>
+                    <h4>
+                        Change Password
+                    </h4>
+                    <p>
+                        Your password should be strong and unique to keep your
+                        account secure.
+                    </p>
+                </div>
+            </div>
+            <div class="security-right">
+                <a href="{% url 'change_password' %}"
+                   class="btn-primary">
+                    <i class="fa-solid fa-key"></i>
+                    Change Password
+                </a>
+            </div>
+        </div>
+        <hr>
+        <div class="security-item">
+            <div class="security-left">
+                <div class="security-icon">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                </div>
+                <div>
+                    <h4>
+                       Two-Factor Authentication
+                    </h4>
+                    <p>
+                        Add an extra layer of protection by requiring a second
+                        verification step when signing in.
+                    </p>
+                </div>
+            </div>
+            <div class="security-right">
+                <label class="switch">
+                    {{ form.two_factor_enabled }}
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        <hr>
+        <div class="security-item">
+            <div class="security-left">
+                <div class="security-icon">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div>
+                    <h4>
+                        Password Security
+                    </h4>
+                    <p>
+                        Follow these recommendations to improve account
+                        protection.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="password-rules">
+            <div class="rule">
+                <i class="fa-solid fa-circle-check text-success"></i>
+                Minimum 8 characters
+            </div>
+            <div class="rule">
+                <i class="fa-solid fa-circle-check text-success"></i>
+                Include uppercase letters
+            </div>
+            <div class="rule">
+                <i class="fa-solid fa-circle-check text-success"></i>
+                Include lowercase letters
+            </div>
+            <div class="rule">
+                <i class="fa-solid fa-circle-check text-success"></i>
+                Include numbers
+            </div>
+            <div class="rule">
+                <i class="fa-solid fa-circle-check text-success"></i>
+                Include special characters
+            </div>
+        </div>
+        <hr>
+        <div class="security-status">
+            <h3>
+                <i class="fa-solid fa-shield"></i>
+                Security Status
+            </h3>
+            <div class="status-grid">
+                <div class="status-box">
+                    <i class="fa-solid fa-user-check"></i>
+                    <h5>
+                        Account
+                    </h5>
+                    <span class="badge-success">
+                        Active
+                    </span>
+                </div>
+                <div class="status-box">
+                    <i class="fa-solid fa-envelope-circle-check"></i>
+                    <h5>
+                        Email
+                    </h5>
+                    <span class="badge-success">
+                        Verified
+                    </span>
+                </div>
+                <div class="status-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <h5>
+                        Password
+                    </h5>
+                    <span class="badge-success">
+                        Protected
+                    </span>
+                </div>
+                <div class="status-box">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <h5>
+                        Two-Factor
+                    </h5>
+                    {% if profile.two_factor_enabled %}
+                        <span class="badge-success">
+                            Enabled
+                        </span>
+                    {% else %}
+                        <span class="badge-warning">
+                            Disabled
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="security-tips">
+            <h3>
+                <i class="fa-solid fa-lightbulb"></i>
+                Security Recommendations
+            </h3>
+            <ul>
+                <li>
+                    Never share your password with anyone.
+                </li>
+                <li>
+                    Enable Two-Factor Authentication for better protection.
+                </li>
+                <li>
+                    Change your password regularly.
+                </li>
+                <li>
+                    Review login history periodically.
+                </li>
+                <li>
+                    Logout from devices you no longer use.
+                </li>
+                <li>
+                    Keep your email address updated.
+                </li>
+            </ul>
+        </div>
+        <hr>
+        <div class="form-buttons">
+            <a href="{% url 'change_password' %}"
+               class="btn-primary">
+                <i class="fa-solid fa-key"></i>
+                Change Password
+            </a>
+            <button type="submit"
+        class="btn-success">
+    <i class="fa-solid fa-floppy-disk"></i>
+    Save Security Settings
+</button>
+        </div>
+    </div>
+</div>
+<div class="settings-card"
+     id="login-history">
+    <div class="card-header">
+        <div>
+            <h2>
+                <i class="fas fa-history"></i>
+                Login History
+            </h2>
+            <p>
+                View your recent account login activity.
+            </p>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>IP Address</th>
+                        <th>Device</th>
+                        <th>Browser</th>
+                        <th>Operating System</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for history in login_history %}
+                    <tr>
+                        <td>
+                            {{ history.login_time|date:"d M Y" }}
+                            <br>
+                            <small>
+                                {{ history.login_time|time:"H:i A" }}
+                            </small>
+                        </td>
+                        <td>
+                            {{ history.ip_address|default:"Unknown" }}
+                        </td>
+                        <td>
+                            {{ history.device|default:"Desktop" }}
+                        </td>
+                        <td>
+                            {{ history.browser|default:"Unknown" }}
+                        </td>
+                        <td>
+                            {{ history.operating_system|default:"Unknown" }}
+                        </td>
+                        <td>
+                            {% if history.successful %}
+                    <span class="status-badge success">
+                                <i class="fas fa-check-circle"></i>
+                                Success
+                            </span>
+                            {% else %}
+                            <span class="status-badge danger">
+                                <i class="fas fa-times-circle"></i>
+                                Failed
+                            </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6"
+                            class="text-center">
+                            No login history found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="settings-card"
+     id="devices">
+    <div class="card-header">
+        <div>
+            <h2>
+                <i class="fas fa-laptop"></i>
+                Active Devices
+            </h2>
+            <p>
+                Devices currently signed into your account.
+            </p>
+        </div>
+    </div>
+    <div class="card-body">
+        {% if active_devices %}
+        <div class="device-list">
+            {% for device in active_devices %}
+            <div class="device-card">
+                <div class="device-icon">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <div class="device-details">
+                    <h4>
+                        {{ device.device_name }}
+                    </h4>
+                    <p>
+                        <strong>Browser :</strong>
+                        {{ device.browser|default:"Unknown" }}
+                    </p>
+                    <p>
+                        <strong>Operating System :</strong>
+                        {{ device.operating_system|default:"Unknown" }}
+                    </p>
+                    <p>
+                        <strong>IP Address :</strong>
+                        {{ device.ip_address|default:"Unknown" }}
+                    </p>
+                    <p>
+                        <strong>Last Activity :</strong>
+                        {{ device.last_activity|date:"d M Y H:i" }}
+                    </p>
+                </div>
+                <div class="device-status">
+                    {% if device.is_current %}
+                    <span class="status-badge success">
+                        Current Device
+                    </span>
+                    {% else %}
+                    <span class="status-badge">
+                        Active
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-laptop-code"></i>
+            <h3>
+                No Active Devices
+            </h3>
+            <p>
+                No active login sessions found.
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<div class="settings-card">
+    <div class="card-header">
+        <div>
+            <h2>
+                <i class="fas fa-right-from-bracket"></i>
+                Logout From All Devices
+            </h2>
+            <p>
+                End every active login session except your current session
+                (or all sessions depending on your implementation).
+            </p>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="danger-box">
+            <div class="danger-icon">
+                <i class="fas fa-triangle-exclamation"></i>
+            </div>
+            <div class="danger-content">
+                <h3>
+                    Security Recommendation
+                </h3>
+                <p>
+                    If you suspect someone has access to your account,
+                    immediately log out from every device and change your
+                    password.
+                </p>
+            </div>
+        </div>
+        <div class="logout-actions">
+            <a href="{% url 'logout_all_devices' %}"
+               class="btn-danger"
+               onclick="return confirm('Are you sure you want to logout from all devices?');">
+                <i class="fas fa-power-off"></i>
+                Logout All Devices
+            </a>
+        </div>
+    </div>
+</div>
+    </section>
+</div>
+</main>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const imageInput = document.querySelector('input[type="file"]');
+    const previewImage = document.getElementById("previewImage");
+
+    if (imageInput && previewImage) {
+
+        imageInput.addEventListener("change", function (event) {
+
+            const file = event.target.files[0];
+
+            if (file) {
+
+                if (file.type.startsWith("image/")) {
+
+                    const imageURL = URL.createObjectURL(file);
+
+                    previewImage.src = imageURL;
+
+                    // Release the temporary URL after image loads
+                    previewImage.onload = function () {
+                        URL.revokeObjectURL(imageURL);
+                    };
+
+                } else {
+                    alert("Please select a valid image file.");
+                    imageInput.value = "";
+                }
+            }
+        });
+    }
+
+    const alerts = document.querySelectorAll(".alert");
+
+    alerts.forEach(function (alert) {
+
+        setTimeout(function () {
+
+            alert.style.transition = "opacity 0.4s ease";
+            alert.style.opacity = "0";
+
+            setTimeout(function () {
+                alert.remove();
+            }, 400);
+
+        }, 4000);
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+
+        anchor.addEventListener("click", function (event) {
+
+            const href = this.getAttribute("href");
+
+            // Ignore empty "#" links
+            if (!href || href === "#") {
+                return;
+            }
+
+            const target = document.querySelector(href);
+
+            if (target) {
+
+                event.preventDefault();
+
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
+        });
+    });
+
+});
+</script>
+</body>
+</html>
+
+
+
+

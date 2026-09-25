@@ -1,0 +1,828 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Salary Reports
+</title>
+<style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+<link rel="stylesheet"
+href="{% static 'css/salary_report.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+<div class="page-header">
+
+    <div class="header-left">
+
+        <div class="icon">
+
+            <i class="fas fa-chart-pie"></i>
+
+        </div>
+
+        <div>
+
+            <h1>
+                Salary Reports
+            </h1>
+
+            <p>
+                Payroll Analytics & Employee Salary Reports
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="header-right">
+
+
+
+        <a href="{% url 'salary_dashboard' %}" class="back-btn">
+
+            Back
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- ================= SUMMARY CARDS ================= -->
+
+<div class="summary-grid">
+
+    <div class="summary-card">
+
+        <div class="card-icon blue">
+
+            <i class="fas fa-users"></i>
+
+        </div>
+
+        <div>
+
+            <h2>
+
+                {{ total_employees }}
+
+            </h2>
+
+            <p>
+
+                Total Employees
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+        <div class="card-icon green">
+
+            <i class="fas fa-wallet"></i>
+
+        </div>
+
+        <div>
+
+            <h2>
+
+                ₹ {{ total_salary }}
+
+            </h2>
+
+            <p>
+
+                Total Payroll
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+        <div class="card-icon orange">
+
+            <i class="fas fa-gift"></i>
+
+        </div>
+
+        <div>
+
+            <h2>
+
+                ₹ {{ total_bonus }}
+
+            </h2>
+
+            <p>
+
+                Total Bonus
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+        <div class="card-icon red">
+
+            <i class="fas fa-percent"></i>
+
+        </div>
+
+        <div>
+
+            <h2>
+
+                ₹ {{ total_deduction }}
+
+            </h2>
+
+            <p>
+
+                Total Deduction
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+        <div class="card-icon purple">
+
+            <i class="fas fa-check-circle"></i>
+
+        </div>
+
+        <div>
+
+            <h2>
+
+                {{ paid }}
+
+            </h2>
+
+            <p>
+
+                Paid Salaries
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+        <div class="card-icon yellow">
+
+            <i class="fas fa-clock"></i>
+
+        </div>
+
+        <div>
+
+            <h2>
+
+                {{ pending }}
+
+            </h2>
+
+            <p>
+
+                Pending Salaries
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= SEARCH & FILTER ================= -->
+
+<div class="filter-card">
+
+<form method="GET">
+
+<div class="filter-grid">
+
+    <div class="search-box">
+
+        <i class="fas fa-search"></i>
+
+        <input
+        type="text"
+        name="search"
+        placeholder="Search Employee..."
+        value="{{ request.GET.search }}">
+
+    </div>
+
+
+
+    <select
+    name="month">
+
+        <option value="">
+            All Months
+        </option>
+
+        <option>January</option>
+        <option>February</option>
+        <option>March</option>
+        <option>April</option>
+        <option>May</option>
+        <option>June</option>
+        <option>July</option>
+        <option>August</option>
+        <option>September</option>
+        <option>October</option>
+        <option>November</option>
+        <option>December</option>
+
+    </select>
+
+
+
+    <input
+    type="number"
+    name="year"
+    placeholder="Year"
+    value="{{ request.GET.year }}">
+
+
+
+    <select
+    name="status">
+
+        <option value="">
+            Payment Status
+        </option>
+
+        <option value="Paid">
+            Paid
+        </option>
+
+        <option value="Pending">
+            Pending
+        </option>
+
+    </select>
+
+
+
+    <button
+    type="submit"
+    class="filter-btn">
+
+        <i class="fas fa-filter"></i>
+
+        Filter
+
+    </button>
+
+</div>
+
+</form>
+
+</div>
+
+
+<div class="report-actions">
+
+   
+
+    
+
+    <button type="button"
+        class="print-btn"
+        onclick="printReport()">
+
+    <i class="fas fa-print"></i>
+
+    Print Report
+
+</button>
+
+</div>
+
+<div id="printArea">
+<div class="table-card">
+
+    <div class="table-header">
+
+        <h2>
+
+            <i class="fas fa-file-invoice-dollar"></i>
+
+            Employee Salary Report
+
+        </h2>
+
+        <span>
+
+            Total Records :
+            {{ payrolls.count }}
+
+        </span>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Employee</th>
+
+                    <th>Department</th>
+
+                    <th>Month</th>
+
+                    <th>Basic</th>
+
+                    <th>Allowance</th>
+
+                    <th>Deduction</th>
+
+                    <th>Net Salary</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for item in payrolls %}
+
+                <tr>
+
+                    <td>
+
+                        <div class="employee-info">
+
+                            <div class="avatar">
+
+                                {{ item.employee.name|first }}
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+
+                                    {{ item.employee.name }}
+
+                                </strong>
+
+                                <small>
+
+                                    {{ item.employee.employee_id }}
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        {{ item.employee.department }}
+
+                    </td>
+
+                    <td>
+
+                        {{ item.month }}
+
+                        {{ item.year }}
+
+                    </td>
+
+                    <td>
+
+                        ₹ {{ item.basic_salary }}
+
+                    </td>
+
+                    <td>
+
+                        ₹ {{ item.allowance }}
+
+                    </td>
+
+                    <td>
+
+                        ₹ {{ item.deduction }}
+
+                    </td>
+
+                    <td>
+
+                        <strong>
+
+                            ₹ {{ item.net_salary }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {% if item.payment_status == "Paid" %}
+
+                        <span class="badge paid">
+
+                            Paid
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge pending">
+
+                            Pending
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+
+                    <td colspan="8" class="empty">
+
+                        <i class="fas fa-folder-open"></i>
+
+                        <br><br>
+
+                        No Salary Records Found
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+</div>
+
+
+
+
+<div class="report-summary">
+
+    <div class="summary-box">
+
+        <h3>
+
+            Payroll Summary
+
+        </h3>
+
+        <div class="summary-row">
+
+            <span>Total Employees</span>
+
+            <strong>{{ total_employees }}</strong>
+
+        </div>
+
+        <div class="summary-row">
+
+            <span>Total Payroll</span>
+
+            <strong>
+
+                ₹ {{ total_salary }}
+
+            </strong>
+
+        </div>
+
+        <div class="summary-row">
+
+            <span>Total Bonus</span>
+
+            <strong>
+
+                ₹ {{ total_bonus }}
+
+            </strong>
+
+        </div>
+
+        <div class="summary-row">
+
+            <span>Total Deduction</span>
+
+            <strong>
+
+                ₹ {{ total_deduction }}
+
+            </strong>
+
+        </div>
+
+        <div class="summary-row">
+
+            <span>Paid Salaries</span>
+
+            <strong>
+
+                {{ paid }}
+
+            </strong>
+
+        </div>
+
+        <div class="summary-row">
+
+            <span>Pending Salaries</span>
+
+            <strong>
+
+                {{ pending }}
+
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div id="printArea">
+    
+<div class="recent-card">
+
+    <div class="recent-header">
+
+        <h2>
+
+            <i class="fas fa-history"></i>
+
+            Recent Payroll Activity
+
+        </h2>
+
+    </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Employee</th>
+
+                <th>Month</th>
+
+                <th>Net Salary</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for item in payrolls|slice:":5" %}
+
+            <tr>
+
+                <td>
+
+                    {{ item.employee.name }}
+
+                </td>
+
+                <td>
+
+                    {{ item.month }}
+
+                    {{ item.year }}
+
+                </td>
+
+                <td>
+
+                    ₹ {{ item.net_salary }}
+
+                </td>
+
+                <td>
+
+                    {% if item.payment_status == "Paid" %}
+
+                    <span class="badge paid">
+
+                        Paid
+
+                    </span>
+
+                    {% else %}
+
+                    <span class="badge pending">
+
+                        Pending
+
+                    </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+        {% empty %}
+
+            <tr>
+
+                <td colspan="4">
+
+                    No Payroll Records
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</div>
+</div>
+
+</body>
+<script>
+function printReport() {
+
+    const content = document.getElementById("printArea").innerHTML;
+
+    const printWindow = window.open("", "", "width=1000,height=700");
+
+    printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+
+        <title>Employee Salary Report</title>
+
+        <style>
+
+            body{
+                font-family:Arial, sans-serif;
+                margin:25px;
+                color:#333;
+            }
+
+            h2{
+                text-align:center;
+                margin-bottom:20px;
+            }
+
+            table{
+                width:100%;
+                border-collapse:collapse;
+                margin-bottom:30px;
+            }
+
+            th,
+            td{
+                border:1px solid #000;
+                padding:8px;
+                text-align:left;
+            }
+
+            th{
+                background:#f2f2f2;
+            }
+
+            .badge{
+                padding:4px 8px;
+                border-radius:4px;
+                color:#fff;
+                font-size:12px;
+            }
+
+            .paid{
+                background:#28a745;
+            }
+
+            .pending{
+                background:#dc3545;
+            }
+
+            .avatar{
+                display:none;
+            }
+
+            .employee-info{
+                display:flex;
+                align-items:center;
+                gap:10px;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        ${content}
+
+    </body>
+
+    </html>
+    `);
+
+    printWindow.document.close();
+
+    printWindow.focus();
+
+    setTimeout(function () {
+        printWindow.print();
+        printWindow.close();
+    }, 500);
+
+}
+</script>
+
+</html>

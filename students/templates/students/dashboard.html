@@ -1,0 +1,338 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FlowTenant Dashboard</title>
+    <link
+        rel="stylesheet"
+        href="{% static 'css/dashboard.css' %}"
+    >
+    <link>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+
+    
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+
+<div class="company-brand">
+
+    {% if company_profile and company_profile.company_logo %}
+
+        <img
+            src="{{ company_profile.company_logo.url }}"
+            alt="{{ company_profile.company_name }}"
+            class="company-logo"
+        >
+
+    {% else %}
+
+        <img
+            src="{% static 'images/default-logo.png' %}"
+            alt="Default Company Logo"
+            class="company-logo"
+        >
+
+    {% endif %}
+
+
+    <div class="company-info">
+
+        <h2>
+            {{ company_profile.company_name|default:company.company_name }}
+        </h2>
+
+        <span>
+            Student Management System
+        </span>
+
+    </div>
+
+</div>
+
+
+
+
+    <ul>
+        {% if company.company_type == "education" %}
+        <li class="active">
+            <a href="{% url 'company_dashboard' %}">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        
+
+        <li>
+            <a href="{% url 'student_list' %}">
+                <i class="fas fa-user-graduate"></i>
+                <span>Students</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'staff_list' %}">
+                <i class="fas fa-users"></i>
+                <span>Staff</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'course_list' %}">
+                <i class="fas fa-book-open"></i>
+                <span>Courses</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student_report' %}">
+                <i class="fas fa-chart-line"></i>
+                <span>Reports</span>
+            </a>
+        </li>
+        <li>
+    <a href="{% url 'company_settings' %}">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+    </a>
+</li>
+
+         
+
+        <li>
+            <a href="{% url 'logout' %}">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+
+</aside>
+
+    <main class="main-content">
+
+        <header class="header">
+
+            <div class="header-left">
+                <h1>Student Management Dashboard</h1>
+                <p>Welcome back,
+                    <strong>{{ request.user.username }}</strong>
+                </p>
+            </div>
+
+            <div class="header-center">
+
+                <form method="GET">
+    <div class="search-box">
+        <i class="fas fa-search"></i>
+
+        <input type="text"
+               name="q"
+               placeholder="Search students, staff, courses..."
+               value="{{ query|default:'' }}">
+
+        
+    </div>
+</form>
+
+            </div>
+
+            <div class="header-right">
+
+                <a href="{% url 'home' %}" class="back-btn">
+                    Home
+                </a>
+
+                
+
+            </div>
+
+        </header>
+
+        <section class="quick-actions">
+
+            <a href="{% url 'student_create' %}" class="action-btn">
+                <i class="fas fa-user-plus"></i>
+                Add Student
+            </a>
+
+            <a href="{% url 'add_staff' %}" class="action-btn">
+                <i class="fas fa-user-tie"></i>
+                Add Staff
+            </a>
+
+            <a href="{% url 'add_course' %}" class="action-btn">
+                <i class="fas fa-book-medical"></i>
+                Add Course
+            </a>
+
+            <a href="{% url 'student_report' %}" class="action-btn">
+                <i class="fas fa-chart-pie"></i>
+                View Reports
+            </a>
+
+        </section>
+        <section class="cards">
+
+            <div class="card blue">
+
+                <div class="card-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+
+                <div class="card-content">
+                    <h2>{{ total_students }}</h2>
+                    <p>Total Students</p>
+                </div>
+
+            </div>
+
+            <div class="card green">
+
+                <div class="card-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+
+                <div class="card-content">
+                    <h2>{{ active_students }}</h2>
+                    <p>Active Students</p>
+                </div>
+
+            </div>
+
+            <div class="card orange">
+
+                <div class="card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+
+                <div class="card-content">
+                    <h2>{{ total_staff }}</h2>
+                    <p>Total Staff</p>
+                </div>
+
+            </div>
+
+            <div class="card purple">
+
+                <div class="card-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+
+                <div class="card-content">
+                    <h2>₹{{ total_revenue }}</h2>
+                    <p>Total Revenue</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <div class="content-grid">
+
+
+            <section class="table-card">
+
+                <div class="section-title">
+                    <h2>Recent Students</h2>
+                </div>
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Admission No</th>
+                        <th>Student Name</th>
+                        <th>Course</th>
+                        <th>Status</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for student in recent_students %}
+
+                    <tr>
+
+                        <td>{{ student.admission_number }}</td>
+
+                        <td>
+                            {{ student.first_name }}
+                            {{ student.last_name }}
+                        </td>
+
+                        <td>{{ student.course }}</td>
+
+                        <td>
+                            <span class="badge">
+                                {{ student.status }}
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="4">
+                            No students available.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+           
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>

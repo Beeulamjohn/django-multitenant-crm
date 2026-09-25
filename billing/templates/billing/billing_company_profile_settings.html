@@ -1,0 +1,322 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en"
+      data-theme="{{ appearance_settings.theme|default:'light' }}"
+      data-font-size="{{ appearance_settings.font_size|default:'medium' }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Profile | Billing Settings</title>
+
+    <style>
+        :root{
+            --accent-color: {{ appearance_settings.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link rel="stylesheet" href="{% static 'css/billing_company_profile.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="fas fa-cogs"></i>
+            <h2>Settings</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+
+                <li>
+                    <a href="{% url 'billing_settings' %}">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_general_settings' %}">
+                        <i class="fas fa-sliders"></i>
+                        <span>General Billing</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="{% url 'billing_company_profile_settings' %}">
+                        <i class="fas fa-building"></i>
+                        <span>Company Profile</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_invoice_settings' %}">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Invoice Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_payment_settings' %}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_tax_settings' %}">
+                        <i class="fas fa-percent"></i>
+                        <span>Tax & GST Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_fee_settings' %}">
+                        <i class="fas fa-money-check-dollar"></i>
+                        <span>Fee & Discount</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_late_fee_settings' %}">
+                        <i class="fas fa-clock"></i>
+                        <span>Late Fee Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_reminder_settings' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Payment Reminders</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_appearance_settings' %}">
+                        <i class="fas fa-palette"></i>
+                        <span>Invoice Appearance</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_bank_settings' %}">
+                        <i class="fas fa-building-columns"></i>
+                        <span>Bank & Payment</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+        <div class="page-header">
+
+            <div>
+                <h1>
+                    <i class="fas fa-building"></i>
+                    Company Profile
+                </h1>
+
+                <p>
+                    Manage your company information, logo and contact
+                    details used in invoices and reports.
+                </p>
+            </div>
+
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST"
+              enctype="multipart/form-data"
+              autocomplete="off">
+
+            {% csrf_token %}
+
+            <!-- Branding -->
+            <div class="card">
+
+                <div class="card-title">
+                    <i class="fas fa-image"></i>
+                    <h2>Company Branding</h2>
+                </div>
+
+                <div class="logo-area">
+
+                    <div class="logo-preview">
+
+                        {% if profile.company_logo %}
+                            <img src="{{ profile.company_logo.url }}"
+                                 alt="Company Logo">
+                        {% else %}
+                            <div class="placeholder">
+                                <i class="fas fa-building"></i>
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="upload-area">
+
+                        <label>Upload Logo</label>
+
+                        <input type="file"
+                               name="company_logo"
+                               autocomplete="off">
+
+                        <small>
+                            PNG, JPG or JPEG
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Company Info -->
+            <div class="card">
+
+                <div class="card-title">
+                    <i class="fas fa-building-user"></i>
+                    <h2>Company Information</h2>
+                </div>
+
+                <div class="grid">
+
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text"
+                               name="company_name"
+                               value="{{ profile.company_name }}"
+                               autocomplete="off"
+                               spellcheck="false"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>GST Number</label>
+                        <input type="text"
+                               name="gst_number"
+                               value="{{ profile.gst_number }}"
+                               autocomplete="off"
+                               spellcheck="false">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email"
+                               name="email"
+                               value="{{ profile.email }}"
+                               autocomplete="off"
+                               spellcheck="false">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text"
+                               name="phone"
+                               value="{{ profile.phone }}"
+                               autocomplete="off"
+                               spellcheck="false">
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Website</label>
+                        <input type="url"
+                               name="website"
+                               value="{{ profile.website }}"
+                               autocomplete="off"
+                               spellcheck="false">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Address -->
+            <div class="card">
+
+                <div class="card-title">
+                    <i class="fas fa-location-dot"></i>
+                    <h2>Address Information</h2>
+                </div>
+
+                <div class="grid">
+
+                    <div class="form-group full">
+                        <label>Address</label>
+                        <textarea name="address"
+                                  autocomplete="off"
+                                  spellcheck="false">{{ profile.address }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text"
+                               name="city"
+                               value="{{ profile.city }}"
+                               autocomplete="off"
+                               spellcheck="false">
+                    </div>
+
+                    <div class="form-group">
+                        <label>State</label>
+                        <input type="text"
+                               name="state"
+                               value="{{ profile.state }}"
+                               autocomplete="off"
+                               spellcheck="false">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pincode</label>
+                        <input type="text"
+                               name="pincode"
+                               value="{{ profile.pincode }}"
+                               autocomplete="off"
+                               spellcheck="false">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="actions">
+
+                <button type="reset"
+                        class="btn secondary">
+                    <i class="fas fa-rotate-left"></i>
+                    Reset
+                </button>
+
+                <button type="submit"
+                        class="btn primary">
+                    <i class="fas fa-save"></i>
+                    Save Company Profile
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+</body>
+</html>

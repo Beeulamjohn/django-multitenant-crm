@@ -1,0 +1,927 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Tax Deduction Settings| FlowTenant</title>
+
+    <!-- Dynamic Accent Color -->
+    <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+    <link
+        rel="stylesheet"
+        href="{% static 'css/salary_tax_deductions_settings.css' %}"
+    >
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="salary-settings-layout">
+    <aside class="salary-sidebar">
+         <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+
+        <nav class="salary-sidebar-nav">
+
+
+            
+
+
+            <a
+                href="{% url 'salary_settings_page' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-sliders"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Salary Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_payroll_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-money-check-dollar"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Payroll Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_attendance_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Attendance Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_payslip_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Payslip Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_tax_deductions_settings' %}"
+                class="salary-nav-link active"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Tax & Deductions
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_bonus_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-gift"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Bonus Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_salary_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-user-tie"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Employee Salary
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_notification_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_theme_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-palette"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        
+
+
+    </aside>
+
+    <main class="salary-main">
+
+        <header class="page-header">
+
+
+            <div class="header-left">
+
+
+                <div class="header-icon">
+
+                    <i class="fas fa-file-invoice-dollar"></i>
+
+                </div>
+
+
+                <div>
+
+                    <div class="breadcrumb">
+
+                        <span>
+                            Salary
+                        </span>
+
+                        <i class="fas fa-chevron-right"></i>
+
+                        <span>
+                            Settings
+                        </span>
+
+                        <i class="fas fa-chevron-right"></i>
+
+                        <span>
+                            Tax & Deductions
+                        </span>
+
+                    </div>
+
+
+                    <h1>
+                        Tax & Deductions Settings
+                    </h1>
+
+
+                    <p>
+                        Configure employee tax, statutory deductions,
+                        provident fund, ESI and salary deduction rules.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            
+        </header>
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        <span>
+                            {{ message }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+        <form method="POST"
+              class="settings-form">
+
+            {% csrf_token %}
+
+
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+
+                    <div class="section-icon blue">
+
+                        <i class="fas fa-landmark"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Tax Settings
+                        </h2>
+
+                        <p>
+                            Configure income tax and tax deduction
+                            behaviour for employee payroll.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Enable Income Tax
+                        </label>
+
+                        <label class="switch">
+
+                            {{ form.income_tax_enabled }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Tax Deduction Method
+                        </label>
+
+                        {{ form.tax_deduction_method }}
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Tax Percentage
+                        </label>
+
+                        {{ form.tax_percentage }}
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Minimum Taxable Salary
+                        </label>
+
+                        {{ form.minimum_taxable_salary }}
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+
+                    <div class="section-icon purple">
+
+                        <i class="fas fa-piggy-bank"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Provident Fund
+                        </h2>
+
+                        <p>
+                            Configure employee and employer PF
+                            contribution settings.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Enable PF
+                        </label>
+
+                        <label class="switch">
+
+                            {{ form.pf_enabled }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Employee PF Percentage
+                        </label>
+
+                        {{ form.employee_pf_percentage }}
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Employer PF Percentage
+                        </label>
+
+                        {{ form.employer_pf_percentage }}
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+
+                    <div class="section-icon green">
+
+                        <i class="fas fa-heart-pulse"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            ESI Settings
+                        </h2>
+
+                        <p>
+                            Configure employee state insurance
+                            contribution settings.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Enable ESI
+                        </label>
+
+                        <label class="switch">
+
+                            {{ form.esi_enabled }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Employee ESI Percentage
+                        </label>
+
+                        {{ form.employee_esi_percentage }}
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Employer ESI Percentage
+                        </label>
+
+                        {{ form.employer_esi_percentage }}
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            ESI Salary Limit
+                        </label>
+
+                        {{ form.esi_salary_limit }}
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+
+                    <div class="section-icon orange">
+
+                        <i class="fas fa-receipt"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Professional Tax
+                        </h2>
+
+                        <p>
+                            Configure professional tax deduction
+                            from employee salaries.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Enable Professional Tax
+                        </label>
+
+                        <label class="switch">
+
+                            {{ form.professional_tax_enabled }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Professional Tax Amount
+                        </label>
+
+                        {{ form.professional_tax_amount }}
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+
+                    <div class="section-icon red">
+
+                        <i class="fas fa-money-bill-transfer"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Other Salary Deductions
+                        </h2>
+
+                        <p>
+                            Configure additional deductions such as
+                            loans, advances and other adjustments.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="switch-list">
+
+
+                    <label class="switch-row">
+
+                        {{ form.loan_deduction_enabled }}
+
+                        <span>
+                            Enable Loan Deduction
+                        </span>
+
+                    </label>
+
+
+
+                    <label class="switch-row">
+
+                        {{ form.advance_deduction_enabled }}
+
+                        <span>
+                            Enable Salary Advance Deduction
+                        </span>
+
+                    </label>
+
+
+
+                    <label class="switch-row">
+
+                        {{ form.other_deductions_enabled }}
+
+                        <span>
+                            Enable Other Deductions
+                        </span>
+
+                    </label>
+
+
+                </div>
+
+
+            </section>
+
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+
+                    <div class="section-icon teal">
+
+                        <i class="fas fa-money-check-dollar"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Payroll Integration
+                        </h2>
+
+                        <p>
+                            Control how tax and deductions are
+                            automatically included in payroll.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="switch-list">
+
+
+                    <label class="switch-row">
+
+                        {{ form.auto_calculate_tax }}
+
+                        <span>
+                            Automatically Calculate Tax
+                        </span>
+
+                    </label>
+
+
+
+                    <label class="switch-row">
+
+                        {{ form.auto_calculate_pf }}
+
+                        <span>
+                            Automatically Calculate PF
+                        </span>
+
+                    </label>
+
+
+
+                    <label class="switch-row">
+
+                        {{ form.auto_calculate_esi }}
+
+                        <span>
+                            Automatically Calculate ESI
+                        </span>
+
+                    </label>
+
+
+
+                    <label class="switch-row">
+
+                        {{ form.include_deductions_in_payslip }}
+
+                        <span>
+                            Show Deductions on Payslip
+                        </span>
+
+                    </label>
+
+
+                </div>
+
+
+            </section>
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+
+                    <div class="section-icon pink">
+
+                        <i class="fas fa-bell"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Deduction Notifications
+                        </h2>
+
+                        <p>
+                            Configure notifications related to
+                            tax and salary deductions.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="switch-list">
+
+
+                    <label class="switch-row">
+
+                        {{ form.tax_notifications }}
+
+                        <span>
+                            Tax Notifications
+                        </span>
+
+                    </label>
+
+
+
+                    <label class="switch-row">
+
+                        {{ form.deduction_notifications }}
+
+                        <span>
+                            Deduction Notifications
+                        </span>
+
+                    </label>
+
+
+                </div>
+
+
+            </section>
+
+            {% if form.errors %}
+
+                <div class="error-card">
+
+                    <div class="error-title">
+
+                        <i class="fas fa-circle-exclamation"></i>
+
+                        Please correct the following errors
+
+                    </div>
+
+
+                    {{ form.non_field_errors }}
+
+
+                    {% for field in form %}
+
+                        {% if field.errors %}
+
+                            <div class="field-error">
+
+                                <strong>
+                                    {{ field.label }}
+                                </strong>
+
+                                {{ field.errors }}
+
+                            </div>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+            <div class="form-actions">
+
+
+                <a href="{% url 'salary_settings_page' %}"
+                   class="cancel-btn">
+
+                    <i class="fas fa-xmark"></i>
+
+                    Cancel
+
+                </a>
+
+
+
+                <button type="submit"
+                        class="save-btn">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Tax & Deduction Settings
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </main>
+
+
+</div>
+
+
+
+</body>
+
+</html>

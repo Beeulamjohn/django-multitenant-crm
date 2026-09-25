@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Payment Receipt</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/receipt.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="receipt-container">
+
+    <!-- Header -->
+
+    <div class="receipt-header">
+
+        <div class="company">
+
+            <h1>
+                Scipy
+            </h1>
+
+            <p>
+                Student Billing & Payment Management
+            </p>
+
+            <p>
+                Scipytechnology@gmail.com
+            </p>
+
+        </div>
+
+        <div class="receipt-title">
+
+            <h2>
+
+                <i class="fas fa-receipt"></i>
+
+                PAYMENT RECEIPT
+
+            </h2>
+
+            <span class="paid-badge">
+
+                PAID
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <!-- Receipt Details -->
+
+    <div class="details-grid">
+
+        <div>
+
+            <h4>Receipt Number</h4>
+
+            <p>{{ payment.receipt_number }}</p>
+
+        </div>
+
+        <div>
+
+            <h4>Payment Date</h4>
+
+            <p>{{ payment.payment_date }}</p>
+
+        </div>
+
+        <div>
+
+            <h4>Student Name</h4>
+
+            <p>
+
+                {{ payment.student.first_name }}
+
+                {{ payment.student.last_name }}
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <h4>Course</h4>
+
+            <p>
+
+                {{ payment.student.course }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Payment Table -->
+
+    <table>
+
+        <thead>
+
+        <tr>
+
+            <th>Description</th>
+
+            <th>Payment Method</th>
+
+            <th>Amount</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr>
+
+            <td>
+
+                Student Fee Payment
+
+            </td>
+
+            <td>
+
+                {{ payment.payment_method }}
+
+            </td>
+
+            <td class="amount">
+
+                ₹{{ payment.amount }}
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <!-- Total -->
+
+    <div class="summary">
+
+        <table>
+
+            <tr>
+
+                <td>Total Paid</td>
+
+                <td>
+
+                    ₹{{ payment.amount }}
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- Signature -->
+
+    <div class="signature-section">
+
+        <div>
+
+            <p>
+
+                ____________________
+
+            </p>
+
+            <span>
+
+                Authorized Signature
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div class="footer">
+
+        <p>
+
+            Thank you for your payment.
+
+        </p>
+
+        <p>
+
+            This is a computer-generated receipt.
+
+        </p>
+
+    </div>
+
+    <!-- Buttons -->
+
+    <div class="buttons no-print">
+
+        <a href="{% url 'payment_list' %}"
+           class="back-btn">
+
+            <i class="fas fa-arrow-left"></i>
+
+            Back
+
+        </a>
+
+        <button onclick="window.print()"
+                class="print-btn">
+
+            <i class="fas fa-print"></i>
+
+            Print Receipt
+
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

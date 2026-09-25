@@ -1,0 +1,234 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      class="{% if appearance.theme == 'dark' %}dark-theme{% else %}light-theme{% endif %}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+<title>Emi Tracking</title>
+    <link rel="stylesheet"
+          href="{% static 'css/emi_list.css' %}">
+          
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+:root{
+    --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+}
+
+/* LIGHT */
+.light-theme{
+    --bg:#f8f4f2;
+    --card:#ffffff;
+    --text:#222;
+    --text2:#666;
+    --table:#ffffff;
+    --row:#f8fbff;
+    --border:#ececec;
+    --head:#3b1c35;
+}
+
+/* DARK */
+.dark-theme{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --text2:#cbd5e1;
+    --table:#1e293b;
+    --row:#334155;
+    --border:#475569;
+    --head:#111827;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1>
+                <i class="fas fa-calendar-alt"></i>
+                EMI Tracking
+            </h1>
+            <p>Manage student installment payments and monitor overdue EMIs.</p>
+        </div>
+        
+        <div class="header-buttons">
+
+        <a href="{% url 'billing_dashboard' %}" class="back-btn">
+            Back
+        </a>
+
+        <a href="{% url 'emi_create' %}" class="add-btn">
+            <i class="fas fa-plus"></i>
+            Add EMI
+        </a>
+
+    </div>
+
+    </div>
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert success">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+    <div class="cards">
+        <div class="card">
+            <div class="card-icon">
+            <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+            <div class="card-content">
+            <h3>{{ emis.count }}</h3>
+            <p>Total EMIs</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">
+            <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="card-content">
+            <h3>{{ paid_count }}</h3>
+            <p>Paid</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">
+            <i class="fas fa-clock"></i>
+            </div>
+            <div class="card-content">
+            <h3>{{ pending_count }}</h3>
+            <p>Pending</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-icon">
+            <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="card-content">
+            <h3>{{ overdue_count }}</h3>
+            <p>Overdue</p>
+            </div>
+        </div>
+    </div>
+    <div class="search-box">
+        <input
+               type="text"
+               id="searchInput"
+               placeholder="Search Student...">
+        <i class="fas fa-search"></i>
+    </div>
+    <div class="table-container">
+        <table id="emiTable">
+            <thead>
+            <tr>
+                <th>Student</th>
+                <th>Installment</th>
+                <th>Due Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for emi in emis %}
+            <tr>
+                <td>
+                    <i class="fas fa-user-graduate"></i>
+                    {{ emi.student.first_name }}
+                    {{ emi.student.last_name }}
+                </td>
+                <td>
+                    EMI {{ emi.installment_no }}
+                </td>
+                <td>
+                    {{ emi.due_date }}
+                </td>
+                <td>
+                    ₹ {{ emi.amount }}
+                </td>
+                <td>
+                    {% if emi.status == "Paid" %}
+                    <span class="status paid">
+                        Paid
+                    </span>
+                    {% elif emi.status == "Overdue" %}
+                    <span class="status overdue">
+                        Overdue
+                    </span>
+                    {% else %}
+                    <span class="status pending">
+                        Pending
+                    </span>
+                    {% endif %}
+                </td>
+                <td>
+    {% if emi.status != "Paid" %}
+        <a href="{% url 'emi_paid' emi.id %}" class="pay-btn">
+            <i class="fas fa-check"></i>
+            Mark Paid
+        </a>
+    {% else %}
+        <span class="completed">
+            <i class="fas fa-check-circle"></i>
+            Completed
+        </span>
+    {% endif %}
+
+    <a href="{% url 'emi_edit' emi.id %}" class="edit-btn">
+        <i class="fas fa-edit"></i>
+        Edit
+    </a>
+
+    <a href="{% url 'emi_delete' emi.id %}"
+       class="delete-btn"
+       onclick="return confirm('Are you sure you want to delete this EMI?');">
+        <i class="fas fa-trash"></i>
+        Delete
+    </a>
+</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="empty">
+                    No EMI records found.
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+const search=document.getElementById("searchInput");
+
+search.addEventListener("keyup",function(){
+
+let filter=this.value.toLowerCase();
+
+let rows=document.querySelectorAll("#emiTable tbody tr");
+
+rows.forEach(function(row){
+
+let text=row.textContent.toLowerCase();
+
+row.style.display=text.includes(filter)?"":"none";
+
+});
+
+});
+
+</script>
+</body>
+</html>

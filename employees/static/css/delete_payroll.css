@@ -1,0 +1,150 @@
+:root{
+    --accent: var(--accent-color, #2563eb);
+
+    --bg:#f8f4f2;
+    --card:#ffffff;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --danger:#dc2626;
+    --danger-hover:#b91c1c;
+    --shadow:0 15px 35px rgba(0,0,0,.12);
+}
+
+[data-theme="dark"]{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --muted:#cbd5e1;
+    --border:#334155;
+    --shadow:0 15px 35px rgba(0,0,0,.45);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.delete-card{
+    width:100%;
+    max-width:460px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:35px;
+    text-align:center;
+    box-shadow:var(--shadow);
+}
+
+.icon{
+    width:80px;
+    height:80px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    background:rgba(220,38,38,.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.icon i{
+    font-size:34px;
+    color:var(--danger);
+}
+
+h2{
+    font-size:28px;
+    margin-bottom:12px;
+}
+
+p{
+    color:var(--muted);
+    line-height:1.6;
+    margin-bottom:25px;
+}
+
+.payroll-info{
+    background:rgba(37,99,235,.08);
+    border:1px solid rgba(37,99,235,.15);
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:28px;
+    text-align:left;
+}
+
+.payroll-info div{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+.payroll-info div:last-child{
+    margin-bottom:0;
+}
+
+.payroll-info span{
+    color:var(--muted);
+    font-size:14px;
+}
+
+.payroll-info strong{
+    color:var(--text);
+}
+
+.actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.delete-btn,
+.cancel-btn{
+    flex:1;
+    min-width:160px;
+    padding:12px 18px;
+    border:none;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:600;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.delete-btn{
+    background:var(--danger);
+    color:#fff;
+}
+
+.delete-btn:hover{
+    background:var(--danger-hover);
+}
+
+.cancel-btn{
+    background:var(--accent);
+    color:#fff;
+}
+
+.cancel-btn:hover{
+    opacity:.9;
+}
+
+[data-font-size="small"]{font-size:14px;}
+[data-font-size="medium"]{font-size:16px;}
+[data-font-size="large"]{font-size:18px;}

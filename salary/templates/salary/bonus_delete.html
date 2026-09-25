@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+
+<title>
+Delete Bonus
+</title>
+
+
+<link rel="stylesheet"
+href="{% static 'css/bonus_delete.css' %}">
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="delete-container">
+
+
+
+<div class="delete-card">
+
+
+<div class="danger-icon">
+
+
+<i class="fa fa-trash"></i>
+
+
+</div>
+
+
+
+<h1>
+Delete Bonus?
+</h1>
+
+
+
+<p>
+
+Are you sure you want to delete bonus record for
+
+<strong>
+{{bonus.employee.name}}
+</strong>
+
+?
+
+</p>
+
+
+
+
+
+<form method="POST">
+
+
+{% csrf_token %}
+
+
+
+<button class="delete-btn">
+
+<i class="fa fa-trash"></i>
+
+Delete
+
+
+</button>
+
+
+
+<a href="{% url 'bonus_list' %}"
+class="cancel-btn">
+
+
+Cancel
+
+
+</a>
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</body>
+
+</html>

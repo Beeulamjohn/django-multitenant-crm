@@ -1,0 +1,206 @@
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
+font-family:Inter,Arial;
+
+}
+
+
+
+body{
+
+background:#f8fafc;
+
+}
+
+
+
+.delete-wrapper{
+
+height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+
+
+.delete-card{
+
+background:white;
+
+width:430px;
+
+padding:40px;
+
+text-align:center;
+
+border-radius:25px;
+
+box-shadow:0 15px 40px rgba(0,0,0,.1);
+
+}
+
+
+
+.delete-icon{
+
+height:75px;
+
+width:75px;
+
+border-radius:50%;
+
+background:#fee2e2;
+
+color:#dc2626;
+
+font-size:32px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+margin:auto;
+
+}
+
+
+
+.delete-card h1{
+
+margin:20px 0;
+
+}
+
+
+
+.delete-card p{
+
+line-height:1.6;
+
+margin-bottom:30px;
+
+color:#64748b;
+
+}
+
+
+
+.delete-btn,
+.cancel-btn{
+
+padding:13px 25px;
+
+border-radius:12px;
+
+border:none;
+
+text-decoration:none;
+
+font-weight:700;
+
+margin:5px;
+
+display:inline-block;
+
+}
+
+
+
+.delete-btn{
+
+background:#dc2626;
+
+color:white;
+
+}
+
+
+
+.cancel-btn{
+
+background:#e2e8f0;
+
+color:#334155;
+
+}
+
+@media screen and (max-width: 786px) {
+
+    html,
+    body {
+        width: 100%;
+        min-height: 100%;
+        overflow-x: hidden;
+    }
+
+    body {
+        background: #f8fafc;
+    }
+
+    .delete-wrapper {
+        width: 100%;
+        min-height: 100vh;
+        height: auto;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 20px 15px;
+    }
+
+    .delete-card {
+        width: 100%;
+        max-width: 430px;
+
+        padding: 30px 20px;
+
+        text-align: center;
+        border-radius: 20px;
+    }
+
+    .delete-icon {
+        width: 65px;
+        height: 65px;
+
+        font-size: 28px;
+    }
+
+    .delete-card h1 {
+        margin: 18px 0;
+        font-size: 24px;
+        line-height: 1.4;
+    }
+
+    .delete-card p {
+        margin-bottom: 25px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .delete-btn,
+    .cancel-btn {
+        width: 100%;
+
+        padding: 14px 20px;
+
+        margin: 6px 0;
+
+        border-radius: 10px;
+
+        font-size: 14px;
+
+        text-align: center;
+    }
+}

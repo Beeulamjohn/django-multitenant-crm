@@ -1,0 +1,907 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Report Settings | FlowTenant</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/report_settings.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div class="logo">
+        <i class="fas fa-cogs"></i>
+        <h2>Settings</h2>
+    </div>
+    <ul>
+
+        <li>
+
+            <a href="{% url 'company_settings' %}">
+
+                <i class="fas fa-home"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+        </li>
+        <li>
+
+            <a href="{% url 'company_profile' %}">
+
+                <i class="fas fa-building"></i>
+
+                <span>Company Profile</span>
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="{% url 'account_settings' %}">
+
+                <i class="fas fa-user-circle"></i>
+
+                <span>Account</span>
+
+            </a>
+
+        </li>
+        <li>
+
+            <a href="{% url 'student_employee_settings' %}">
+
+                <i class="fas fa-users"></i>
+
+                <span>Employees</span>
+
+            </a>
+
+        </li>
+
+        <li>
+
+            <a href="{% url 'student_settings' %}">
+
+                <i class="fas fa-user-graduate"></i>
+
+                <span>Students</span>
+
+            </a>
+
+        </li>
+         
+
+        <li>
+
+            <a href="{% url 'notification_settings' %}">
+
+                <i class="fas fa-bell"></i>
+
+                <span>Notifications</span>
+
+            </a>
+
+        </li>
+
+        <li>
+
+            <a href="{% url 'appearance_settings' %}">
+
+                <i class="fas fa-palette"></i>
+
+                <span>Appearance</span>
+
+            </a>
+
+        </li>
+
+        <li class="active">
+
+            <a href="{% url 'report_settings' %}">
+
+                <i class="fas fa-chart-bar"></i>
+
+                <span>Reports</span>
+
+            </a>
+
+        </li>
+       
+        
+
+    </ul>
+
+    
+
+</aside>
+<main class="main-content">
+
+
+    <div class="page-header">
+
+        <div class="header-left">
+
+            <div class="header-icon">
+
+                <i class="fas fa-chart-bar"></i>
+
+            </div>
+
+
+            <div>
+
+                <h1>Report Settings</h1>
+
+                <p>
+                    Configure how reports are generated,
+                    formatted and delivered.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <form method="POST"
+          action="{% url 'report_settings' %}"
+          class="report-form">
+
+        {% csrf_token %}
+
+
+        <section class="settings-card">
+
+            <div class="card-header">
+
+                <div class="section-icon">
+
+                    <i class="fas fa-file-export"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>Report Format</h2>
+
+                    <p>
+                        Select the default format and information
+                        included in generated reports.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="default_report_format">
+
+                        <i class="fas fa-file"></i>
+
+                        Default Report Format
+
+                    </label>
+
+
+                    <select id="default_report_format"
+                            name="default_report_format">
+
+                        <option value="pdf"
+                            {% if settings.default_report_format == 'pdf' or not settings.default_report_format %}
+                            selected
+                            {% endif %}>
+
+                            PDF
+
+                        </option>
+
+
+                        <option value="excel"
+                            {% if settings.default_report_format == 'excel' %}
+                            selected
+                            {% endif %}>
+
+                            Excel
+
+                        </option>
+
+                    </select>
+
+
+                    <small>
+                        Choose the default format used when
+                        generating reports.
+                    </small>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="default_date_range">
+
+                        <i class="fas fa-calendar-days"></i>
+
+                        Default Date Range
+
+                    </label>
+
+
+                    <select id="default_date_range"
+                            name="default_date_range">
+
+                        <option value="today"
+                            {% if settings.default_date_range == 'today' %}
+                            selected
+                            {% endif %}>
+
+                            Today
+
+                        </option>
+
+
+                        <option value="this_week"
+                            {% if settings.default_date_range == 'this_week' %}
+                            selected
+                            {% endif %}>
+
+                            This Week
+
+                        </option>
+
+
+                        <option value="this_month"
+                            {% if settings.default_date_range == 'this_month' or not settings.default_date_range %}
+                            selected
+                            {% endif %}>
+
+                            This Month
+
+                        </option>
+
+
+                        <option value="last_month"
+                            {% if settings.default_date_range == 'last_month' %}
+                            selected
+                            {% endif %}>
+
+                            Last Month
+
+                        </option>
+
+
+                        <option value="this_year"
+                            {% if settings.default_date_range == 'this_year' %}
+                            selected
+                            {% endif %}>
+
+                            This Year
+
+                        </option>
+
+
+                        <option value="custom"
+                            {% if settings.default_date_range == 'custom' %}
+                            selected
+                            {% endif %}>
+
+                            Custom Range
+
+                        </option>
+
+                    </select>
+
+
+                    <small>
+                        Defines the default period used when
+                        opening a report.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+        <section class="settings-card">
+
+            <div class="card-header">
+
+                <div class="section-icon">
+
+                    <i class="fas fa-paintbrush"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>Report Branding</h2>
+
+                    <p>
+                        Customize the company information and
+                        branding displayed on reports.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="toggle-list">
+
+                <div class="toggle-item">
+
+                    <div class="toggle-info">
+
+                        <div class="toggle-icon">
+
+                            <i class="fas fa-image"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h3>Include Company Logo</h3>
+
+                            <p>
+                                Display the company logo at the
+                                top of generated reports.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input type="checkbox"
+                               name="include_company_logo"
+                               {% if settings.include_company_logo %}
+                               checked
+                               {% endif %}>
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+                <div class="toggle-item">
+
+                    <div class="toggle-info">
+
+                        <div class="toggle-icon">
+
+                            <i class="fas fa-receipt"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h3>Show GST Details</h3>
+
+                            <p>
+                                Include GST number and applicable
+                                tax details in reports.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input type="checkbox"
+                               name="show_gst_details"
+                               {% if settings.show_gst_details %}
+                               checked
+                               {% endif %}>
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+                <div class="toggle-item">
+
+                    <div class="toggle-info">
+
+                        <div class="toggle-icon">
+
+                            <i class="fas fa-signature"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h3>Include Signature</h3>
+
+                            <p>
+                                Add the authorized signature area
+                                to generated reports.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input type="checkbox"
+                               name="include_signature"
+                               {% if settings.include_signature %}
+                               checked
+                               {% endif %}>
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+                <div class="toggle-item">
+
+                    <div class="toggle-info">
+
+                        <div class="toggle-icon">
+
+                            <i class="fas fa-heading"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h3>Report Header / Footer</h3>
+
+                            <p>
+                                Display customized headers and
+                                footers on generated reports.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input type="checkbox"
+                               name="report_header_footer"
+                               {% if settings.report_header_footer %}
+                               checked
+                               {% endif %}>
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="settings-card">
+
+            <div class="card-header">
+
+                <div class="section-icon">
+
+                    <i class="fas fa-stamp"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>Report Watermark</h2>
+
+                    <p>
+                        Configure a watermark displayed on
+                        generated reports.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+                <label for="report_watermark">
+
+                    <i class="fas fa-font"></i>
+
+                    Watermark Text
+
+                </label>
+
+
+                <input type="text"
+                       id="report_watermark"
+                       name="report_watermark"
+                       value="{{ settings.report_watermark|default:'' }}"
+                       placeholder="Enter watermark text">
+
+
+                <small>
+                    Example: CONFIDENTIAL, INTERNAL USE ONLY,
+                    or your company name.
+                </small>
+
+            </div>
+
+
+            <div class="watermark-options">
+
+                <label class="checkbox-card">
+
+                    <input type="checkbox"
+                           name="enable_watermark"
+                           {% if settings.enable_watermark %}
+                           checked
+                           {% endif %}>
+
+                    <span class="check-box"></span>
+
+                    <span>
+
+                        <strong>Enable Watermark</strong>
+
+                        <small>
+                            Display the watermark on generated
+                            reports.
+                        </small>
+
+                    </span>
+
+                </label>
+
+                <div class="form-group">
+
+                    <label for="watermark_position">
+
+                        <i class="fas fa-location-dot"></i>
+
+                        Watermark Position
+
+                    </label>
+
+
+                    <select id="watermark_position"
+                            name="watermark_position">
+
+                        <option value="center"
+                            {% if settings.watermark_position == 'center' or not settings.watermark_position %}
+                            selected
+                            {% endif %}>
+
+                            Center
+
+                        </option>
+
+
+                        <option value="top"
+                            {% if settings.watermark_position == 'top' %}
+                            selected
+                            {% endif %}>
+
+                            Top
+
+                        </option>
+
+
+                        <option value="bottom"
+                            {% if settings.watermark_position == 'bottom' %}
+                            selected
+                            {% endif %}>
+
+                            Bottom
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </section>
+        <section class="settings-card">
+
+            <div class="card-header">
+
+                <div class="section-icon">
+
+                    <i class="fas fa-calendar-check"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>Automatic Reports</h2>
+
+                    <p>
+                        Configure scheduled monthly reports and
+                        email delivery.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="toggle-list">
+
+
+                <div class="toggle-item">
+
+                    <div class="toggle-info">
+
+                        <div class="toggle-icon">
+
+                            <i class="fas fa-calendar-days"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h3>Automatic Monthly Reports</h3>
+
+                            <p>
+                                Automatically generate monthly
+                                reports for the organization.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input type="checkbox"
+                               name="automatic_monthly_reports"
+                               {% if settings.automatic_monthly_reports %}
+                               checked
+                               {% endif %}>
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+                <div class="toggle-item">
+
+                    <div class="toggle-info">
+
+                        <div class="toggle-icon">
+
+                            <i class="fas fa-envelope"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h3>Email Reports to Admin</h3>
+
+                            <p>
+                                Automatically send generated reports
+                                to the company administrator.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input type="checkbox"
+                               name="email_reports_to_admin"
+                               {% if settings.email_reports_to_admin %}
+                               checked
+                               {% endif %}>
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid schedule-grid">
+
+
+                <div class="form-group">
+
+                    <label for="monthly_report_day">
+
+                        <i class="fas fa-calendar-day"></i>
+
+                        Monthly Report Day
+
+                    </label>
+
+
+                    <select id="monthly_report_day"
+        name="monthly_report_day">
+
+    <option value="1"
+        {% if settings.monthly_report_day == 1 %}
+        selected
+        {% endif %}>
+        1st Day
+    </option>
+
+    <option value="5"
+        {% if settings.monthly_report_day == 5 %}
+        selected
+        {% endif %}>
+        5th Day
+    </option>
+
+    <option value="10"
+        {% if settings.monthly_report_day == 10 %}
+        selected
+        {% endif %}>
+        10th Day
+    </option>
+
+    <option value="15"
+        {% if settings.monthly_report_day == 15 %}
+        selected
+        {% endif %}>
+        15th Day
+    </option>
+
+    <option value="20"
+        {% if settings.monthly_report_day == 20 %}
+        selected
+        {% endif %}>
+        20th Day
+    </option>
+
+    <option value="25"
+        {% if settings.monthly_report_day == 25 %}
+        selected
+        {% endif %}>
+        25th Day
+    </option>
+
+</select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="monthly_report_time">
+
+                        <i class="fas fa-clock"></i>
+
+                        Report Time
+
+                    </label>
+
+
+                    <input type="time"
+                           id="monthly_report_time"
+                           name="monthly_report_time"
+                           value="{{ settings.monthly_report_time|default:'09:00' }}">
+
+                </div>
+
+            </div>
+
+        </section>
+        <section class="info-card">
+
+            <div class="info-icon">
+
+                <i class="fas fa-circle-info"></i>
+
+            </div>
+
+
+            <div>
+
+                <h3>Report Preferences</h3>
+
+                <p>
+                    Your selected preferences will be applied
+                    whenever FlowTenant generates reports.
+                    Enable automatic reports if you want monthly
+                    reports to be generated and delivered
+                    automatically.
+                </p>
+
+            </div>
+
+        </section>
+
+        <div class="form-actions">
+
+            <a href="{% url 'company_settings' %}"
+               class="cancel-btn">
+
+                <i class="fas fa-xmark"></i>
+
+                Cancel
+
+            </a>
+
+
+            <button type="submit"
+                    class="save-btn">
+
+                <i class="fas fa-floppy-disk"></i>
+
+                Save Report Settings
+
+            </button>
+
+        </div>
+
+
+    </form>
+
+</main>
+</body>
+</html>
+

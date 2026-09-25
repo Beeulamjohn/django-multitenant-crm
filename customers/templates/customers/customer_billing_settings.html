@@ -1,0 +1,543 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ appearance_settings.theme|default:'light' }}"
+    data-font-size="medium"
+    data-dashboard-layout="grid"
+    data-sidebar-style="expanded"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Invoice Appearance | FlowTenant</title>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance_settings.accent_color|default:'#2563eb' }};
+            --primary: var(--accent-color);
+        }
+    </style>
+
+    <link rel="stylesheet"
+          href="{% static 'css/customer_billing_settings.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="settings-page">
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <ul>
+
+                <li class="active">
+                    <a href="{% url 'product_dashboard' %}">
+                        <i class="fas fa-home"></i>
+                       <span>Billing Settings Dashboard</span>
+                    </a>
+                </li>
+
+
+
+                <li>
+                    <a href="{% url 'customer_company_profile' %}">
+                        <i class="fas fa-building"></i>
+                        <span>Company Profile</span>
+                    </a>
+                </li>
+
+
+
+                <li>
+                    <a href="{% url 'customer_invoice_settings' %}">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Invoice Settings</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_payment_settings' %}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment Settings</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_tax_gst_settings' %}">
+                        <i class="fas fa-percent"></i>
+                        <span>Tax &amp; GST</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_discount_settings' %}">
+                        <i class="fas fa-tags"></i>
+                        <span>Discount Settings</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_notification_settings' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_invoice_appearance' %}">
+                        <i class="fas fa-palette"></i>
+                        <span>Invoice Appearance</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_bank_payment_settings' %}">
+                        <i class="fas fa-building-columns"></i>
+                        <span>Bank &amp; Payment</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_security_settings' %}">
+                        <i class="fas fa-shield-halved"></i>
+                        <span>Security</span>
+                    </a>
+                </li>
+
+
+            </ul>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <a href="{% url 'product_dashboard' %}"
+               class="dashboard-btn">
+
+                <i class="fas fa-arrow-left"></i>
+
+                <span>Back to Dashboard</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <main class="main-content">
+
+
+        <header class="page-header">
+
+            <div class="header-left">
+
+                <div class="breadcrumb">
+
+                    <span>Billing</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <strong>Settings</strong>
+
+                </div>
+
+                <h1>Billing Settings</h1>
+
+                <p>
+                    Manage customer billing, invoices, payments,
+                    tax, discounts, notifications and company
+                    payment preferences.
+                </p>
+
+            </div>
+
+
+            
+
+        </header>
+
+
+        <section class="settings-section">
+
+            <div class="section-header">
+
+                <div class="section-title-icon">
+
+                    <i class="fas fa-user-circle"></i>
+
+                </div>
+
+                <div>
+
+                    <h2>Account &amp; Company</h2>
+
+                    <p>
+                        Manage your login account and business
+                        information.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="settings-grid">
+
+
+                
+                <a href="{% url 'customer_company_profile' %}"
+                   class="card">
+
+                    <div class="card-icon green">
+
+                        <i class="fas fa-building"></i>
+
+                    </div>
+
+                    <h3>Company Profile</h3>
+
+                    <p>
+                        Manage company name, logo, address,
+                        phone and business information.
+                    </p>
+
+                    <span class="card-link">
+                        Manage
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+
+                </a>
+
+
+                <a href="{% url 'customer_security_settings' %}"
+                   class="card">
+
+                    <div class="card-icon red">
+
+                        <i class="fas fa-shield-halved"></i>
+
+                    </div>
+
+                    <h3>Security</h3>
+
+                    <p>
+                        Manage password and account security
+                        preferences.
+                    </p>
+
+                    <span class="card-link">
+                        Manage
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <section class="settings-section">
+
+            <div class="section-header">
+
+                <div class="section-title-icon">
+
+                    <i class="fas fa-file-invoice-dollar"></i>
+
+                </div>
+
+                <div>
+
+                    <h2>Billing Management</h2>
+
+                    <p>
+                        Configure customer billing and invoice
+                        processing.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="settings-grid">
+
+
+            
+
+
+                <a href="{% url 'customer_invoice_settings' %}"
+                   class="card">
+
+                    <div class="card-icon purple">
+
+                        <i class="fas fa-file-invoice"></i>
+
+                    </div>
+
+                    <h3>Invoice Settings</h3>
+
+                    <p>
+                        Configure invoice prefixes, numbering,
+                        dates and invoice behavior.
+                    </p>
+
+                    <span class="card-link">
+                        Configure
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+
+                </a>
+
+
+                <a href="{% url 'customer_payment_settings' %}"
+                   class="card">
+
+                    <div class="card-icon teal">
+
+                        <i class="fas fa-credit-card"></i>
+
+                    </div>
+
+                    <h3>Payment Settings</h3>
+
+                    <p>
+                        Configure payment methods, receipts,
+                        partial payments and payment handling.
+                    </p>
+
+                    <span class="card-link">
+                        Configure
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+
+                </a>
+
+
+                <a href="{% url 'customer_discount_settings' %}"
+                   class="card">
+
+                    <div class="card-icon orange">
+
+                        <i class="fas fa-tags"></i>
+
+                    </div>
+
+                    <h3>Discount Settings</h3>
+
+                    <p>
+                        Manage discounts and discount limits
+                        for customer invoices.
+                    </p>
+
+                    <span class="card-link">
+                        Configure
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+
+                </a>
+
+
+                <a href="{% url 'customer_tax_gst_settings' %}"
+                   class="card">
+
+                    <div class="card-icon red">
+
+                        <i class="fas fa-percent"></i>
+
+                    </div>
+
+                    <h3>Tax &amp; GST Settings</h3>
+
+                    <p>
+                        Manage GSTIN, tax rates and GST
+                        calculation settings.
+                    </p>
+
+                    <span class="card-link">
+                        Configure
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+
+                </a>
+
+
+                <a href="{% url 'customer_invoice_appearance' %}"
+                   class="card">
+
+                    <div class="card-icon pink">
+
+                        <i class="fas fa-palette"></i>
+
+                    </div>
+
+                    <h3>Invoice Appearance</h3>
+
+                    <p>
+                        Customize invoice theme, colors,
+                        logo, layout and footer.
+                    </p>
+
+                    <span class="card-link">
+                        Customize
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <section class="settings-section">
+
+            <div class="section-header">
+
+                <div class="section-title-icon">
+
+                    <i class="fas fa-bell"></i>
+
+                </div>
+
+                <div>
+
+                    <h2>Communication</h2>
+
+                    <p>
+                        Manage invoice and payment notifications.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="settings-grid">
+
+
+                <a href="{% url 'customer_notification_settings' %}"
+                   class="card">
+
+                    <div class="card-icon yellow">
+
+                        <i class="fas fa-bell"></i>
+
+                    </div>
+
+                    <h3>Notification Settings</h3>
+
+                    <p>
+                        Configure invoice, payment and reminder
+                        notifications.
+                    </p>
+
+                    <span class="card-link">
+                        Configure
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <section class="settings-section">
+
+            <div class="section-header">
+
+                <div class="section-title-icon">
+
+                    <i class="fas fa-building-columns"></i>
+
+                </div>
+
+                <div>
+
+                    <h2>Payment Information</h2>
+
+                    <p>
+                        Configure how customers can pay your
+                        company.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="settings-grid">
+
+
+                <a href="{% url 'customer_bank_payment_settings' %}"
+                   class="card">
+
+                    <div class="card-icon indigo">
+
+                        <i class="fas fa-building-columns"></i>
+
+                    </div>
+
+                    <h3>Bank &amp; Payment Details</h3>
+
+                    <p>
+                        Manage bank account, IFSC, UPI and
+                        payment information shown on invoices.
+                    </p>
+
+                    <span class="card-link">
+                        Configure
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

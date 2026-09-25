@@ -1,0 +1,195 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme|default:'light' }}"
+    style="--accent-color: {{ accent_color|default:'#2563eb' }};"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Payment Details | FlowTenant CRM</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/customer_payment.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>Payment Details</h1>
+
+            <p>
+                View customer payment information.
+            </p>
+
+        </div>
+
+        <div class="header-buttons">
+
+            <a
+                href="{% url 'customer_payment_list' %}"
+                class="btn-back"
+            >
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
+
+            <a
+                href="{% url 'payment_update' payment.pk %}"
+                class="btn-primary"
+            >
+                <i class="fas fa-edit"></i>
+                Edit
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="detail-card">
+
+        <div class="detail-header">
+
+            <div>
+
+                <span class="detail-label">
+                    Receipt Number
+                </span>
+
+                <h2>
+                    {{ payment.receipt_number }}
+                </h2>
+
+            </div>
+
+            <span class="status {{ payment.status|lower }}">
+                {{ payment.status }}
+            </span>
+
+        </div>
+
+
+        <div class="detail-grid">
+
+            <div class="detail-item">
+
+                <span>Customer</span>
+
+                <strong>
+                    {{ payment.customer.name }}
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>Payment Date</span>
+
+                <strong>
+                    {{ payment.payment_date|date:"d M Y" }}
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>Amount</span>
+
+                <strong class="detail-amount">
+                    ₹{{ payment.amount }}
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>Payment Method</span>
+
+                <strong>
+                    {{ payment.payment_method }}
+                </strong>
+
+            </div>
+
+
+            {% if payment.invoice %}
+
+            <div class="detail-item">
+
+                <span>Invoice</span>
+
+                <strong>
+                    {{ payment.invoice.invoice_number }}
+                </strong>
+
+            </div>
+
+            {% endif %}
+
+
+            <div class="detail-item full">
+
+                <span>Notes</span>
+
+                <strong>
+                    {{ payment.notes|default:"No notes added." }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-actions">
+
+            <a
+                href="{% url 'payment_print' payment.pk %}"
+                target="_blank"
+                class="btn-primary"
+            >
+                <i class="fas fa-print"></i>
+                Print Receipt
+            </a>
+
+            <a
+                href="{% url 'payment_delete' payment.pk %}"
+                class="btn-danger"
+            >
+                <i class="fas fa-trash"></i>
+                Delete
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

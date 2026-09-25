@@ -1,0 +1,1049 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ appearance_settings.theme|default:'light' }}"
+    data-font-size="medium"
+    data-dashboard-layout="grid"
+    data-sidebar-style="expanded"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Invoice Appearance | FlowTenant</title>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance_settings.accent_color|default:'#2563eb' }};
+            --primary: var(--accent-color);
+        }
+    </style>
+
+    
+    <!-- Invoice Settings CSS -->
+    <link rel="stylesheet"
+          href="{% static 'css/customer_invoice_settings.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-wrapper">
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+        <nav class="sidebar-nav">
+
+            <ul>
+                <li>
+
+                    <a href="{% url 'customer_billing_settings' %}">
+
+                        <i class="fas fa-home"></i>
+
+                        <span>
+                            Billing Settings Dashboard
+                        </span>
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="{% url 'customer_company_profile' %}">
+
+                        <i class="fas fa-building"></i>
+
+                        <span>
+                            Company Profile
+                        </span>
+
+                    </a>
+
+                </li>
+
+                <li class="active">
+
+                    <a href="{% url 'customer_invoice_settings' %}">
+
+                        <i class="fas fa-file-invoice"></i>
+
+                        <span>
+                            Invoice Settings
+                        </span>
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="{% url 'customer_payment_settings' %}">
+
+                        <i class="fas fa-credit-card"></i>
+
+                        <span>
+                            Payment Settings
+                        </span>
+
+                    </a>
+
+                </li>
+                <li>
+
+                    <a href="{% url 'customer_tax_gst_settings' %}">
+
+                        <i class="fas fa-percent"></i>
+
+                        <span>
+                            Tax &amp; GST
+                        </span>
+
+                    </a>
+
+                </li>
+                <li>
+
+                    <a href="{% url 'customer_discount_settings' %}">
+
+                        <i class="fas fa-tags"></i>
+
+                        <span>
+                            Discount Settings
+                        </span>
+
+                    </a>
+
+                </li>
+                <li>
+
+                    <a href="{% url 'customer_notification_settings' %}">
+
+                        <i class="fas fa-bell"></i>
+
+                        <span>
+                            Notifications
+                        </span>
+
+                    </a>
+
+                </li>
+                <li>
+
+                    <a href="{% url 'customer_invoice_appearance' %}">
+
+                        <i class="fas fa-palette"></i>
+
+                        <span>
+                            Invoice Appearance
+                        </span>
+
+                    </a>
+
+                </li>
+                <li>
+
+                    <a href="{% url 'customer_bank_payment_settings' %}">
+
+                        <i class="fas fa-building-columns"></i>
+
+                        <span>
+                            Bank &amp; Payment
+                        </span>
+
+                    </a>
+
+                </li>
+                <li>
+
+                    <a href="{% url 'customer_security_settings' %}">
+
+                        <i class="fas fa-shield-halved"></i>
+
+                        <span>
+                            Security
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+
+            </ul>
+
+        </nav>
+
+
+       
+
+    </aside>
+    <main class="main-content">
+
+        <header class="page-header">
+
+
+            <div class="header-left">
+                <div class="breadcrumb">
+
+                    <a href="{% url 'customer_billing_settings' %}">
+                        Billing Settings
+                    </a>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>
+                        Invoice Settings
+                    </span>
+
+                </div>
+
+                <div class="title-row">
+
+
+                    <div class="page-icon">
+
+                        <i class="fas fa-file-invoice"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h1>
+                            Invoice Settings
+                        </h1>
+
+                        <p>
+                            Configure invoice numbering, GST, payment,
+                            appearance and invoice terms.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+        </header>
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        <span>
+                            {{ message }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+        {% if form.non_field_errors %}
+
+            <div class="form-error-box">
+
+                <i class="fas fa-circle-exclamation"></i>
+
+                <div>
+
+                    {{ form.non_field_errors }}
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+        <form method="POST"
+              class="invoice-settings-form">
+
+            {% csrf_token %}
+
+            <section class="settings-card">
+
+
+                <div class="card-header">
+
+                    <div class="card-icon blue">
+
+                        <i class="fas fa-hashtag"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Invoice Numbering
+                        </h2>
+
+                        <p>
+                            Configure how invoice numbers are generated.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="{{ form.invoice_prefix.id_for_label }}">
+                                Invoice Prefix
+                            </label>
+
+                            {{ form.invoice_prefix }}
+
+                            {% if form.invoice_prefix.errors %}
+
+                                <div class="field-error">
+                                    {{ form.invoice_prefix.errors }}
+                                </div>
+
+                            {% endif %}
+
+                            <small>
+                                Example: INV
+                            </small>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="{{ form.invoice_number_start.id_for_label }}">
+                                Starting Number
+                            </label>
+
+                            {{ form.invoice_number_start }}
+
+                            {% if form.invoice_number_start.errors %}
+
+                                <div class="field-error">
+                                    {{ form.invoice_number_start.errors }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="form-group full-width">
+
+                            <label for="{{ form.invoice_number_format.id_for_label }}">
+                                Invoice Number Format
+                            </label>
+
+                            {{ form.invoice_number_format }}
+
+                            {% if form.invoice_number_format.errors %}
+
+                                <div class="field-error">
+                                    {{ form.invoice_number_format.errors }}
+                                </div>
+
+                            {% endif %}
+
+                            <small>
+                                Example:
+                                <strong>{prefix}-{year}-{number}</strong>
+                            </small>
+
+                        </div>
+                        <div class="form-group full-width">
+
+                            <div class="switch-row">
+
+                                <div class="switch-label">
+
+                                    <label>
+                                        Auto Generate Invoice Number
+                                    </label>
+
+                                    <small>
+                                        Automatically generate invoice numbers
+                                        using the configured format.
+                                    </small>
+
+                                </div>
+
+
+                                <label class="switch">
+
+                                    {{ form.auto_generate_invoice_number }}
+
+                                    <span class="slider"></span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+
+                <div class="card-header">
+
+                    <div class="card-icon green">
+
+                        <i class="fas fa-money-check-dollar"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Payment Settings
+                        </h2>
+
+                        <p>
+                            Configure invoice due dates and payment methods.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="{{ form.default_due_days.id_for_label }}">
+                                Default Due Days
+                            </label>
+
+                            {{ form.default_due_days }}
+
+                            {% if form.default_due_days.errors %}
+
+                                <div class="field-error">
+                                    {{ form.default_due_days.errors }}
+                                </div>
+
+                            {% endif %}
+
+                            <small>
+                                Number of days after the invoice date.
+                            </small>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="{{ form.default_payment_method.id_for_label }}">
+                                Default Payment Method
+                            </label>
+
+                            {{ form.default_payment_method }}
+
+                            {% if form.default_payment_method.errors %}
+
+                                <div class="field-error">
+                                    {{ form.default_payment_method.errors }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+
+                <div class="card-header">
+
+                    <div class="card-icon orange">
+
+                        <i class="fas fa-percent"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            GST Settings
+                        </h2>
+
+                        <p>
+                            Configure the default GST behaviour for invoices.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="form-grid">
+
+
+                        <!-- GST Rate -->
+
+                        <div class="form-group">
+
+                            <label for="{{ form.default_gst_rate.id_for_label }}">
+                                Default GST Rate (%)
+                            </label>
+
+                            {{ form.default_gst_rate }}
+
+                            {% if form.default_gst_rate.errors %}
+
+                                <div class="field-error">
+                                    {{ form.default_gst_rate.errors }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="{{ form.currency.id_for_label }}">
+                                Currency
+                            </label>
+
+                            {{ form.currency }}
+
+                            {% if form.currency.errors %}
+
+                                <div class="field-error">
+                                    {{ form.currency.errors }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="{{ form.currency_symbol.id_for_label }}">
+                                Currency Symbol
+                            </label>
+
+                            {{ form.currency_symbol }}
+
+                            {% if form.currency_symbol.errors %}
+
+                                <div class="field-error">
+                                    {{ form.currency_symbol.errors }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Enable GST -->
+
+                        <div class="form-group">
+
+                            <div class="switch-row">
+
+                                <div class="switch-label">
+
+                                    <label>
+                                        Enable GST
+                                    </label>
+
+                                    <small>
+                                        Apply GST calculations to invoices.
+                                    </small>
+
+                                </div>
+
+
+                                <label class="switch">
+
+                                    {{ form.enable_gst }}
+
+                                    <span class="slider"></span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+
+                <div class="card-header">
+
+                    <div class="card-icon purple">
+
+                        <i class="fas fa-palette"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Invoice Appearance
+                        </h2>
+
+                        <p>
+                            Choose the information displayed on invoices.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="switch-grid">
+                        <div class="switch-card">
+
+                            <div class="switch-content">
+
+                                <div class="option-icon">
+
+                                    <i class="fas fa-image"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Company Logo
+                                    </strong>
+
+                                    <span>
+                                        Show company logo
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                {{ form.show_company_logo }}
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="switch-card">
+
+                            <div class="switch-content">
+
+                                <div class="option-icon">
+
+                                    <i class="fas fa-location-dot"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Company Address
+                                    </strong>
+
+                                    <span>
+                                        Show company address
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                {{ form.show_company_address }}
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="switch-card">
+
+                            <div class="switch-content">
+
+                                <div class="option-icon">
+
+                                    <i class="fas fa-id-card"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Customer GST
+                                    </strong>
+
+                                    <span>
+                                        Show customer GST number
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                {{ form.show_customer_gst }}
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="switch-card">
+
+                            <div class="switch-content">
+
+                                <div class="option-icon">
+
+                                    <i class="fas fa-receipt"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Tax Breakdown
+                                    </strong>
+
+                                    <span>
+                                        Show GST tax breakdown
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                {{ form.show_tax_breakdown }}
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="switch-card">
+
+                            <div class="switch-content">
+
+                                <div class="option-icon">
+
+                                    <i class="fas fa-credit-card"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Payment Details
+                                    </strong>
+
+                                    <span>
+                                        Show payment information
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                {{ form.show_payment_details }}
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="switch-card">
+
+                            <div class="switch-content">
+
+                                <div class="option-icon">
+
+                                    <i class="fas fa-signature"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Signature
+                                    </strong>
+
+                                    <span>
+                                        Show authorized signature
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                {{ form.show_signature }}
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+
+                <div class="card-header">
+
+                    <div class="card-icon teal">
+
+                        <i class="fas fa-file-lines"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Invoice Text
+                        </h2>
+
+                        <p>
+                            Customize footer messages and invoice terms.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="form-grid">
+
+                        <div class="form-group full-width">
+
+                            <label for="{{ form.invoice_footer.id_for_label }}">
+                                Invoice Footer
+                            </label>
+
+                            {{ form.invoice_footer }}
+
+                            {% if form.invoice_footer.errors %}
+
+                                <div class="field-error">
+                                    {{ form.invoice_footer.errors }}
+                                </div>
+
+                            {% endif %}
+
+                            <small>
+                                Displayed at the bottom of the invoice.
+                            </small>
+
+                        </div>
+
+                        <div class="form-group full-width">
+
+                            <label for="{{ form.invoice_terms.id_for_label }}">
+                                Invoice Terms
+                            </label>
+
+                            {{ form.invoice_terms }}
+
+                            {% if form.invoice_terms.errors %}
+
+                                <div class="field-error">
+                                    {{ form.invoice_terms.errors }}
+                                </div>
+
+                            {% endif %}
+
+                            <small>
+                                Payment terms and conditions displayed
+                                on invoices.
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+
+                <div class="card-header">
+
+                    <div class="card-icon gray">
+
+                        <i class="fas fa-toggle-on"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Settings Status
+                        </h2>
+
+                        <p>
+                            Control whether these invoice settings are active.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="switch-row status-row">
+
+
+                        <div class="switch-label">
+
+                            <label>
+                                Invoice Settings Active
+                            </label>
+
+                            <small>
+                                Enable these settings for your billing system.
+                            </small>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.is_active }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <div class="form-actions">
+                <a href="{% url 'customer_billing_settings' %}"
+                   class="btn btn-secondary">
+
+                    <i class="fas fa-xmark"></i>
+
+                    Cancel
+
+                </a>
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Invoice Settings
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

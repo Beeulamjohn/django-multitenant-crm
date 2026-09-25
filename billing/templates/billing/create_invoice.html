@@ -1,0 +1,148 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      class="{% if appearance.theme == 'dark' %}dark-theme{% else %}light-theme{% endif %}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Create Invoice</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/invoice.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+<div class="container">
+    <div class="header">
+        <h1>
+            <i class="fas fa-file-invoice"></i>
+            Create Invoice
+        </h1>
+        <a href="{% url 'billing_dashboard' %}"
+           class="back-btn">
+            Back
+        </a>
+    </div>
+    <form method="POST"
+          action="{% url 'create_invoice' %}">
+        {% csrf_token %}
+        <div class="card">
+            <div class="input-box">
+    <label for="student">Student</label>
+
+    <select name="student" id="student" required>
+        <option value="">-- Select Student --</option>
+
+        {% for student in students %}
+            <option value="{{ student.id }}">
+                {{ student.first_name }} {{ student.last_name }}
+                ({{ student.admission_number }})
+            </option>
+        {% empty %}
+            <option value="" disabled>No students found</option>
+        {% endfor %}
+    </select>
+
+    {% if students|length == 0 %}
+        <small style="color:red;">
+            No students available. Please add students first.
+        </small>
+    {% endif %}
+</div>
+            <div class="input-box">
+                <label>
+                    Course Fee
+                </label>
+                <input type="number"
+                       name="course_fee"
+                       min="0"
+                       autocomplete="off"
+                       required>
+            </div>
+            <div class="input-box">
+                <label>
+                    Registration Fee
+                </label>
+                <input type="number"
+                       name="registration_fee"
+                       min="0"
+                       autocomplete="off"
+                       value="0">
+            </div>
+            <div class="input-box gst-box">
+                <label>
+                    Apply GST (18%)
+                </label>
+                <input type="checkbox"
+                       name="gst">
+            </div>
+            <div class="input-box">
+                <label>
+                    Payment Type
+                </label>
+                <select name="payment_type"
+                        required>
+                    <option value="Full">
+                        Full Payment
+                    </option>
+                    <option value="Partial">
+                        Partial Payment
+                    </option>
+                    <option value="Split">
+                        Split Payment
+                    </option>
+                    <option value="EMI">
+                        EMI
+                    </option>
+                </select>
+            </div>
+            <div class="input-box">
+                <label>
+                    Amount Paid
+                </label>
+                <input type="number"
+                       name="amount_paid"
+                       min="0"
+                       value="0"
+                       autocomplete="off">
+            </div>
+            <div class="input-box">
+                <label>
+                    Due Date
+                </label>
+                <input type="date"
+                       name="due_date"
+                       autocomplete="off">
+            </div>
+            <button type="submit"
+                    class="save-btn">
+                <i class="fas fa-save"></i>
+                Save Invoice
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

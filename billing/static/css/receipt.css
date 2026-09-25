@@ -1,0 +1,524 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Inter",sans-serif;
+}
+
+body{
+    background:#eef2f8;
+    padding:40px;
+}
+
+.receipt-container{
+
+    max-width:900px;
+
+    margin:auto;
+
+    background:#fff;
+
+    padding:45px;
+
+    border-radius:18px;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+
+}
+
+.receipt-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    margin-bottom:30px;
+
+}
+
+.company h1{
+
+    color:#3b1c35;
+
+    font-size:34px;
+
+    margin-bottom:10px;
+
+}
+
+.company p{
+
+    color:#64748b;
+
+    margin-bottom:5px;
+
+}
+
+.receipt-title{
+
+    text-align:right;
+
+}
+
+.receipt-title h2{
+
+    color:#2563eb;
+
+    font-size:30px;
+
+}
+
+.paid-badge{
+
+    display:inline-block;
+
+    margin-top:15px;
+
+    background:#16a34a;
+
+    color:white;
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.details-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:25px;
+
+    margin:35px 0;
+
+}
+
+.details-grid h4{
+
+    color:#3b1c35;
+
+    margin-bottom:8px;
+
+}
+
+.details-grid p{
+
+    color:#475569;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:20px;
+
+}
+
+thead{
+
+    background:#3b1c35;
+
+    color:white;
+
+}
+
+th{
+
+    padding:16px;
+
+    text-align:left;
+
+}
+
+td{
+
+    padding:16px;
+
+    border-bottom:1px solid #e2e8f0;
+
+}
+
+.amount{
+
+    color:#16a34a;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+}
+
+.summary{
+
+    margin-top:30px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+}
+
+.summary table{
+
+    width:320px;
+
+}
+
+.summary td{
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+.signature-section{
+
+    margin-top:70px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    text-align:center;
+
+}
+
+.signature-section span{
+
+    color:#64748b;
+
+}
+
+.footer{
+
+    margin-top:50px;
+
+    text-align:center;
+
+    color:#64748b;
+
+    font-size:14px;
+
+}
+
+.buttons{
+
+    margin-top:40px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+}
+
+.back-btn{
+
+    background:#3b1c35;
+
+    color:white;
+
+    padding:14px 24px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+}
+
+.print-btn{
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:14px 24px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+.back-btn:hover{
+
+    background:#1f2937;
+
+}
+
+.print-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+@media print{
+
+    body{
+
+        background:white;
+
+        padding:0;
+
+    }
+
+    .receipt-container{
+
+        box-shadow:none;
+
+        border-radius:0;
+
+        width:100%;
+
+        max-width:100%;
+
+    }
+
+    .no-print{
+
+        display:none;
+
+    }
+
+}
+
+@media (max-width:1200px){
+
+    body{
+        padding:25px;
+    }
+
+    .receipt-container{
+        padding:35px;
+    }
+
+    .company h1{
+        font-size:30px;
+    }
+
+    .receipt-title h2{
+        font-size:28px;
+    }
+
+}
+
+
+@media (max-width:992px){
+
+    body{
+        padding:20px;
+    }
+
+    .receipt-container{
+        padding:30px;
+    }
+
+    .receipt-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:25px;
+    }
+
+    .receipt-title{
+        text-align:left;
+        width:100%;
+    }
+
+    .details-grid{
+        grid-template-columns:1fr;
+        gap:20px;
+    }
+
+    .summary{
+        justify-content:flex-start;
+    }
+
+    .summary table{
+        width:100%;
+        max-width:350px;
+    }
+
+}
+@media (max-width:768px){
+
+    body{
+        padding:15px;
+    }
+
+    .receipt-container{
+        padding:25px 20px;
+        border-radius:14px;
+    }
+
+    .company h1{
+        font-size:26px;
+    }
+
+    .receipt-title h2{
+        font-size:24px;
+    }
+
+    .paid-badge{
+        font-size:13px;
+        padding:7px 16px;
+    }
+
+    .details-grid{
+        grid-template-columns:1fr;
+    }
+
+    table{
+        display:block;
+        overflow-x:auto;
+        white-space:nowrap;
+    }
+
+    th,
+    td{
+        padding:14px;
+        font-size:14px;
+    }
+
+    .summary{
+        width:100%;
+    }
+
+    .summary table{
+        width:100%;
+    }
+
+    .summary td{
+        font-size:16px;
+    }
+
+    .signature-section{
+        justify-content:center;
+        margin-top:50px;
+    }
+
+    .buttons{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .back-btn,
+    .print-btn{
+        width:100%;
+        text-align:center;
+    }
+
+}
+
+@media (max-width:576px){
+
+    body{
+        padding:10px;
+    }
+
+    .receipt-container{
+        padding:18px;
+        border-radius:12px;
+    }
+
+    .company h1{
+        font-size:22px;
+    }
+
+    .company p{
+        font-size:14px;
+    }
+
+    .receipt-title h2{
+        font-size:20px;
+    }
+
+    .paid-badge{
+        font-size:12px;
+        padding:6px 14px;
+    }
+
+    .details-grid h4{
+        font-size:15px;
+    }
+
+    .details-grid p{
+        font-size:14px;
+    }
+
+    th,
+    td{
+        padding:12px;
+        font-size:13px;
+    }
+
+    .amount{
+        font-size:17px;
+    }
+
+    .summary td{
+        font-size:15px;
+    }
+
+    .footer{
+        font-size:13px;
+    }
+
+    .back-btn,
+    .print-btn{
+        padding:12px 18px;
+        font-size:14px;
+    }
+
+}
+@media (max-width:400px){
+
+    .receipt-container{
+        padding:15px;
+    }
+
+    .company h1{
+        font-size:20px;
+    }
+
+    .receipt-title h2{
+        font-size:18px;
+    }
+
+    .paid-badge{
+        width:100%;
+        text-align:center;
+    }
+
+    .buttons{
+        gap:10px;
+    }
+
+    .back-btn,
+    .print-btn{
+        font-size:13px;
+        padding:11px;
+    }
+
+}

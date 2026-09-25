@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+    <title>Get Started | FlowTenant</title>
+    <link rel="stylesheet" href="{% static 'css/get.css' %}">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+<section class="start-section">
+    <div class="left-side">
+        <span class="tag">
+            🚀 Multi-Tenant SaaS Platform
+        </span>
+        <h1>
+            Build and Manage Your Business
+            With <span>FlowTenant</span>
+        </h1>
+        <p>
+            Manage customers, students, employees,
+            billing, payroll and analytics from one
+            centralized cloud platform designed for
+            modern businesses.
+        </p>
+        <div class="steps">
+            <div class="step">
+                <i class="fa-solid fa-user-plus"></i>
+                <div>
+                    <h3>Create Account</h3>
+                    <p>
+                        Register your company in seconds.
+                    </p>
+                </div>
+            </div>
+            <div class="step">
+                <i class="fa-solid fa-building"></i>
+                <div>
+                    <h3>Setup Workspace</h3>
+                    <p>
+                        Add company information and teams.
+                    </p>
+                </div>
+            </div>
+            <div class="step">
+                <i class="fa-solid fa-chart-line"></i>
+                <div>
+                    <h3>Start Growing</h3>
+                    <p>
+                        Access CRM, Billing and Analytics.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <a href="{% url 'features' %}" class="btn-primary">
+    Start 
+</a>
+            <a href="{% url 'home' %}"
+               class="btn-secondary">
+                 Back Home
+            </a>
+        </div>
+    </div>
+    <div class="right-side">
+        <img src="{% static 'images/dash.jpg' %}"
+             alt="FlowTenant Dashboard">
+    </div>
+</section>
+</body>
+</html>

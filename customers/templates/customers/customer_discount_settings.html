@@ -1,0 +1,886 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ appearance_settings.theme|default:'light' }}"
+    data-font-size="medium"
+    data-dashboard-layout="grid"
+    data-sidebar-style="expanded"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <style>
+        :root {
+            --accent-color: {{ appearance_settings.accent_color|default:'#2563eb' }};
+            --primary: var(--accent-color);
+        }
+    </style>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Discount Settings | FlowTenant</title>
+
+    
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/customer_discount_settings.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="settings-page">
+
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <ul>
+
+
+                <li>
+
+                    <a href="{% url 'customer_billing_settings' %}">
+
+                        <i class="fas fa-home"></i>
+
+                        <span>
+                            Billing Settings Dashboard
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'customer_company_profile' %}">
+
+                        <i class="fas fa-building"></i>
+
+                        <span>
+                            Company Profile
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'customer_invoice_settings' %}">
+
+                        <i class="fas fa-file-invoice"></i>
+
+                        <span>
+                            Invoice Settings
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'customer_payment_settings' %}">
+
+                        <i class="fas fa-credit-card"></i>
+
+                        <span>
+                            Payment Settings
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'customer_tax_gst_settings' %}">
+
+                        <i class="fas fa-percent"></i>
+
+                        <span>
+                            Tax &amp; GST
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="active">
+
+                    <a href="{% url 'customer_discount_settings' %}">
+
+                        <i class="fas fa-tags"></i>
+
+                        <span>
+                            Discount Settings
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'customer_notification_settings' %}">
+
+                        <i class="fas fa-bell"></i>
+
+                        <span>
+                            Notifications
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'customer_invoice_appearance' %}">
+
+                        <i class="fas fa-palette"></i>
+
+                        <span>
+                            Invoice Appearance
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'customer_bank_payment_settings' %}">
+
+                        <i class="fas fa-building-columns"></i>
+
+                        <span>
+                            Bank &amp; Payment
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'customer_security_settings' %}">
+
+                        <i class="fas fa-shield-halved"></i>
+
+                        <span>
+                            Security
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+
+
+            </ul>
+
+        </nav>
+
+
+
+
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+
+
+            <div class="header-left">
+
+
+                <div class="breadcrumb">
+
+                    <span>
+                        Billing
+                    </span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <strong>
+                        Discount Settings
+                    </strong>
+
+                </div>
+
+
+                <h1>
+                    Discount Settings
+                </h1>
+
+
+                <p>
+                    Configure customer discounts, discount limits
+                    and invoice discount preferences.
+                </p>
+
+
+            </div>
+
+
+
+
+        </header>
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        <span>
+                            {{ message }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <section class="settings-section">
+
+
+                <div class="section-header">
+
+                    <div class="section-title-icon">
+
+                        <i class="fas fa-tags"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Discount Configuration
+                        </h2>
+
+                        <p>
+                            Enable discounts and configure the
+                            default discount behavior.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-card">
+
+                    <div class="settings-row">
+
+                        <div class="setting-info">
+
+                            <h3>
+                                Enable Discounts
+                            </h3>
+
+                            <p>
+                                Allow discounts to be applied
+                                to customer invoices.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.enable_discount }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Default Discount Type
+                            </label>
+
+                            {{ form.default_discount_type }}
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Default Discount Value
+                            </label>
+
+                            {{ form.default_discount_value }}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+            <section class="settings-section">
+
+
+                <div class="section-header">
+
+                    <div class="section-title-icon">
+
+                        <i class="fas fa-sliders"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Discount Limits
+                        </h2>
+
+                        <p>
+                            Set the maximum discount amount that
+                            users can apply.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-card">
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Maximum Discount Percentage
+                            </label>
+
+                            <div class="input-with-symbol">
+
+                                {{ form.maximum_discount_percentage }}
+
+                                <span>%</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Maximum Discount Amount
+                            </label>
+
+                            <div class="input-with-symbol">
+
+                                {{ form.maximum_discount_amount }}
+
+                                <span>₹</span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+            <section class="settings-section">
+
+
+                <div class="section-header">
+
+                    <div class="section-title-icon">
+
+                        <i class="fas fa-user-shield"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Discount Permissions
+                        </h2>
+
+                        <p>
+                            Control where and how discounts can
+                            be applied.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-card">
+
+
+                    <div class="settings-row">
+
+                        <div class="setting-info">
+
+                            <h3>
+                                Invoice Discount
+                            </h3>
+
+                            <p>
+                                Allow discounts on the complete
+                                invoice.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.allow_invoice_discount }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="settings-row">
+
+                        <div class="setting-info">
+
+                            <h3>
+                                Item Discount
+                            </h3>
+
+                            <p>
+                                Allow discounts on individual
+                                invoice items.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.allow_item_discount }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="settings-row">
+
+                        <div class="setting-info">
+
+                            <h3>
+                                Manual Discount
+                            </h3>
+
+                            <p>
+                                Allow staff to manually enter
+                                discount values.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.allow_manual_discount }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="settings-row">
+
+                        <div class="setting-info">
+
+                            <h3>
+                                Require Discount Reason
+                            </h3>
+
+                            <p>
+                                Require a reason whenever a
+                                discount is applied.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.require_discount_reason }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+            <section class="settings-section">
+
+
+                <div class="section-header">
+
+                    <div class="section-title-icon">
+
+                        <i class="fas fa-file-invoice-dollar"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Discount &amp; Tax
+                        </h2>
+
+                        <p>
+                            Configure how discounts interact with
+                            tax calculations.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-card">
+
+
+                    <div class="settings-row">
+
+                        <div class="setting-info">
+
+                            <h3>
+                                Apply Discount Before Tax
+                            </h3>
+
+                            <p>
+                                Deduct the discount before
+                                calculating GST and other taxes.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.apply_discount_before_tax }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="settings-row">
+
+                        <div class="setting-info">
+
+                            <h3>
+                                Show Discount on Invoice
+                            </h3>
+
+                            <p>
+                                Display discount details on
+                                customer invoices.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.show_discount_on_invoice }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="settings-row">
+
+                        <div class="setting-info">
+
+                            <h3>
+                                Show Discount Percentage
+                            </h3>
+
+                            <p>
+                                Display the discount percentage
+                                on invoices.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.show_discount_percentage }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+            <section class="settings-section">
+
+
+                <div class="section-header">
+
+                    <div class="section-title-icon">
+
+                        <i class="fas fa-user-gear"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Discount Management
+                        </h2>
+
+                        <p>
+                            Control whether existing discounts
+                            can be modified or removed.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-card">
+
+
+                    <div class="settings-row">
+
+                        <div class="setting-info">
+
+                            <h3>
+                                Allow Discount Edit
+                            </h3>
+
+                            <p>
+                                Allow users to edit discounts
+                                after they are created.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.allow_discount_edit }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="settings-row">
+
+                        <div class="setting-info">
+
+                            <h3>
+                                Allow Discount Delete
+                            </h3>
+
+                            <p>
+                                Allow users to remove existing
+                                discounts.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.allow_discount_delete }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="settings-row">
+
+                        <div class="setting-info">
+
+                            <h3>
+                                Settings Active
+                            </h3>
+
+                            <p>
+                                Enable these discount settings
+                                for the company.
+                            </p>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            {{ form.is_active }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+            <div class="form-actions">
+
+
+                <button
+                    type="reset"
+                    class="btn btn-secondary"
+                >
+
+                    <i class="fas fa-rotate-left"></i>
+
+                    Reset
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+
+                    <i class="fas fa-save"></i>
+
+                    Save Discount Settings
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

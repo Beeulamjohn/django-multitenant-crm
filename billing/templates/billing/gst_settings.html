@@ -1,0 +1,190 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      class="{% if appearance.theme == 'dark' %}dark-theme{% else %}light-theme{% endif %}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+
+<title>GST Settings</title>
+    <link rel="stylesheet"
+          href="{% static 'css/gst.css' %}">
+          
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+
+        }
+
+    </style>
+
+</head>
+<body class="lotter">
+<div class="container">
+    <div class="header">
+        <h1>
+            <i class="fas fa-percent"></i>
+            GST Settings
+        </h1>
+        <a href="{% url 'billing_dashboard' %}"
+           class="back-btn">
+            Back
+        </a>
+    </div>
+    <div class="card">
+        <h2>GST Configuration</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="input-box">
+                    <label>GST Number</label>
+                    <input type="text"
+                           name="gst_number"
+                           placeholder="29ABCDE1234F1Z5"
+                           value="{{ gst.gst_number }}">
+                </div>
+                <div class="input-box">
+                    <label>CGST (%)</label>
+                    <input type="number"
+                           step="0.01"
+                           name="cgst"
+                           value="{{ gst.cgst|default:'9' }}"
+                           required>
+                </div>
+                <div class="input-box">
+                    <label>SGST (%)</label>
+                    <input type="number"
+                           step="0.01"
+                           name="sgst"
+                           value="{{ gst.sgst|default:'9' }}"
+                           required>
+                </div>
+                <div class="input-box">
+                    <label>IGST (%)</label>
+                    <input type="number"
+                           step="0.01"
+                           name="igst"
+                           value="{{ gst.igst|default:'18' }}"
+                           required>
+                </div>
+                <div class="input-box">
+                    <label>GST Status</label>
+                    <select name="is_active">
+                        <option value="on"
+                                {% if gst.is_active %}
+                                selected
+                                {% endif %}>
+                            Enabled
+                        </option>
+                        <option value=""
+                                {% if not gst.is_active %}
+                                selected
+                                {% endif %}>
+                            Disabled
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit"
+                    class="save-btn">
+                <i class="fas fa-save"></i>
+                Save GST Settings
+            </button>
+        </form>
+    </div>
+    <div class="card">
+
+    <div class="table-header">
+        <h2>Current GST Information</h2>
+    </div>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>GST Number</th>
+                <th>CGST</th>
+                <th>SGST</th>
+                <th>IGST</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% if gst %}
+            <tr>
+
+                <td>{{ gst.gst_number }}</td>
+
+                <td>{{ gst.cgst }}%</td>
+
+                <td>{{ gst.sgst }}%</td>
+
+                <td>{{ gst.igst }}%</td>
+
+                <td>
+                    {% if gst.is_active %}
+                        <span class="active">
+                            Enabled
+                        </span>
+                    {% else %}
+                        <span class="inactive">
+                            Disabled
+                        </span>
+                    {% endif %}
+                </td>
+
+                <td class="actions">
+
+                    <a href="{% url 'edit_gst_settings' %}"
+                       class="edit-btn"
+                       title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </a>
+
+                    <a href="{% url 'delete_gst_settings' %}"
+                       class="delete-btn"
+                       onclick="return confirm('Are you sure you want to delete GST Settings?')"
+                       title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% else %}
+
+            <tr>
+
+                <td colspan="6" style="text-align:center;">
+                    No GST Settings Found
+                </td>
+
+            </tr>
+
+            {% endif %}
+
+        </tbody>
+
+    </table>
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme|default:'light' }}"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Payment Management | FlowTenant CRM</title>
+    <style>
+        :root {
+            --accent-color:
+                {{ accent_color|default:'#2563eb' }};
+            --primary:
+                var(--accent-color);
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/gst_settings_list.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+
+            <h1>
+                <i class="fas fa-file-invoice-dollar"></i>
+                Customer GST Settings
+            </h1>
+
+            <p>
+                Manage GST configuration for your company.
+            </p>
+
+        </div>
+
+        <div class="header-buttons">
+
+            <a href="{% url 'product_dashboard' %}" class="btn-back">
+
+                Back
+
+            </a>
+
+            <a href="{% url 'settings' %}" class="btn-add">
+
+                <i class="fas fa-plus"></i>
+
+                Add / Edit GST
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>No</th>
+
+                <th>Company</th>
+
+                <th>GST Number</th>
+
+                <th>PAN</th>
+
+                <th>Business Type</th>
+
+                <th>State</th>
+
+                <th>State Code</th>
+
+                <th>CGST</th>
+
+                <th>SGST</th>
+
+                <th>IGST</th>
+
+                <th>Contact</th>
+
+                <th>Phone</th>
+
+                <th>Status</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for gst in settings %}
+
+            <tr>
+
+                <td>{{ forloop.counter }}</td>
+
+                <td>{{ gst.company_name }}</td>
+
+                <td>{{ gst.gst_number }}</td>
+
+                <td>{{ gst.pan_number }}</td>
+
+                <td>{{ gst.business_type }}</td>
+
+                <td>{{ gst.state }}</td>
+
+                <td>{{ gst.state_code }}</td>
+
+                <td>{{ gst.cgst }}%</td>
+
+                <td>{{ gst.sgst }}%</td>
+
+                <td>{{ gst.igst }}%</td>
+
+                <td>{{ gst.contact_person }}</td>
+
+                <td>{{ gst.phone }}</td>
+
+                <td>
+
+                    {% if gst.is_active %}
+                        <span class="badge active">Active</span>
+                    {% else %}
+                        <span class="badge inactive">Inactive</span>
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    <a href="{% url 'settings' %}" class="btn-edit" title="Edit">
+
+                        <i class="fas fa-edit"></i>
+
+                    </a>
+
+                    <a href="{% url 'delete_gst' gst.id %}"
+                       class="btn-delete"
+                       title="Delete"
+                       onclick="return confirm('Are you sure you want to delete this GST setting?');">
+
+                        <i class="fas fa-trash"></i>
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="14" class="empty">
+
+                    <i class="fas fa-folder-open fa-2x"></i>
+
+                    <br><br>
+
+                    No Customer GST Settings Found.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

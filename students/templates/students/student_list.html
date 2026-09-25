@@ -1,0 +1,238 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Student List</title> 
+    <link
+        rel="stylesheet"
+        href="{% static 'css/list.css' %}">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    >
+
+</head>
+
+
+
+   
+<body class="minter">
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1>
+                <i class="fa-solid fa-user-graduate"></i>
+                Student Management
+            </h1>
+            <p>
+                Manage all student records
+            </p>
+        </div>
+        <div class="header-buttons">
+        <a href="{% url 'company_dashboard' %}"
+   class="back-btn">
+    Back
+</a>
+        <a href="{% url 'student_create' %}"
+           class="add-btn">
+            <i class="fa-solid fa-plus"></i>
+            Add Student
+        </a>
+    </div>
+</div>
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Student ID</th>
+                    <th>Admission No</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>DOB</th>
+                    <th>Gender</th>
+                    <th>Father Name</th>
+                    <th>Mother Name</th>
+                    <th>Parent Mobile</th>
+                    <th>Mobile</th>
+                    <th>Course</th>
+                    <th>Department</th>
+                    <th>Batch</th>
+                    <th>Roll Number</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Country</th>
+                    <th>Pincode</th>
+                    <th>Semester</th>
+                    <th>Aadhaar</th>
+                    <th>Birth Certificate</th>
+                    <th>Marksheet</th>
+                    <th>Transfer Certificate</th>
+                    <th>Status</th>  
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for student in students %}
+                <tr>
+                    <td>
+                        {% if student.photo %}
+                            <img src="{{ student.photo.url }}"
+                                 class="student-img">
+                        {% else %}
+                            <img src="{% static 'images/user.png' %}"
+                                 class="student-img">
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ student.student_id }}
+                    </td>
+                    <td>
+                        {{ student.admission_number }}
+                    </td>
+                    <td>
+                        {{ student.first_name }}
+                        {{ student.last_name }}
+                    </td>
+                    <td>
+                        {{ student.address }}
+                    </td>
+                    <td>
+                        {{ student.email }}
+                    </td>
+                    <td>
+                        {{ student.dob }}
+                    </td>
+                    <td>
+                        {{ student.gender }}
+                    </td>
+                    <td>
+                        {{ student.father_name }}
+                    </td>
+                    <td>
+                        {{ student.mother_name }}
+                    </td>
+                    <td>
+                        {{ student.parent_mobile }}
+                    </td>
+                    <td>
+                        {{ student.mobile }}
+                    </td>
+                    <td>
+                        {{ student.course }}
+                    </td>
+                    <td>
+                        {{ student.department }}
+                    </td>
+                    <td>
+                        {{ student.batch }}
+                    </td>
+                    <td>
+                        {{ student.roll_number }}
+                    </td>
+                    <td>
+                        {{ student.city }}
+                    </td>
+                    <td>
+                        {{ student.state }}
+                    </td>
+                    <td>
+                        {{ student.country }}
+                    </td>
+                    <td>
+                        {{ student.pincode }}
+                    </td>
+                    <td>
+                        {{ student.semester }}
+                    </td>
+                    <td>
+    {% if student.aadhaar %}
+        <a href="{{ student.aadhaar.url }}" target="_blank">
+            <i class="fa-solid fa-file"></i> View
+        </a>
+    {% else %}
+        Not Uploaded
+    {% endif %}
+</td>
+
+<td>
+    {% if student.birth_certificate %}
+        <a href="{{ student.birth_certificate.url }}" target="_blank">
+            <i class="fa-solid fa-file"></i> View
+        </a>
+    {% else %}
+        Not Uploaded
+    {% endif %}
+</td>
+
+<td>
+    {% if student.marksheet %}
+        <a href="{{ student.marksheet.url }}" target="_blank">
+            <i class="fa-solid fa-file"></i> View
+        </a>
+    {% else %}
+        Not Uploaded
+    {% endif %}
+</td>
+
+<td>
+    {% if student.transfer_certificate %}
+        <a href="{{ student.transfer_certificate.url }}" target="_blank">
+            <i class="fa-solid fa-file"></i> View
+        </a>
+    {% else %}
+        Not Uploaded
+    {% endif %}
+</td>
+                    <td>
+                        <span class="status">
+                            {{ student.status }}
+                        </span>
+                    </td>
+                    <td class="actions">
+                        <a href="{% url 'student_update' student.id %}"
+                           class="edit-btn">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                        <a href="{% url 'student_delete' student.id %}"
+                           class="delete-btn">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="10">
+                        No Students Found
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

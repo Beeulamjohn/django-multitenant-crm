@@ -1,0 +1,406 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme|default:'light' }}"
+    style="--accent-color: {{ accent_color|default:'#2563eb' }};"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Product | FlowTenant</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/product_form.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="top-bar">
+
+        <div>
+
+            <h1>Add New Product</h1>
+
+            <p>
+                Create and manage products for billing and inventory.
+            </p>
+
+        </div>
+
+        <a
+            href="{% url 'product_dashboard' %}"
+            class="back-btn"
+        >
+            Back
+        </a>
+
+    </div>
+
+
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+    >
+
+        {% csrf_token %}
+
+
+        <!-- BASIC INFORMATION -->
+
+        <div class="card">
+
+            <h2>Basic Information</h2>
+
+            <div class="grid">
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Product Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="sku">
+                        SKU Code
+                    </label>
+
+                    <input
+                        type="text"
+                        id="sku"
+                        name="sku"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="Electronics">
+                            Electronics
+                        </option>
+
+                        <option value="Stationery">
+                            Stationery
+                        </option>
+
+                        <option value="Books">
+                            Books
+                        </option>
+
+                        <option value="Furniture">
+                            Furniture
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="brand">
+                        Brand
+                    </label>
+
+                    <input
+                        type="text"
+                        id="brand"
+                        name="brand"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRICING -->
+
+        <div class="card">
+
+            <h2>Pricing</h2>
+
+            <div class="grid">
+
+                <div class="form-group">
+
+                    <label for="purchase_price">
+                        Purchase Price
+                    </label>
+
+                    <input
+                        type="number"
+                        id="purchase_price"
+                        name="purchase_price"
+                        step="0.01"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="selling_price">
+                        Selling Price
+                    </label>
+
+                    <input
+                        type="number"
+                        id="selling_price"
+                        name="selling_price"
+                        step="0.01"
+                        min="0"
+                        value="0"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="gst">
+                        GST (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="gst"
+                        name="gst"
+                        step="0.01"
+                        min="0"
+                        max="100"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="discount">
+                        Discount (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="discount"
+                        name="discount"
+                        step="0.01"
+                        min="0"
+                        max="100"
+                        value="0"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INVENTORY -->
+
+        <div class="card">
+
+            <h2>Inventory</h2>
+
+            <div class="grid">
+
+                <div class="form-group">
+
+                    <label for="stock">
+                        Stock Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="stock"
+                        name="stock"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="minimum_stock">
+                        Minimum Stock
+                    </label>
+
+                    <input
+                        type="number"
+                        id="minimum_stock"
+                        name="minimum_stock"
+                        min="0"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="supplier">
+                        Supplier
+                    </label>
+
+                    <input
+                        type="text"
+                        id="supplier"
+                        name="supplier"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="status">
+                        Status
+                    </label>
+
+                    <select
+                        id="status"
+                        name="status"
+                    >
+
+                        <option value="Available">
+                            Available
+                        </option>
+
+                        <option value="Out of Stock">
+                            Out of Stock
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ADDITIONAL DETAILS -->
+
+        <div class="card">
+
+            <h2>Additional Details</h2>
+
+            <div class="grid">
+
+                <div class="form-group full">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="5"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label for="image">
+                        Product Image
+                    </label>
+
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+            <a
+                href="{% url 'product_list' %}"
+                class="cancel-btn"
+            >
+                Cancel
+            </a>
+
+
+            <button
+                type="submit"
+                class="save-btn"
+            >
+
+                <i class="fas fa-save"></i>
+
+                Save Product
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

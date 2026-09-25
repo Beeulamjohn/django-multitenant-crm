@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+    lang="{{ settings.language|default:'en' }}"
+    data-theme="{{ settings.theme|default:'light' }}"
+    data-font-size="{{ settings.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ settings.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ settings.sidebar_style|default:'expanded' }}"
+>
+<head>
+ <style>
+        :root {
+            --accent-color: {{ settings.accent_color|default:"#2563eb" }};
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>delete</title>
+    <link rel="stylesheet" href="{% static 'css/document.css' %}">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h3>Upload Document</h3>
+        </div>
+
+        <div class="card-body">
+
+            <h5>
+
+                Student :
+
+                {{ student.first_name }}
+                {{ student.last_name }}
+
+            </h5>
+
+            <hr>
+
+            <form method="POST"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button class="btn btn-primary">
+                    Upload
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,195 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Mark Attendance</title>
+     <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+
+    <link rel="stylesheet"
+          href="{% static 'css/mark_attendance.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <div class="heading">
+
+            <i class="fas fa-calendar-check icon"></i>
+
+            <div>
+
+                <h1>Mark Attendance</h1>
+
+                <p>Record employee daily attendance</p>
+
+            </div>
+
+        </div>
+
+        <a href="{% url 'salary_dashboard' %}" class="back-btn">
+
+
+            Back
+
+        </a>
+
+    </div>
+
+    <!-- Form Card -->
+
+    <div class="card">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="grid">
+
+                <div class="form-group">
+
+                    <label>Employee</label>
+
+                    <select name="employee" required>
+
+                        <option value="">Select Employee</option>
+
+                        {% for employee in employees %}
+
+                        <option value="{{ employee.id }}">
+
+                            {{ employee.name }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Date</label>
+
+                    <input
+                        type="date"
+                        name="date"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Status</label>
+
+                    <select
+                        name="status"
+                        required>
+
+                        <option value="Present">Present</option>
+
+                        <option value="Absent">Absent</option>
+
+                        <option value="Leave">Leave</option>
+
+                        <option value="Half Day">Half Day</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Check In</label>
+
+                    <input
+                        type="time"
+                        name="check_in">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Check Out</label>
+
+                    <input
+                        type="time"
+                        name="check_out">
+
+                </div>
+
+                <div class="form-group full">
+
+                    <label>Remarks</label>
+
+                    <textarea
+                        name="remarks"
+                        rows="4"
+                        placeholder="Enter remarks..."></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="buttons">
+
+                <button
+                    type="reset"
+                    class="reset-btn">
+
+                    <i class="fas fa-rotate-left"></i>
+
+                    Reset
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-btn">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Attendance
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

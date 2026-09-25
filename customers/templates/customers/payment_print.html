@@ -1,0 +1,218 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Payment Receipt | {{ company.company_name }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/payment_print.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="receipt">
+
+
+    <div class="receipt-header">
+
+        <h1>
+            {{ company.company_name }}
+        </h1>
+
+        <p>
+            Payment Receipt
+        </p>
+
+    </div>
+
+
+    <table class="receipt-table">
+
+
+        <tr>
+
+            <th>
+                Receipt Number
+            </th>
+
+            <td>
+                {{ payment.receipt_number }}
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <th>
+                Customer Name
+            </th>
+
+            <td>
+                {{ payment.customer.name }}
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <th>
+                Invoice
+            </th>
+
+            <td>
+
+                {% if payment.invoice %}
+
+                    {{ payment.invoice }}
+
+                {% else %}
+
+                    -
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <th>
+                Payment Date
+            </th>
+
+            <td>
+                {{ payment.payment_date|date:"d M Y" }}
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <th>
+                Amount
+            </th>
+
+            <td>
+                <strong>
+                    ₹{{ payment.amount }}
+                </strong>
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <th>
+                Payment Method
+            </th>
+
+            <td>
+                {{ payment.payment_method }}
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <th>
+                Status
+            </th>
+
+            <td>
+                {{ payment.status }}
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <th>
+                Notes
+            </th>
+
+            <td>
+
+                {% if payment.notes %}
+
+                    {{ payment.notes }}
+
+                {% else %}
+
+                    -
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+
+    <div class="footer">
+
+        <p>
+            Thank you for your payment.
+        </p>
+
+    </div>
+
+
+    <div class="button-group">
+
+
+        <button
+            type="button"
+            class="print-btn"
+            onclick="window.print();"
+        >
+
+            Print Receipt
+
+        </button>
+
+
+        <a
+            href="{% url 'customer_payment_list' %}"
+            class="back-btn"
+        >
+
+            Back
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

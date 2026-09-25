@@ -1,0 +1,799 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ appearance_settings.theme|default:'light' }}"
+    data-font-size="medium"
+    data-dashboard-layout="grid"
+    data-sidebar-style="expanded"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Invoice Appearance | FlowTenant</title>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance_settings.accent_color|default:'#2563eb' }};
+            --primary: var(--accent-color);
+        }
+    </style>
+
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Security Settings | FlowTenant</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/customer_security_settings.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<div class="settings-page">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            <div class="logo-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+
+            <div>
+                <h2>Settings</h2>
+                
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <ul>
+
+                <li>
+                    <a href="{% url 'product_dashboard' %}">
+                        <i class="fas fa-home"></i>
+                        <span>Billing Dashboard</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_company_profile' %}">
+                        <i class="fas fa-building"></i>
+                        <span>Company Profile</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_invoice_settings' %}">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Invoice Settings</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_payment_settings' %}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment Settings</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_tax_gst_settings' %}">
+                        <i class="fas fa-percent"></i>
+                        <span>Tax &amp; GST</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_discount_settings' %}">
+                        <i class="fas fa-tags"></i>
+                        <span>Discount Settings</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_notification_settings' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_invoice_appearance' %}">
+                        <i class="fas fa-palette"></i>
+                        <span>Invoice Appearance</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'customer_bank_payment_settings' %}">
+                        <i class="fas fa-building-columns"></i>
+                        <span>Bank &amp; Payment</span>
+                    </a>
+                </li>
+
+
+                <!-- ACTIVE -->
+
+                <li class="active">
+
+                    <a href="{% url 'customer_security_settings' %}">
+
+                        <i class="fas fa-shield-halved"></i>
+
+                        <span>Security</span>
+
+                    </a>
+
+                </li>
+
+
+                
+
+            </ul>
+
+        </nav>
+
+
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+        <header class="page-header">
+
+            <div>
+
+                <div class="breadcrumb">
+
+                    <span>Billing</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <strong>Security</strong>
+
+                </div>
+
+
+                <h1>
+                    Security Settings
+                </h1>
+
+                <p>
+                    Manage password, login, session and security
+                    preferences for your customer billing account.
+                </p>
+
+            </div>
+
+
+        </header>
+
+
+        <!-- MESSAGES -->
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message success">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        <span>{{ message }}</span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- FORM -->
+
+        <form
+            method="POST"
+            class="security-form"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- PASSWORD SECURITY -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Password Security</h2>
+
+                        <p>
+                            Configure password requirements for
+                            customer account access.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <h3>Require Strong Password</h3>
+
+                        <p>
+                            Require users to follow the configured
+                            password rules.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+
+                        {{ form.require_strong_password }}
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Minimum Password Length
+                        </label>
+
+                        {{ form.password_min_length }}
+
+                        {% if form.password_min_length.errors %}
+                            <small class="error">
+                                {{ form.password_min_length.errors.0 }}
+                            </small>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-options">
+
+                    <div class="setting-row">
+
+                        <div>
+                            <h3>Uppercase Letter</h3>
+                            <p>Require at least one uppercase letter.</p>
+                        </div>
+
+                        <label class="switch">
+                            {{ form.require_uppercase }}
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+                            <h3>Lowercase Letter</h3>
+                            <p>Require at least one lowercase letter.</p>
+                        </div>
+
+                        <label class="switch">
+                            {{ form.require_lowercase }}
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+                            <h3>Number</h3>
+                            <p>Require at least one numeric character.</p>
+                        </div>
+
+                        <label class="switch">
+                            {{ form.require_number }}
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+                            <h3>Special Character</h3>
+                            <p>Require a special character.</p>
+                        </div>
+
+                        <label class="switch">
+                            {{ form.require_special_character }}
+                            <span class="slider"></span>
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SESSION SECURITY -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Session Security</h2>
+
+                        <p>
+                            Control how long inactive sessions remain
+                            active.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <h3>Automatic Session Timeout</h3>
+
+                        <p>
+                            Automatically expire inactive sessions.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+
+                        {{ form.session_timeout_enabled }}
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Session Timeout
+                        </label>
+
+                        {{ form.session_timeout_minutes }}
+
+                        <small>
+                            Minutes before an inactive session expires.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <h3>Allow Multiple Sessions</h3>
+
+                        <p>
+                            Allow the same user to remain logged in
+                            from multiple devices.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+
+                        {{ form.allow_multiple_sessions }}
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- LOGIN PROTECTION -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Login Protection</h2>
+
+                        <p>
+                            Protect customer accounts against repeated
+                            failed login attempts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <h3>Limit Login Attempts</h3>
+
+                        <p>
+                            Restrict repeated failed login attempts.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+
+                        {{ form.login_attempt_limit_enabled }}
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Maximum Login Attempts
+                        </label>
+
+                        {{ form.max_login_attempts }}
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- TWO FACTOR -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-mobile-screen-button"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Two-Factor Authentication</h2>
+
+                        <p>
+                            Add an additional verification step to
+                            improve account security.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <h3>Enable Two-Factor Authentication</h3>
+
+                        <p>
+                            Require an additional authentication step
+                            when supported by your login system.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+
+                        {{ form.two_factor_enabled }}
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- SECURITY ALERTS -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Security Alerts</h2>
+
+                        <p>
+                            Choose which security events should generate
+                            notifications.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-options">
+
+                    <div class="setting-row">
+
+                        <div>
+
+                            <h3>Login Alerts</h3>
+
+                            <p>
+                                Notify users when a login occurs.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            {{ form.login_alerts }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+
+                            <h3>Password Change Alerts</h3>
+
+                            <p>
+                                Notify users when their password changes.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            {{ form.password_change_alerts }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+
+                            <h3>Suspicious Login Alerts</h3>
+
+                            <p>
+                                Notify users about suspicious login
+                                activity.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            {{ form.suspicious_login_alerts }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-row">
+
+                        <div>
+
+                            <h3>Logout Sessions After Password Change</h3>
+
+                            <p>
+                                Sign out existing sessions after a
+                                password change.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            {{ form.force_logout_after_password_change }}
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- STATUS -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-toggle-on"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Security Status</h2>
+
+                        <p>
+                            Enable or disable these customer security
+                            preferences.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <h3>Enable Security Settings</h3>
+
+                        <p>
+                            Apply these security settings to your
+                            customer billing system.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+
+                        {{ form.is_active }}
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'product_dashboard' %}"
+                    class="btn btn-secondary"
+                >
+
+                    <i class="fas fa-arrow-left"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+
+                    <i class="fas fa-save"></i>
+
+                    Save Security Settings
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Delete Payment</title>
+
+<link rel="stylesheet"
+href="{% static 'css/delete_payment.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body class="lotter">
+
+<div class="container">
+
+<div class="card">
+
+<i class="fas fa-trash delete-icon"></i>
+
+<h2>Delete Payment</h2>
+
+<p>
+
+Are you sure you want to delete this payment?
+
+</p>
+
+<p>
+
+<b>{{ payment.receipt_number }}</b>
+
+</p>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<button class="delete-btn">
+
+Delete
+
+</button>
+
+<a href="{% url 'payment_list' %}"
+
+class="cancel-btn">
+
+Cancel
+
+</a>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

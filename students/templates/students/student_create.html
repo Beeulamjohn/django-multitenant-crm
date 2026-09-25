@@ -1,0 +1,263 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Student | FlowTenant</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/create.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+</head>
+
+<body>
+
+<div class="container">
+    <div class="top-bar">
+
+        <div class="left-section">
+            
+
+            <h2>
+                <i class="fas fa-user-plus"></i>
+                Add Student
+            </h2>
+        </div>
+
+        <div class="profile">
+            <p>Welcome back,
+                </p>
+            <span>
+                {{ request.user.username }}
+            </span>
+        </div>
+
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card">
+
+        <div class="card-header">
+            <i class="fas fa-user-graduate"></i>
+            Student Information
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST"
+      enctype="multipart/form-data"
+      autocomplete="off">
+    {% csrf_token %}
+
+                <div class="form-grid">
+                    <div class="form-group" required>
+                    <label>Student ID</label>
+                    {{ form.student_id }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Admission Number</label>
+                        {{ form.admission_number }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>First Name</label>
+                        {{ form.first_name }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Date of Birth</label>
+                        {{ form.dob }}
+                    </div>
+
+                    <div class="form-group" required>
+    <label>Gender</label>
+
+    <select name="gender" class="form-control" required>
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+    </select>
+
+</div>
+
+                    <div class="form-group" required>
+                        <label>Email</label>
+                        {{ form.email }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Mobile Number</label>
+                        {{ form.mobile }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Father Name</label>
+                        {{ form.father_name }}
+                    </div>
+                    <div class="form-group" required>
+                        <label>Mother Name</label>
+                        {{ form.mother_name }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Parent Mobile</label>
+                        {{ form.parent_mobile }}
+                    </div>
+
+                    <div class="form-group full-width" required>
+                        <label>Address</label>
+                        {{ form.address }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>City</label>
+                        {{ form.city }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>State</label>
+                        {{ form.state }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Country</label>
+                        {{ form.country }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Pincode</label>
+                        {{ form.pincode }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Course</label>
+                        {{ form.course }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Department</label>
+                        {{ form.department }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Batch</label>
+                        {{ form.batch }}
+                    </div>
+
+                    
+                    <div class="form-group" required>
+                        <label>Semester</label>
+                        {{ form.semester }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Roll Number</label>
+                        {{ form.roll_number }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Admission Date</label>
+                        {{ form.admission_date }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Status</label>
+                        {{ form.status }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Student Photo</label>
+                        {{ form.photo }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Aadhaar</label>
+                        {{ form.aadhaar }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Birth Certificate</label>
+                        {{ form.birth_certificate }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Marksheet</label>
+                        {{ form.marksheet }}
+                    </div>
+
+                    <div class="form-group" required>
+                        <label>Transfer Certificate</label>
+                        {{ form.transfer_certificate }}
+                    </div>
+
+                </div>
+                
+
+                <div class="button-group">
+                    <a href="{% url 'company_dashboard' %}"
+               class="back-btn">
+                Back
+            </a>
+                    <a href="{% url 'student_list' %}"
+                       class="cancel-btn">
+                        Cancel
+                    </a>
+
+
+                    <button type="submit"
+                            class="save-btn">
+                        <i class="fas fa-save"></i>
+                        Save Student
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1041 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+  <title>Student Settings | FlowTenant</title>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+    
+
+    <link rel="stylesheet"
+          href="{% static 'css/student_settings.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="settings-page">
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+
+            <h2>Settings</h2>
+
+        </div>
+
+
+        <ul class="sidebar-menu">
+
+            <li>
+                <a href="{% url 'company_settings' %}">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'company_profile' %}">
+                    <i class="fas fa-building"></i>
+                    <span>Company Profile</span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'account_settings' %}">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Account</span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'student_employee_settings' %}">
+                    <i class="fas fa-users"></i>
+                    <span>Employees</span>
+                </a>
+            </li>
+
+
+            <li class="active">
+                <a href="{% url 'student_settings' %}">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Students</span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'notification_settings' %}">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'appearance_settings' %}">
+                    <i class="fas fa-palette"></i>
+                    <span>Appearance</span>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'report_settings' %}">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+    <main class="main-content">
+        <header class="page-header">
+
+            <div class="header-left">
+
+               
+
+                <div class="header-text">
+
+                    <h1>Student Settings</h1>
+
+                    <p>
+                        Configure student management preferences
+                        for your organization.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+           
+
+        </header>
+
+        <form method="POST"
+              action="{% url 'student_settings' %}"
+              class="settings-form">
+
+            {% csrf_token %}
+
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon blue">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Student Identification</h2>
+
+                        <p>
+                            Configure how student admission numbers
+                            and IDs are generated.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+                    <div class="form-group">
+
+                        <label for="admission_prefix">
+                            Admission Number Prefix
+                        </label>
+
+                        <input
+                            type="text"
+                            id="admission_prefix"
+                            name="admission_prefix"
+                            placeholder="Example: ADM"
+                            value="{{ settings.admission_prefix|default:'ADM' }}"
+                        >
+
+                        <small>
+                            Prefix used when generating admission numbers.
+                        </small>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="student_id_format">
+                            Student ID Format
+                        </label>
+
+                        <select
+                            id="student_id_format"
+                            name="student_id_format"
+                        >
+
+                            <option value="PREFIX-YEAR-NUMBER"
+                                {% if settings.student_id_format == "PREFIX-YEAR-NUMBER" %}
+                                    selected
+                                {% endif %}>
+                                ADM-2026-0001
+                            </option>
+
+                            <option value="PREFIX-NUMBER"
+                                {% if settings.student_id_format == "PREFIX-NUMBER" %}
+                                    selected
+                                {% endif %}>
+                                ADM-0001
+                            </option>
+
+                            <option value="YEAR-NUMBER"
+                                {% if settings.student_id_format == "YEAR-NUMBER" %}
+                                    selected
+                                {% endif %}>
+                                2026-0001
+                            </option>
+
+                            <option value="NUMBER"
+                                {% if settings.student_id_format == "NUMBER" %}
+                                    selected
+                                {% endif %}>
+                                0001
+                            </option>
+
+                        </select>
+
+                        <small>
+                            Format used for automatically generated
+                            student IDs.
+                        </small>
+
+                    </div>
+
+                    <div class="form-group toggle-group">
+
+                        <div>
+
+                            <label>
+                                Auto Generate Student ID
+                            </label>
+
+                            <small>
+                                Automatically create a unique student ID
+                                when adding a student.
+                            </small>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="auto_generate_student_id"
+                                {% if settings.auto_generate_student_id %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+                    <div class="form-group">
+
+                        <label for="default_student_status">
+                            Default Student Status
+                        </label>
+
+                        <select
+                            id="default_student_status"
+                            name="default_student_status"
+                        >
+
+                            <option value="active"
+                                {% if settings.default_student_status == "active" %}
+                                    selected
+                                {% endif %}>
+                                Active
+                            </option>
+
+                            <option value="pending"
+                                {% if settings.default_student_status == "pending" %}
+                                    selected
+                                {% endif %}>
+                                Pending
+                            </option>
+
+                            <option value="inactive"
+                                {% if settings.default_student_status == "inactive" %}
+                                    selected
+                                {% endif %}>
+                                Inactive
+                            </option>
+
+                        </select>
+
+                        <small>
+                            Status assigned to new students by default.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon purple">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Academic Settings</h2>
+
+                        <p>
+                            Set default academic values for newly
+                            registered students.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="course_duration">
+                            Default Course Duration
+                        </label>
+
+                        <div class="input-with-select">
+
+                            <input
+                                type="number"
+                                id="course_duration"
+                                name="course_duration"
+                                min="1"
+                                value="{{ settings.course_duration|default:'12' }}"
+                            >
+
+                            <select name="course_duration_unit">
+
+                                <option value="months"
+                                    {% if settings.course_duration_unit == "months" %}
+                                        selected
+                                    {% endif %}>
+                                    Months
+                                </option>
+
+                                <option value="years"
+                                    {% if settings.course_duration_unit == "years" %}
+                                        selected
+                                    {% endif %}>
+                                    Years
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <small>
+                            Default duration assigned to a new
+                            course/student.
+                        </small>
+
+                    </div>
+                    <div class="form-group">
+
+                        <label for="default_course">
+                            Default Course
+                        </label>
+
+                        <input
+                            type="text"
+                            id="default_course"
+                            name="default_course"
+                            placeholder="Example: Computer Science"
+                            value="{{ settings.default_course|default:'' }}"
+                        >
+
+                        <small>
+                            Optional default course for new students.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon green">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Attendance Tracking</h2>
+
+                        <p>
+                            Configure student attendance management.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-list">
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <div class="setting-title">
+
+                                <i class="fas fa-user-check"></i>
+
+                                <div>
+
+                                    <strong>
+                                        Enable Attendance Tracking
+                                    </strong>
+
+                                    <p>
+                                        Track daily student attendance.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="attendance_tracking"
+                                {% if settings.attendance_tracking %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <div class="setting-title">
+
+                                <i class="fas fa-bell"></i>
+
+                                <div>
+
+                                    <strong>
+                                        Attendance Alerts
+                                    </strong>
+
+                                    <p>
+                                        Notify parents when attendance
+                                        is marked.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="attendance_alerts"
+                                {% if settings.attendance_alerts %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon orange">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Fee Reminder Schedule</h2>
+
+                        <p>
+                            Configure automatic reminders for
+                            pending student fees.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="fee_reminder_schedule">
+                            Fee Reminder Schedule
+                        </label>
+
+                        <select
+                            id="fee_reminder_schedule"
+                            name="fee_reminder_schedule"
+                        >
+
+                            <option value="none"
+                                {% if settings.fee_reminder_schedule == "none" %}
+                                    selected
+                                {% endif %}>
+                                No Reminder
+                            </option>
+
+                            <option value="before_7"
+                                {% if settings.fee_reminder_schedule == "before_7" %}
+                                    selected
+                                {% endif %}>
+                                7 Days Before Due Date
+                            </option>
+
+                            <option value="before_3"
+                                {% if settings.fee_reminder_schedule == "before_3" %}
+                                    selected
+                                {% endif %}>
+                                3 Days Before Due Date
+                            </option>
+
+                            <option value="before_1"
+                                {% if settings.fee_reminder_schedule == "before_1" %}
+                                    selected
+                                {% endif %}>
+                                1 Day Before Due Date
+                            </option>
+
+                            <option value="on_due"
+                                {% if settings.fee_reminder_schedule == "on_due" %}
+                                    selected
+                                {% endif %}>
+                                On Due Date
+                            </option>
+
+                            <option value="after_3"
+                                {% if settings.fee_reminder_schedule == "after_3" %}
+                                    selected
+                                {% endif %}>
+                                3 Days After Due Date
+                            </option>
+
+                        </select>
+
+                        <small>
+                            Select when automatic fee reminders
+                            should be sent.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-group toggle-group">
+
+                        <div>
+
+                            <label>
+                                Enable Fee Reminders
+                            </label>
+
+                            <small>
+                                Automatically notify students or parents
+                                about pending fees.
+                            </small>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="fee_reminders"
+                                {% if settings.fee_reminders %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon red">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Certificate Settings</h2>
+
+                        <p>
+                            Configure certificate numbering for students.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="certificate_number_format">
+                            Certificate Number Format
+                        </label>
+
+                        <select
+                            id="certificate_number_format"
+                            name="certificate_number_format"
+                        >
+
+                            <option value="CERT-YEAR-NUMBER"
+                                {% if settings.certificate_number_format == "CERT-YEAR-NUMBER" %}
+                                    selected
+                                {% endif %}>
+                                CERT-2026-0001
+                            </option>
+
+                            <option value="CERT-NUMBER"
+                                {% if settings.certificate_number_format == "CERT-NUMBER" %}
+                                    selected
+                                {% endif %}>
+                                CERT-0001
+                            </option>
+
+                            <option value="YEAR-NUMBER"
+                                {% if settings.certificate_number_format == "YEAR-NUMBER" %}
+                                    selected
+                                {% endif %}>
+                                2026-0001
+                            </option>
+
+                            <option value="NUMBER"
+                                {% if settings.certificate_number_format == "NUMBER" %}
+                                    selected
+                                {% endif %}>
+                                0001
+                            </option>
+
+                        </select>
+
+                        <small>
+                            Format used for student certificates.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="certificate_prefix">
+                            Certificate Prefix
+                        </label>
+
+                        <input
+                            type="text"
+                            id="certificate_prefix"
+                            name="certificate_prefix"
+                            placeholder="Example: CERT"
+                            value="{{ settings.certificate_prefix|default:'CERT' }}"
+                        >
+
+                        <small>
+                            Prefix used for certificate numbers.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon cyan">
+                        <i class="fas fa-users"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Parent Notifications</h2>
+
+                        <p>
+                            Control notifications sent to parents
+                            or guardians.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-list">
+
+
+                    <div class="setting-row">
+
+                        <div class="setting-info">
+
+                            <div class="setting-title">
+
+                                <i class="fas fa-mobile-screen-button"></i>
+
+                                <div>
+
+                                    <strong>
+                                        Enable Parent Notifications
+                                    </strong>
+
+                                    <p>
+                                        Allow the system to send
+                                        notifications to registered parents.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="parent_notifications"
+                                {% if settings.parent_notifications %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="notification-types">
+
+
+                        <label class="checkbox-item">
+
+                            <input
+                                type="checkbox"
+                                name="notify_fee"
+                                {% if settings.notify_fee %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Fee Notifications
+                            </span>
+
+                        </label>
+
+
+                        <label class="checkbox-item">
+
+                            <input
+                                type="checkbox"
+                                name="notify_attendance"
+                                {% if settings.notify_attendance %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Attendance Notifications
+                            </span>
+
+                        </label>
+
+
+                        <label class="checkbox-item">
+
+                            <input
+                                type="checkbox"
+                                name="notify_certificate"
+                                {% if settings.notify_certificate %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Certificate Notifications
+                            </span>
+
+                        </label>
+
+
+                        <label class="checkbox-item">
+
+                            <input
+                                type="checkbox"
+                                name="notify_general"
+                                {% if settings.notify_general %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                General Announcements
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <div class="form-actions">
+
+                <a href="{% url 'company_settings' %}"
+                   class="cancel-btn">
+
+                    Cancel
+
+                </a>
+
+
+                <button type="submit"
+                        class="save-btn">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Student Settings
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </main>
+
+</div>
+
+{% if messages %}
+
+<div class="messages-container">
+
+    {% for message in messages %}
+
+        <div class="message {{ message.tags }}">
+
+            {% if message.tags == "success" %}
+
+                <i class="fas fa-circle-check"></i>
+
+            {% elif message.tags == "error" %}
+
+                <i class="fas fa-circle-xmark"></i>
+
+            {% elif message.tags == "warning" %}
+
+                <i class="fas fa-triangle-exclamation"></i>
+
+            {% else %}
+
+                <i class="fas fa-circle-info"></i>
+
+            {% endif %}
+
+            <span>{{ message }}</span>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const html = document.documentElement;
+
+    const theme = html.dataset.theme || "light";
+
+    const accent = html.dataset.accent || "#2563eb";
+
+    const fontSize = html.dataset.fontSize || "medium";
+
+    const sidebarStyle =
+        html.dataset.sidebarStyle || "dark";
+
+    html.style.setProperty("--primary", accent);
+
+
+    if (fontSize === "small") {
+
+        html.style.setProperty(
+            "--base-font-size",
+            "13px"
+        );
+
+    }
+
+    else if (fontSize === "large") {
+
+        html.style.setProperty(
+            "--base-font-size",
+            "16px"
+        );
+
+    }
+
+    else {
+
+        html.style.setProperty(
+            "--base-font-size",
+            "14px"
+        );
+
+    }
+
+
+    if (sidebarStyle === "light") {
+
+        html.classList.add("sidebar-light");
+
+    }
+
+    else {
+
+        html.classList.add("sidebar-dark");
+
+    }
+
+
+    if (theme === "dark") {
+
+        html.classList.add("theme-dark");
+
+    }
+
+    else if (theme === "system") {
+
+        if (
+            window.matchMedia &&
+            window.matchMedia(
+                "(prefers-color-scheme: dark)"
+            ).matches
+        ) {
+
+            html.classList.add("theme-dark");
+
+        }
+
+        else {
+
+            html.classList.add("theme-light");
+
+        }
+
+    }
+
+    else {
+
+        html.classList.add("theme-light");
+
+    }
+
+});
+
+</script>
+
+
+</body>
+</html>

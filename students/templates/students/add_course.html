@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Add Course</title>
+    <link rel="stylesheet" href="{% static 'css/add_course.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>
+                <i class="fas fa-book"></i>
+                Add Course
+            </h2>
+            <a href="{% url 'company_dashboard' %}"
+               class="back-btn">
+                Back
+            </a>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Course Code</label>
+                    <input type="text" name="course_code" placeholder="CSE101"autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <label>Course Name</label>
+                    <input type="text" name="course_name" placeholder="Python Full Stack"autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <label>Duration</label>
+                    <input type="text" name="duration" placeholder="6 Months"autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <label>Course Fees</label>
+                    <input type="number" name="fees" placeholder="50000"autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" required>
+                        <option value="Active">
+                            Active
+                        </option>
+                        <option value="Inactive">
+                            Inactive
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="button-box">
+                <button type="submit" class="save-btn">
+                    <i class="fas fa-save"></i>
+                    Save Course
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,633 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ theme|default:'light' }}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Invoice | FlowTenant CRM</title>
+
+    <style>
+
+        :root {
+            --accent-color: {{ accent_color|default:'#2563eb' }};
+            --primary-color: var(--accent-color);
+        }
+
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/form.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="invoice-container">
+
+
+    <!-- ============================= -->
+    <!-- PAGE HEADER -->
+    <!-- ============================= -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                Create New Invoice
+            </h1>
+
+            <p>
+                Create a new invoice for your customer.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'invoice_list' %}"
+            class="btn-back"
+        >
+
+            <i class="fas fa-arrow-left"></i>
+
+            Back
+
+        </a>
+
+    </div>
+
+
+
+    <!-- ============================= -->
+    <!-- INVOICE FORM -->
+    <!-- ============================= -->
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+
+
+        <!-- ============================= -->
+        <!-- INVOICE INFORMATION -->
+        <!-- ============================= -->
+
+        <div class="card">
+
+            <h2>
+
+                <i class="fas fa-file-invoice"></i>
+
+                Invoice Information
+
+            </h2>
+
+
+            <div class="grid">
+
+
+                <!-- Invoice Number -->
+
+                <div class="form-group">
+
+                    <label for="invoice_number">
+                        Invoice Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="invoice_number"
+                        name="invoice_number"
+                        placeholder="INV-00001"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- Customer -->
+
+                <div class="form-group">
+
+                    <label for="customer">
+                        Customer
+                    </label>
+
+                    <select
+                        id="customer"
+                        name="customer"
+                        required
+                    >
+
+                        <option value="">
+                            Select Customer
+                        </option>
+
+                        {% for customer in customers %}
+
+                            <option value="{{ customer.id }}">
+
+                                {{ customer.name }}
+
+                            </option>
+
+                        {% empty %}
+
+                            <option value="">
+                                No customers available
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Invoice Date -->
+
+                <div class="form-group">
+
+                    <label for="invoice_date">
+                        Invoice Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="invoice_date"
+                        name="invoice_date"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- Due Date -->
+
+                <div class="form-group">
+
+                    <label for="due_date">
+                        Due Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="due_date"
+                        name="due_date"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ============================= -->
+        <!-- PRODUCT DETAILS -->
+        <!-- ============================= -->
+
+        <div class="card">
+
+            <h2>
+
+                <i class="fas fa-box-open"></i>
+
+                Product Details
+
+            </h2>
+
+
+            <div class="grid">
+
+
+                <!-- Product -->
+
+                <div class="form-group">
+
+                    <label for="product">
+                        Product
+                    </label>
+
+                    <select
+                        id="product"
+                        name="product"
+                        required
+                    >
+
+                        <option value="">
+                            Select Product
+                        </option>
+
+
+                        {% for product in products %}
+
+                            <option
+                                value="{{ product.id }}"
+                                data-price="{{ product.price }}"
+                                data-gst="{{ product.gst }}"
+                            >
+
+                                {{ product.name }}
+
+                                {% if product.sku %}
+
+                                    - {{ product.sku }}
+
+                                {% endif %}
+
+                            </option>
+
+                        {% empty %}
+
+                            <option value="">
+                                No products available
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Quantity -->
+
+                <div class="form-group">
+
+                    <label for="quantity">
+                        Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        value="1"
+                        min="1"
+                        step="1"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- Unit Price -->
+
+                <div class="form-group">
+
+                    <label for="unit_price">
+                        Unit Price
+                    </label>
+
+                    <input
+                        type="number"
+                        id="unit_price"
+                        name="unit_price"
+                        placeholder="0.00"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- GST -->
+
+                <div class="form-group">
+
+                    <label for="gst">
+                        GST (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="gst"
+                        name="gst"
+                        value="18"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ============================= -->
+        <!-- PAYMENT DETAILS -->
+        <!-- ============================= -->
+
+        <div class="card">
+
+            <h2>
+
+                <i class="fas fa-wallet"></i>
+
+                Payment Details
+
+            </h2>
+
+
+            <div class="grid">
+
+
+                <!-- Total Amount -->
+
+                <div class="form-group">
+
+                    <label for="total_amount">
+                        Total Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="total_amount"
+                        name="total_amount"
+                        placeholder="0.00"
+                        min="0"
+                        step="0.01"
+                        readonly
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- Payment Status -->
+
+                <div class="form-group">
+
+                    <label for="payment_status">
+                        Payment Status
+                    </label>
+
+                    <select
+                        id="payment_status"
+                        name="payment_status"
+                        required
+                    >
+
+                        <option value="Pending">
+                            Pending
+                        </option>
+
+                        <option value="Partial">
+                            Partial
+                        </option>
+
+                        <option value="Paid">
+                            Paid
+                        </option>
+
+                        <option value="Overdue">
+                            Overdue
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ============================= -->
+        <!-- NOTES -->
+        <!-- ============================= -->
+
+        <div class="card">
+
+            <h2>
+
+                <i class="fas fa-note-sticky"></i>
+
+                Notes
+
+            </h2>
+
+
+            <div class="form-group">
+
+                <label for="notes">
+                    Additional Notes
+                </label>
+
+                <textarea
+                    id="notes"
+                    name="notes"
+                    rows="5"
+                    placeholder="Enter any additional notes..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ============================= -->
+        <!-- BUTTONS -->
+        <!-- ============================= -->
+
+        <div class="button-group">
+
+
+            <a
+                href="{% url 'invoice_list' %}"
+                class="btn-cancel"
+            >
+
+                <i class="fas fa-times"></i>
+
+                Cancel
+
+            </a>
+
+
+
+            <button
+                type="submit"
+                class="btn-save"
+            >
+
+                <i class="fas fa-save"></i>
+
+                Save Invoice
+
+            </button>
+
+        </div>
+
+
+    </form>
+
+</div>
+
+
+
+<!-- ============================= -->
+<!-- JAVASCRIPT -->
+<!-- ============================= -->
+
+<script>
+
+    const productSelect =
+        document.getElementById("product");
+
+    const quantityInput =
+        document.getElementById("quantity");
+
+    const unitPriceInput =
+        document.getElementById("unit_price");
+
+    const gstInput =
+        document.getElementById("gst");
+
+    const totalAmountInput =
+        document.getElementById("total_amount");
+
+
+
+    function calculateTotal() {
+
+        const quantity =
+            parseFloat(quantityInput.value) || 0;
+
+        const unitPrice =
+            parseFloat(unitPriceInput.value) || 0;
+
+        const gst =
+            parseFloat(gstInput.value) || 0;
+
+
+        const subtotal =
+            quantity * unitPrice;
+
+
+        const gstAmount =
+            subtotal * gst / 100;
+
+
+        const total =
+            subtotal + gstAmount;
+
+
+        totalAmountInput.value =
+            total.toFixed(2);
+
+    }
+
+
+
+    productSelect.addEventListener(
+        "change",
+        function () {
+
+            const selectedOption =
+                this.options[this.selectedIndex];
+
+
+            if (
+                selectedOption &&
+                selectedOption.value !== ""
+            ) {
+
+                const price =
+                    selectedOption.dataset.price;
+
+                const gst =
+                    selectedOption.dataset.gst;
+
+
+                if (price !== undefined) {
+
+                    unitPriceInput.value =
+                        parseFloat(price).toFixed(2);
+
+                }
+
+
+                if (gst !== undefined) {
+
+                    gstInput.value =
+                        parseFloat(gst).toFixed(2);
+
+                }
+
+            }
+
+
+            calculateTotal();
+
+        }
+    );
+
+
+
+    quantityInput.addEventListener(
+        "input",
+        calculateTotal
+    );
+
+
+
+    unitPriceInput.addEventListener(
+        "input",
+        calculateTotal
+    );
+
+
+
+    gstInput.addEventListener(
+        "input",
+        calculateTotal
+    );
+
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            calculateTotal();
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

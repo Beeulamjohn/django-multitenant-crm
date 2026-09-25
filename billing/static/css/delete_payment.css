@@ -1,0 +1,177 @@
+body{
+background:#f4f7fc;
+font-family:Inter,sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+background:white;
+padding:40px;
+border-radius:18px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+width:420px;
+}
+
+.delete-icon{
+font-size:60px;
+color:#ef4444;
+margin-bottom:20px;
+}
+
+.delete-btn{
+background:#ef4444;
+color:white;
+padding:12px 30px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-right:10px;
+}
+
+.cancel-btn{
+background:#64748b;
+padding:12px 30px;
+border-radius:10px;
+color:white;
+text-decoration:none;
+}
+@media screen and (max-width:1024px){
+
+    body{
+        padding:25px;
+    }
+
+    .card{
+        width:450px;
+        max-width:100%;
+        padding:35px;
+    }
+
+}
+
+
+@media screen and (max-width:912px){
+
+    body{
+        padding:20px;
+    }
+
+    .card{
+        width:420px;
+        max-width:100%;
+        padding:32px;
+    }
+
+}
+
+@media screen and (max-width:768px){
+
+    body{
+        padding:20px;
+        height:auto;
+        min-height:100vh;
+    }
+
+    .card{
+        width:100%;
+        max-width:500px;
+        padding:30px 25px;
+        border-radius:16px;
+    }
+
+    .delete-icon{
+        font-size:55px;
+        margin-bottom:18px;
+    }
+
+    .card h2{
+        font-size:26px;
+    }
+
+    .card p{
+        font-size:15px;
+        line-height:1.6;
+    }
+
+    .delete-btn,
+    .cancel-btn{
+        width:100%;
+        margin:8px 0;
+        padding:14px;
+        justify-content:center;
+    }
+
+}
+
+@media screen and (max-width:576px){
+
+    body{
+        padding:15px;
+    }
+
+    .card{
+        padding:25px 20px;
+    }
+
+    .delete-icon{
+        font-size:48px;
+    }
+
+    .card h2{
+        font-size:22px;
+    }
+
+    .card p{
+        font-size:14px;
+    }
+
+    .delete-btn,
+    .cancel-btn{
+        font-size:14px;
+        padding:13px;
+    }
+
+}
+
+
+@media screen and (max-width:480px){
+
+    body{
+        padding:12px;
+    }
+
+    .card{
+        width:100%;
+        padding:20px 15px;
+        border-radius:14px;
+    }
+
+    .delete-icon{
+        font-size:42px;
+        margin-bottom:15px;
+    }
+
+    .card h2{
+        font-size:20px;
+        margin-bottom:12px;
+    }
+
+    .card p{
+        font-size:13px;
+        line-height:1.6;
+        margin-bottom:18px;
+    }
+
+    .delete-btn,
+    .cancel-btn{
+        width:100%;
+        padding:12px;
+        font-size:13px;
+        margin:6px 0;
+    }
+
+}

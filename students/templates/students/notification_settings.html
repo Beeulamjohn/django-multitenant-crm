@@ -1,0 +1,786 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Notification Settings | FlowTenant</title>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link rel="stylesheet"
+          href="{% static 'css/notification_settings.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+
+            <h2>Settings</h2>
+
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <ul>
+
+                <li>
+                    <a href="{% url 'company_settings' %}">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'company_profile' %}">
+                        <i class="fas fa-building"></i>
+                        <span>Company Profile</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'account_settings' %}">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Account</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'student_employee_settings' %}">
+                        <i class="fas fa-users"></i>
+                        <span>Employees</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'student_settings' %}">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Students</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="{% url 'notification_settings' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'appearance_settings' %}">
+                        <i class="fas fa-palette"></i>
+                        <span>Appearance</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'report_settings' %}">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <header class="page-header">
+
+            <div class="header-left">
+
+                <div class="header-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+
+                <div class="header-text">
+
+                    <h1>Notification Settings</h1>
+
+                    <p>
+                        Configure how and when FlowTenant sends
+                        notifications and alerts.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        <span>{{ message }}</span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            action="{% url 'notification_settings' %}"
+            class="notification-form"
+        >
+
+            {% csrf_token %}
+
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Notification Channels</h2>
+
+                        <p>
+                            Choose the communication channels used
+                            to send system notifications.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-grid">
+
+
+                    <div class="setting-item">
+
+                        <div class="setting-info">
+
+                            <div class="setting-icon email-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Email Notifications</h3>
+
+                                <p>
+                                    Send important alerts and updates
+                                    through email.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="email_notifications"
+                                {% if settings.email_notifications %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-item">
+
+                        <div class="setting-info">
+
+                            <div class="setting-icon sms-icon">
+                                <i class="fas fa-comment-sms"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>SMS Notifications</h3>
+
+                                <p>
+                                    Send alerts and reminders through SMS.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="sms_notifications"
+                                {% if settings.sms_notifications %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-item">
+
+                        <div class="setting-info">
+
+                            <div class="setting-icon whatsapp-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>WhatsApp Notifications</h3>
+
+                                <p>
+                                    Send reminders and updates through
+                                    WhatsApp.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="whatsapp_notifications"
+                                {% if settings.whatsapp_notifications %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-triangle-exclamation"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Alert Preferences</h2>
+
+                        <p>
+                            Select the events for which administrators
+                            should receive alerts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="alert-list">
+
+
+                    <div class="alert-item">
+
+                        <div class="alert-info">
+
+                            <div class="alert-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Fee Due Reminders</h3>
+
+                                <p>
+                                    Notify students and administrators
+                                    when fees are due.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="fee_due_reminders"
+                                {% if settings.fee_due_reminders %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="alert-item">
+
+                        <div class="alert-info">
+
+                            <div class="alert-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Salary Payment Notifications</h3>
+
+                                <p>
+                                    Notify employees when salary payments
+                                    are processed.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="salary_payment_notifications"
+                                {% if settings.salary_payment_notifications %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="alert-item">
+
+                        <div class="alert-info">
+
+                            <div class="alert-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Attendance Alerts</h3>
+
+                                <p>
+                                    Send alerts for attendance and
+                                    absentee records.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="attendance_alerts"
+                                {% if settings.attendance_alerts %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="alert-item">
+
+                        <div class="alert-info">
+
+                            <div class="alert-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Student Admission Alerts</h3>
+
+                                <p>
+                                    Notify administrators when a new
+                                    student is admitted.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="student_admission_alerts"
+                                {% if settings.student_admission_alerts %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="alert-item">
+
+                        <div class="alert-info">
+
+                            <div class="alert-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Employee Joining Alerts</h3>
+
+                                <p>
+                                    Notify administrators when a new
+                                    employee joins the organization.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="employee_joining_alerts"
+                                {% if settings.employee_joining_alerts %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="alert-item">
+
+                        <div class="alert-info">
+
+                            <div class="alert-icon">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Invoice Payment Reminders</h3>
+
+                                <p>
+                                    Send reminders for pending and
+                                    overdue invoice payments.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="invoice_payment_reminders"
+                                {% if settings.invoice_payment_reminders %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="alert-item">
+
+                        <div class="alert-info">
+
+                            <div class="alert-icon">
+                                <i class="fas fa-chart-column"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Monthly Summary Reports</h3>
+
+                                <p>
+                                    Receive a monthly summary of important
+                                    business activities and reports.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                name="monthly_summary_reports"
+                                {% if settings.monthly_summary_reports %}checked{% endif %}
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Reminder Configuration</h2>
+
+                        <p>
+                            Configure when payment and summary reminders
+                            should be sent.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="fee_reminder_days">
+                            Fee Reminder Days
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fas fa-calendar-day"></i>
+
+                            <input
+                                type="number"
+                                id="fee_reminder_days"
+                                name="fee_reminder_days"
+                                min="1"
+                                max="30"
+                                value="{{ settings.fee_reminder_days|default:7 }}"
+                                placeholder="7"
+                            >
+
+                        </div>
+
+                        <small>
+                            Send fee reminders this many days before
+                            the due date.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="invoice_reminder_days">
+                            Invoice Reminder Days
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fas fa-file-invoice"></i>
+
+                            <input
+                                type="number"
+                                id="invoice_reminder_days"
+                                name="invoice_reminder_days"
+                                min="1"
+                                max="30"
+                                value="{{ settings.invoice_reminder_days|default:7 }}"
+                                placeholder="7"
+                            >
+
+                        </div>
+
+                        <small>
+                            Send invoice reminders before the payment
+                            due date.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="summary_day">
+                            Monthly Report Day
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fas fa-calendar"></i>
+
+                            <input
+                                type="number"
+                                id="summary_day"
+                                name="summary_day"
+                                min="1"
+                                max="28"
+                                value="{{ settings.summary_day|default:1 }}"
+                                placeholder="1"
+                            >
+
+                        </div>
+
+                        <small>
+                            Day of the month to send the summary report.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="notification_time">
+                            Notification Time
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fas fa-clock"></i>
+
+                            <input
+                                type="time"
+                                id="notification_time"
+                                name="notification_time"
+                                value="{{ settings.notification_time|default:'09:00' }}"
+                            >
+
+                        </div>
+
+                        <small>
+                            Preferred time for scheduled notifications.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="summary-card">
+
+                <div class="summary-icon">
+                    <i class="fas fa-circle-info"></i>
+                </div>
+
+                <div>
+
+                    <h3>Notification Preferences</h3>
+
+                    <p>
+                        Your selected preferences control which alerts
+                        are generated by FlowTenant. Make sure at least
+                        one notification channel is enabled.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'company_settings' %}"
+                    class="cancel-btn"
+                >
+
+                    <i class="fas fa-xmark"></i>
+
+                    <span>Cancel</span>
+
+                </a>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+
+                    <i class="fas fa-floppy-disk"></i>
+
+                    <span>Save Notification Preferences</span>
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</body>
+
+</html>

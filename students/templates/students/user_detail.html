@@ -1,0 +1,230 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html
+    lang="{{ settings.language|default:'en' }}"
+    data-theme="{{ settings.theme|default:'light' }}"
+    data-font-size="{{ settings.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ settings.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ settings.sidebar_style|default:'expanded' }}"
+>
+<head>
+ <style>
+        :root {
+            --accent-color: {{ settings.accent_color|default:"#2563eb" }};
+        }
+    </style>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        User Details | Student Management System
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/user_settings.css' %}">
+
+</head>
+
+<body>
+
+<div class="settings-page">
+
+    <main class="settings-content"
+          style="width:100%; margin-left:0;">
+
+        <div class="page-header">
+
+            <div>
+
+                <div class="breadcrumb">
+
+                    <a href="{% url 'user_settings' %}">
+                        Users & Roles
+                    </a>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>User Details</span>
+
+                </div>
+
+                <h1>User Details</h1>
+
+            </div>
+
+        </div>
+
+
+        <section class="settings-card">
+
+            <div class="security-info">
+
+                <div class="user-avatar">
+
+                    {{ user_obj.username|first|upper }}
+
+                </div>
+
+                <div class="security-content">
+
+                    <h3>
+
+                        {{ user_obj.get_full_name|default:user_obj.username }}
+
+                    </h3>
+
+                    <p>
+
+                        @{{ user_obj.username }}
+
+                    </p>
+
+                    <p>
+
+                        {{ user_obj.email|default:"No email address" }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="permissions-list">
+
+                <div class="permission-row">
+
+                    <div class="permission-name">
+
+                        <i class="fas fa-user-tag"></i>
+
+                        <div>
+
+                            <strong>Role</strong>
+
+                            <small>
+                                User access level
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="permission-status allowed">
+
+                        {{ profile.get_role_display }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="permission-row">
+
+                    <div class="permission-name">
+
+                        <i class="fas fa-circle"></i>
+
+                        <div>
+
+                            <strong>Status</strong>
+
+                            <small>
+                                Account status
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    {% if user_obj.is_active %}
+
+                        <span class="status-badge active">
+                            Active
+                        </span>
+
+                    {% else %}
+
+                        <span class="status-badge inactive">
+                            Inactive
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="permission-row">
+
+                    <div class="permission-name">
+
+                        <i class="fas fa-calendar"></i>
+
+                        <div>
+
+                            <strong>Created</strong>
+
+                            <small>
+                                Account creation date
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span>
+                        {{ profile.created_at|date:"d M Y" }}
+                    </span>
+
+                </div>
+
+
+                <div class="permission-row">
+
+                    <div class="permission-name">
+
+                        <i class="fas fa-sign-in-alt"></i>
+
+                        <div>
+
+                            <strong>Last Login</strong>
+
+                            <small>
+                                Most recent login
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span>
+
+                        {% if user_obj.last_login %}
+
+                            {{ user_obj.last_login|date:"d M Y, h:i A" }}
+
+                        {% else %}
+
+                            Never
+
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

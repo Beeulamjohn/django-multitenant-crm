@@ -1,0 +1,783 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+
+:root {
+    --accent-color: #2563eb;
+    --body-bg: #f8f4f2;
+    --card-bg: #ffffff;
+    --text-primary: #1e293b;
+    --text-heading: #3b1c35;
+    --text-secondary: #64748b;
+    --border-color: #dbe3ef;
+    --input-bg: #ffffff;
+
+    --shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ================================
+   DARK THEME
+================================ */
+
+html[data-theme="dark"] {
+    --body-bg: #111827;
+    --card-bg: #1f2937;
+    --text-primary: #e5e7eb;
+    --text-heading: #ffffff;
+    --text-secondary: #94a3b8;
+    --border-color: #374151;
+    --input-bg: #111827;
+
+    --shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+
+/* ================================
+   RESET
+================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+
+body {
+    background: var(--body-bg);
+    color: var(--text-primary);
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+
+/* ================================
+   MAIN PAGE
+================================ */
+
+.page {
+    width: 95%;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+
+/* ================================
+   PAGE HEADER
+================================ */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 25px;
+
+    background: var(--card-bg);
+
+    padding: 22px 28px;
+
+    border-radius: 18px;
+
+    box-shadow: var(--shadow);
+
+    margin-bottom: 30px;
+
+    transition:
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.page-header h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+    color: var(--text-heading);
+}
+
+
+.page-header p {
+    font-size: 15px;
+    color: var(--text-secondary);
+}
+
+
+/* ================================
+   BACK BUTTON
+================================ */
+
+.btn-back {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    text-decoration: none;
+
+    background-color: #3b1c35;
+
+    color: #ffffff;
+
+    padding: 16px 60px;
+
+    border-radius: 50px;
+
+    font-weight: 600;
+
+    transition: 0.3s;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+.btn-back:hover {
+    background-color: #0f4c81;
+
+    color: #ffffff;
+
+    transform: translateY(-3px);
+}
+
+
+html[data-theme="dark"] .btn-back {
+    background-color: #2563eb;
+}
+
+
+html[data-theme="dark"] .btn-back:hover {
+    background-color: #0f4c81;
+}
+
+
+/* ================================
+   CARD
+================================ */
+
+.card {
+    background: var(--card-bg);
+
+    border-radius: 16px;
+
+    padding: 30px;
+
+    box-shadow: var(--shadow);
+
+    transition:
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.card h2 {
+    margin-bottom: 25px;
+
+    color: var(--text-heading);
+
+    font-size: 22px;
+}
+
+
+.card h2 i {
+    color: var(--accent-color);
+
+    margin-right: 8px;
+}
+
+
+/* ================================
+   FORM GRID
+================================ */
+
+.grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.full {
+    grid-column: 1 / -1;
+}
+
+
+/* ================================
+   LABELS
+================================ */
+
+label {
+    margin-bottom: 8px;
+
+    font-weight: 600;
+
+    color: var(--text-heading);
+}
+
+
+/* ================================
+   INPUT / SELECT / TEXTAREA
+================================ */
+
+input,
+select,
+textarea {
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid var(--border-color);
+
+    border-radius: 10px;
+
+    background: var(--input-bg);
+
+    color: var(--text-primary);
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+}
+
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-secondary);
+}
+
+
+/* ================================
+   INPUT FOCUS
+================================ */
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--accent-color);
+
+    box-shadow:
+        0 0 0 3px color-mix(
+            in srgb,
+            var(--accent-color) 18%,
+            transparent
+        );
+}
+
+
+/* ================================
+   TEXTAREA
+================================ */
+
+textarea {
+    resize: vertical;
+
+    min-height: 120px;
+}
+
+
+/* ================================
+   SELECT OPTIONS
+================================ */
+
+select option {
+    background: var(--card-bg);
+
+    color: var(--text-primary);
+}
+
+
+/* ================================
+   BUTTON GROUP
+================================ */
+
+.button-group {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 15px;
+
+    margin-top: 25px;
+}
+
+
+/* ================================
+   COMMON BUTTON STYLE
+================================ */
+
+.btn-cancel,
+.btn-print,
+.btn-save {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 16px 60px;
+
+    border-radius: 50px;
+
+    font-weight: 600;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    border: none;
+
+    text-decoration: none;
+
+    transition: 0.3s;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ================================
+   CANCEL BUTTON
+================================ */
+
+.btn-cancel {
+    background: grey;
+
+    color: #ffffff;
+}
+
+
+.btn-cancel:hover {
+    background: #0f4c81;
+
+    color: #ffffff;
+
+    transform: translateY(-3px);
+}
+
+
+/* ================================
+   PRINT BUTTON
+================================ */
+
+.btn-print {
+    background: grey;
+
+    color: #ffffff;
+}
+
+
+.btn-print:hover {
+    background-color: #0f4c81;
+
+    transform: translateY(-3px);
+}
+
+
+/* ================================
+   SAVE BUTTON
+================================ */
+
+.btn-save {
+    background: var(--accent-color);
+
+    color: #ffffff;
+}
+
+
+.btn-save:hover {
+    background-color: #0f4c81;
+
+    filter: brightness(0.88);
+
+    transform: translateY(-3px);
+}
+
+
+/* ================================
+   DARK MODE INPUTS
+================================ */
+
+html[data-theme="dark"] input[type="date"] {
+    color-scheme: dark;
+}
+
+
+html[data-theme="dark"] select {
+    color-scheme: dark;
+}
+
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .page-header {
+    border:
+        1px solid rgba(255, 255, 255, 0.06);
+}
+
+
+/* ================================
+   TABLET / MOBILE
+================================ */
+
+@media screen and (max-width: 786px) {
+
+    html,
+    body {
+        width: 100%;
+
+        overflow-x: hidden;
+    }
+
+
+    .page {
+        width: 100%;
+
+        max-width: 100%;
+
+        margin: 0;
+
+        padding: 15px;
+    }
+
+
+    .page-header {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 18px;
+
+        padding: 20px;
+
+        margin-bottom: 20px;
+
+        border-radius: 14px;
+    }
+
+
+    .page-header h1 {
+        font-size: 24px;
+    }
+
+
+    .page-header p {
+        font-size: 13px;
+
+        line-height: 1.5;
+    }
+
+
+    .btn-back {
+        width: 100%;
+
+        min-height: 46px;
+
+        padding: 12px 20px;
+
+        border-radius: 10px;
+
+        font-size: 13px;
+    }
+
+
+    .card {
+        width: 100%;
+
+        padding: 20px;
+
+        border-radius: 13px;
+    }
+
+
+    .card h2 {
+        margin-bottom: 20px;
+
+        font-size: 19px;
+    }
+
+
+    .grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+
+    .full {
+        grid-column: 1;
+    }
+
+
+    label {
+        font-size: 13px;
+    }
+
+
+    input,
+    select,
+    textarea {
+        min-height: 44px;
+
+        padding: 11px 12px;
+
+        font-size: 13px;
+
+        border-radius: 8px;
+    }
+
+
+    textarea {
+        min-height: 110px;
+    }
+
+
+    .button-group {
+        width: 100%;
+
+        flex-direction: column;
+
+        gap: 10px;
+
+        margin-top: 18px;
+    }
+
+
+    .btn-cancel,
+    .btn-print,
+    .btn-save {
+        width: 100%;
+
+        min-height: 46px;
+
+        padding: 12px 20px;
+
+        border-radius: 10px;
+
+        font-size: 13px;
+    }
+
+
+    .btn-back:hover,
+    .btn-cancel:hover,
+    .btn-print:hover,
+    .btn-save:hover {
+        transform: none;
+    }
+}
+
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media screen and (max-width: 480px) {
+
+    .page {
+        padding: 10px;
+    }
+
+
+    .page-header {
+        padding: 17px;
+
+        gap: 15px;
+
+        border-radius: 12px;
+    }
+
+
+    .page-header h1 {
+        font-size: 21px;
+    }
+
+
+    .page-header p {
+        font-size: 12px;
+    }
+
+
+    .card {
+        padding: 16px;
+
+        border-radius: 11px;
+    }
+
+
+    .card h2 {
+        font-size: 17px;
+
+        margin-bottom: 17px;
+    }
+
+
+    .grid {
+        gap: 14px;
+    }
+
+
+    label {
+        font-size: 12px;
+    }
+
+
+    input,
+    select,
+    textarea {
+        min-height: 42px;
+
+        padding: 10px 11px;
+
+        font-size: 12px;
+
+        border-radius: 7px;
+    }
+
+
+    textarea {
+        min-height: 100px;
+    }
+
+
+    .btn-back,
+    .btn-cancel,
+    .btn-print,
+    .btn-save {
+        min-height: 44px;
+
+        padding: 11px 16px;
+
+        font-size: 12px;
+    }
+}
+
+
+/* ================================
+   VERY SMALL MOBILE
+================================ */
+
+@media screen and (max-width: 360px) {
+
+    .page {
+        padding: 8px;
+    }
+
+
+    .page-header {
+        padding: 14px;
+    }
+
+
+    .page-header h1 {
+        font-size: 19px;
+    }
+
+
+    .page-header p {
+        font-size: 11px;
+    }
+
+
+    .card {
+        padding: 14px;
+    }
+
+
+    .card h2 {
+        font-size: 16px;
+    }
+
+
+    input,
+    select,
+    textarea {
+        min-height: 40px;
+
+        padding: 9px 10px;
+
+        font-size: 11px;
+    }
+
+
+    .btn-back,
+    .btn-cancel,
+    .btn-print,
+    .btn-save {
+        min-height: 42px;
+
+        font-size: 11px;
+    }
+}
+
+
+/* ================================
+   PRINT
+================================ */
+
+@media print {
+
+    body {
+        background: #ffffff;
+
+        color: #000000;
+    }
+
+
+    .page {
+        width: 100%;
+
+        margin: 0;
+
+        padding: 0;
+    }
+
+
+    .page-header {
+        box-shadow: none;
+
+        border: 1px solid #dddddd;
+    }
+
+
+    .button-group {
+        display: none;
+    }
+
+
+    .btn-back {
+        display: none;
+    }
+
+
+    .card {
+        box-shadow: none;
+
+        border: 1px solid #dddddd;
+    }
+}

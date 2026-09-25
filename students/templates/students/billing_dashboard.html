@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+    lang="{{ settings.language|default:'en' }}"
+    data-theme="{{ settings.theme|default:'light' }}"
+    data-font-size="{{ settings.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ settings.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ settings.sidebar_style|default:'expanded' }}"
+>
+<head>
+ <style>
+        :root {
+            --accent-color: {{ settings.accent_color|default:"#2563eb" }};
+        }
+    </style>
+    <title>Student Billing System</title>
+    <link rel="stylesheet" href="{% static 'css/billing.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div>
+            <h1>
+                <i class="fas fa-file-invoice-dollar"></i>
+                Student Billing System
+            </h1>
+
+            <p>
+                Manage fees, invoices and payments
+            </p>
+        </div>
+        <div class="header-buttons">
+            <a href="javascript:history.back()"
+               class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
+            <a href="{% url 'create_invoice' %}"
+               class="add-btn">
+                <i class="fas fa-plus"></i>
+                Create Invoice
+            </a>
+        </div>
+
+    </div>
+    <div class="cards">
+        <div class="card blue">
+            <i class="fas fa-money-check-alt"></i>
+            <h2>₹{{ total_collection }}</h2>
+            <p>Total Collection</p>
+        </div>
+        <div class="card green">
+            <i class="fas fa-check-circle"></i>
+            <h2>{{ paid_students }}</h2>
+            <p>Paid Students</p>
+        </div>
+        <div class="card orange">
+            <i class="fas fa-clock"></i>
+            <h2>{{ pending_payments }}</h2>
+            <p>Pending Payments</p>
+        </div>
+        <div class="card red">
+            <i class="fas fa-exclamation-circle"></i>
+            <h2>{{ overdue_payments }}</h2>
+            <p>Overdue EMI</p>
+        </div>
+    </div>
+    <div class="table-card">
+        <table>
+            <thead>
+            <tr>
+                <th>Invoice ID</th>
+                <th>Student</th>
+                <th>Course Fee</th>
+                <th>Registration Fee</th>
+                <th>GST</th>
+                <th>Total Amount</th>
+                <th>Paid</th>
+                <th>Balance</th>
+                <th>Payment Type</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Invoice</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for bill in bills %}
+            <tr>
+                <td>
+                    {{ bill.invoice_number }}
+                </td>
+                <td>
+                    {{ bill.student.first_name }}
+                    {{ bill.student.last_name }}
+                </td>
+                <td>
+                    ₹{{ bill.course_fee }}
+                </td>
+                <td>
+                    ₹{{ bill.registration_fee }}
+                </td>
+                <td>
+                    ₹{{ bill.gst_amount }}
+                </td>
+                <td>
+                    ₹{{ bill.total_amount }}
+                </td>
+                <td>
+                    ₹{{ bill.amount_paid }}
+                </td>
+                <td>
+                    ₹{{ bill.balance_amount }}
+                </td>
+                <td>
+                    {{ bill.payment_type }}
+                </td>
+                <td>
+                    {{ bill.due_date }}
+                </td>
+                <td>
+                    <span class="
+                    {% if bill.status == 'Paid' %}
+                        paid
+                    {% elif bill.status == 'Partial' %}
+                        partial
+                    {% else %}
+                        pending
+                    {% endif %}
+                    badge">
+                        {{ bill.status }}
+                    </span>
+                </td>
+                <td>
+                    <a href="{% url 'invoice_pdf' bill.id %}"
+                       class="pdf-btn">
+                        <i class="fas fa-download"></i>
+                        PDF
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="12">
+                    No Billing Records Found
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

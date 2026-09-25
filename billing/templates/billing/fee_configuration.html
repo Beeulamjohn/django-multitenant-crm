@@ -1,0 +1,191 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      class="{% if appearance.theme == 'dark' %}dark-theme{% else %}light-theme{% endif %}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    
+<title>edit Fee Configuration</title>
+    <link rel="stylesheet"
+          href="{% static 'css/configuration.css' %}">
+          
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+
+        }
+
+    </style>
+
+</head>
+
+
+
+<body class="lotter">
+<div class="container">
+    <div class="header">
+        <h1>
+            <i class="fas fa-rupee-sign"></i>
+            Fee Configuration
+        </h1>
+        <a href="{% url 'billing_dashboard' %}"
+           class="back-btn">
+            
+            Back
+        </a>
+    </div>
+    <div class="card">
+        <h2>Add New Fee</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="input-box">
+    <label>Student</label>
+    <select name="student" required>
+        <option value="">Select Student</option>
+
+        {% for student in students %}
+        <option value="{{ student.id }}">
+            {{ student.first_name }} {{ student.last_name }}
+            ({{ student.admission_number }})
+        </option>
+        {% empty %}
+        <option disabled>No students found</option>
+        {% endfor %}
+    </select>
+</div>
+                <div class="input-box">
+                    <label>Course</label>
+                    <input type="text"
+                           name="course"
+                           placeholder="BCA"
+                           required>
+                </div>
+                <div class="input-box">
+                    <label>Department</label>
+                    <input type="text"
+                           name="department"
+                           placeholder="Computer Science"
+                           required>
+                </div>
+                <div class="input-box">
+                    <label>Fee Type</label>
+                    <select name="fee_type" required>
+                        <option value="">
+                            Select Fee Type
+                        </option>
+                        <option value="Admission Fee">
+                            Admission Fee
+                        </option>
+                        <option value="Tuition Fee">
+                            Tuition Fee
+                        </option>
+                        <option value="Exam Fee">
+                            Exam Fee
+                        </option>
+                        <option value="Library Fee">
+                            Library Fee
+                        </option>
+                        <option value="Transport Fee">
+                            Transport Fee
+                        </option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <label>Amount</label>
+                    <input type="number"
+                           name="amount"
+                           placeholder="5000"
+                           required>
+                </div>
+            </div>
+            <button type="submit"
+                    class="save-btn">
+                <i class="fas fa-save"></i>
+                Save Configuration
+            </button>
+        </form>
+    </div>
+    <div class="card">
+        <div class="table-header">
+            <h2>Configured Fees</h2>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>Student</th>
+                <th>Course</th>
+                <th>Department</th>
+                <th>Fee Type</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for fee in fees %}
+            <tr>
+                <td>
+                    {{ forloop.counter }}
+                </td>
+                <td>
+                    {% if fee.student %}
+                        {{ fee.student.first_name }}
+                        {{ fee.student.last_name }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>
+                    {{ fee.course }}
+                </td>
+                <td>
+                    {{ fee.department }}
+                </td>
+                <td>
+                    {{ fee.fee_type }}
+                </td>
+                <td class="amount">
+                    ₹{{ fee.amount }}
+                </td>
+                <td class="action-buttons">
+                    <a href="{% url 'edit_fee_configuration' fee.id %}"
+                       class="edit-btn"
+                       title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'delete_fee_configuration' fee.id %}"
+                       class="delete-btn"
+                       title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7"
+                    style="text-align:center;">
+                    No Fee Configuration Added
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

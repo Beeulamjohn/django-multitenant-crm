@@ -1,0 +1,298 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Inter",sans-serif;
+}
+
+:root{
+    --accent-color:#2563eb;
+    --bg:#f8f4f2;
+    --card:#ffffff;
+    --text:#1e293b;
+    --subtext:#64748b;
+    --box:#f8fafc;
+    --danger:#ef4444;
+    --danger-hover:#dc2626;
+}
+
+body{
+    background:var(--bg);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+    transition:.3s ease;
+}
+
+.container{
+    width:100%;
+    max-width:700px;
+}
+
+.delete-card{
+    background:var(--card);
+    border-radius:25px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.3s ease;
+}
+
+.icon-box{
+    width:90px;
+    height:90px;
+    margin:auto;
+    background:#fee2e2;
+    color:var(--danger);
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:35px;
+    margin-bottom:25px;
+}
+
+.delete-card h2{
+    color:var(--text);
+    margin-bottom:15px;
+    font-size:30px;
+}
+
+.delete-card p{
+    color:var(--subtext);
+    margin-bottom:12px;
+    font-size:16px;
+    line-height:1.6;
+}
+
+.fee-info{
+    background:var(--box);
+    padding:25px;
+    border-radius:15px;
+    margin:30px 0;
+    text-align:left;
+}
+
+.fee-info p{
+    margin-bottom:12px;
+    color:var(--subtext);
+}
+
+.fee-info strong{
+    color:var(--text);
+}
+
+.btn-group{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.delete-btn,
+.cancel-btn{
+    border:none;
+    text-decoration:none;
+    padding:14px 28px;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+}
+
+.delete-btn{
+    background:var(--danger);
+    color:#fff;
+}
+
+.delete-btn:hover{
+    background:var(--danger-hover);
+    transform:translateY(-2px);
+}
+
+.cancel-btn{
+    background:var(--accent-color);
+    color:#fff;
+}
+
+.cancel-btn:hover{
+    filter:brightness(.9);
+    transform:translateY(-2px);
+}
+
+/* ===========================
+   DARK THEME
+=========================== */
+
+.dark-theme{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --subtext:#cbd5e1;
+    --box:#334155;
+}
+
+.dark-theme .delete-card{
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+.dark-theme .icon-box{
+    background:rgba(239,68,68,.15);
+    color:#f87171;
+}
+
+.dark-theme .fee-info{
+    border:1px solid rgba(255,255,255,.08);
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width:1024px){
+    body{
+        padding:25px;
+    }
+
+    .container{
+        max-width:650px;
+    }
+
+    .delete-card{
+        padding:35px;
+    }
+}
+
+@media (max-width:912px){
+    body{
+        padding:20px;
+    }
+
+    .container{
+        max-width:620px;
+    }
+
+    .delete-card{
+        padding:30px;
+    }
+}
+
+@media (max-width:768px){
+    body{
+        padding:20px;
+        align-items:flex-start;
+    }
+
+    .container{
+        max-width:100%;
+    }
+
+    .delete-card{
+        padding:30px 20px;
+        border-radius:18px;
+    }
+
+    .icon-box{
+        width:80px;
+        height:80px;
+        font-size:32px;
+    }
+
+    .delete-card h2{
+        font-size:26px;
+    }
+
+    .delete-card p{
+        font-size:15px;
+    }
+
+    .fee-info{
+        padding:20px;
+        margin:25px 0;
+    }
+
+    .btn-group{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .delete-btn,
+    .cancel-btn{
+        width:100%;
+    }
+}
+
+@media (max-width:576px){
+    body{
+        padding:15px;
+    }
+
+    .delete-card{
+        padding:25px 18px;
+    }
+
+    .icon-box{
+        width:70px;
+        height:70px;
+        font-size:28px;
+    }
+
+    .delete-card h2{
+        font-size:22px;
+    }
+
+    .delete-card p,
+    .fee-info p{
+        font-size:14px;
+    }
+
+    .fee-info{
+        padding:18px;
+    }
+}
+
+@media (max-width:480px){
+    body{
+        padding:12px;
+    }
+
+    .delete-card{
+        padding:20px 15px;
+        border-radius:15px;
+    }
+
+    .icon-box{
+        width:65px;
+        height:65px;
+        font-size:24px;
+    }
+
+    .delete-card h2{
+        font-size:20px;
+        line-height:1.4;
+    }
+
+    .delete-card p,
+    .fee-info p{
+        font-size:13px;
+        line-height:1.6;
+    }
+
+    .fee-info{
+        padding:15px;
+    }
+
+    .delete-btn,
+    .cancel-btn{
+        font-size:13px;
+        padding:12px;
+        border-radius:10px;
+    }
+}

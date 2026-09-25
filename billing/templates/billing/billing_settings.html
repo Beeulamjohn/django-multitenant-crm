@@ -1,0 +1,367 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html
+    lang="en"
+    data-theme="{{ appearance_settings.theme|default:'light' }}"
+    data-font-size="{{ appearance_settings.font_size|default:'medium' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Billing Settings | FlowTenant CRM</title>
+
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance_settings.accent_color|default:'#2563eb' }};
+
+        }
+
+    </style>
+
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/billing_settings.css' %}"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+<body>
+<aside class="sidebar">
+    <div class="logo">
+        <i class="fas fa-cogs"></i>
+        <h2>Settings</h2>
+    </div>
+    <ul>
+        <li class="active">
+            <a href="{% url 'billing_settings' %}">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'billing_general_settings' %}">
+                <i class="fas fa-sliders-h"></i>
+                <span>General Billing</span>
+            </a>
+        </li>
+        <li>
+    <a href="{% url 'billing_company_profile_settings' %}">
+        <i class="fas fa-building"></i>
+        <span>Company Profile</span>
+    </a>
+</li>
+        <li>
+            <a href="{% url 'billing_invoice_settings' %}">
+                <i class="fas fa-file-invoice"></i>
+                <span>Invoice Settings</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'billing_payment_settings' %}">
+                <i class="fas fa-credit-card"></i>
+                <span>Payment Settings</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'billing_tax_settings' %}">
+                <i class="fas fa-percent"></i>
+                <span>Tax & GST Settings</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'billing_fee_settings' %}">
+                <i class="fas fa-money-check-dollar"></i>
+                <span>Fee & Discount</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'billing_late_fee_settings' %}">
+                <i class="fas fa-clock"></i>
+                <span>Late Fee Settings</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'billing_reminder_settings' %}">
+                <i class="fas fa-bell"></i>
+                <span>Payment Reminders</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'billing_appearance_settings' %}">
+                <i class="fas fa-palette"></i>
+                <span>Invoice Appearance</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'billing_bank_settings' %}">
+                <i class="fas fa-building-columns"></i>
+                <span>Bank & Payment</span>
+            </a>
+        </li>
+       
+    </ul>
+    <div class="sidebar-footer">
+        <a href="{% url 'billing_dashboard' %}"
+           class="dashboard-btn">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+    </div>
+</aside>
+
+<main class="main-content">
+
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>Billing Settings</h1>
+
+            <p>
+                Manage invoice, payment, tax, fee,
+                reminder and billing preferences.
+            </p>
+
+        </div>
+        
+    </div>
+    <div class="settings-grid">
+        <a href="{% url 'billing_general_settings' %}"
+           class="card">
+            <div class="card-icon blue">
+                <i class="fas fa-sliders-h"></i>
+            </div>
+            <h3>General Billing</h3>
+            <p>
+                Configure currency, financial year,
+                billing status and default payment terms.
+            </p>
+            <span class="card-link">
+                Configure
+                <i class="fas fa-arrow-right"></i>
+            </span>
+        </a>
+        <a href="{% url 'billing_company_profile_settings' %}" class="card">
+    <div class="card-icon cyan">
+        <i class="fas fa-building"></i>
+    </div>
+    <h3>Company Profile</h3>
+    <p>
+        Manage company name, logo, GST number, address,
+        email, phone and website.
+    </p>
+    <span class="card-link">
+        Configure
+        <i class="fas fa-arrow-right"></i>
+    </span>
+</a>
+
+        <a href="{% url 'billing_invoice_settings' %}"
+           class="card">
+
+            <div class="card-icon purple">
+
+                <i class="fas fa-file-invoice"></i>
+
+            </div>
+
+            <h3>Invoice Settings</h3>
+
+            <p>
+                Configure invoice numbering,
+                prefixes, due dates and invoice actions.
+            </p>
+
+            <span class="card-link">
+                Configure
+                <i class="fas fa-arrow-right"></i>
+            </span>
+
+        </a>
+        <a href="{% url 'billing_payment_settings' %}"
+           class="card">
+
+            <div class="card-icon green">
+
+                <i class="fas fa-credit-card"></i>
+
+            </div>
+
+            <h3>Payment Settings</h3>
+
+            <p>
+                Configure payment methods, receipts,
+                partial payments and payment references.
+            </p>
+
+            <span class="card-link">
+                Configure
+                <i class="fas fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+        <a href="{% url 'billing_tax_settings' %}"
+           class="card">
+
+            <div class="card-icon red">
+
+                <i class="fas fa-percent"></i>
+
+            </div>
+
+            <h3>Tax & GST Settings</h3>
+
+            <p>
+                Configure tax calculation,
+                GST behavior and invoice tax display.
+            </p>
+
+            <span class="card-link">
+                Configure
+                <i class="fas fa-arrow-right"></i>
+            </span>
+
+        </a>
+        <a href="{% url 'billing_fee_settings' %}"
+           class="card">
+
+            <div class="card-icon orange">
+
+                <i class="fas fa-money-check-dollar"></i>
+
+            </div>
+
+            <h3>Fee & Discount Settings</h3>
+
+            <p>
+                Configure discounts, fee adjustments,
+                manual discounts and fee waivers.
+            </p>
+
+            <span class="card-link">
+                Configure
+                <i class="fas fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+        <a href="{% url 'billing_late_fee_settings' %}"
+           class="card">
+
+            <div class="card-icon yellow">
+
+                <i class="fas fa-clock"></i>
+
+            </div>
+
+            <h3>Late Fee Settings</h3>
+
+            <p>
+                Configure grace periods, late charges
+                and automatic overdue fee calculation.
+            </p>
+
+            <span class="card-link">
+                Configure
+                <i class="fas fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+        <a href="{% url 'billing_reminder_settings' %}"
+           class="card">
+
+            <div class="card-icon pink">
+
+                <i class="fas fa-bell"></i>
+
+            </div>
+
+            <h3>Payment Reminder Settings</h3>
+
+            <p>
+                Configure automatic reminders before,
+                on and after invoice due dates.
+            </p>
+
+            <span class="card-link">
+                Configure
+                <i class="fas fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+        <a href="{% url 'billing_appearance_settings' %}"
+           class="card">
+
+            <div class="card-icon teal">
+
+                <i class="fas fa-palette"></i>
+
+            </div>
+
+            <h3>Invoice Appearance</h3>
+
+            <p>
+                Configure invoice theme, company logo,
+                watermark, PDF and print appearance.
+            </p>
+
+            <span class="card-link">
+                Configure
+                <i class="fas fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+        <a href="{% url 'billing_bank_settings' %}"
+           class="card">
+
+            <div class="card-icon indigo">
+
+                <i class="fas fa-building-columns"></i>
+
+            </div>
+
+            <h3>Bank & Payment Details</h3>
+
+            <p>
+                Manage bank account, IFSC, UPI and
+                payment information shown on invoices.
+            </p>
+
+            <span class="card-link">
+                Configure
+                <i class="fas fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+       
+
+    </div>
+</main>
+</body>
+</html>

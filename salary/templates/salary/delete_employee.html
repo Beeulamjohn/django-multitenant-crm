@@ -1,0 +1,254 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Delete Employee | FlowTenant
+    </title>
+
+
+    <style>
+
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+
+    </style>
+
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/delete_employee.css' %}"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="salary-page">
+
+
+    <!-- TOP HEADER -->
+
+    <div class="top-header">
+
+
+        <div class="title">
+
+            <h1>
+
+                <i class="fas fa-user-minus"></i>
+
+                Delete Employee
+
+            </h1>
+
+
+            <p>
+
+                Remove an employee from your company records
+
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'salary_employee_list' %}"
+            class="back-btn"
+        >
+
+            <i class="fas fa-arrow-left"></i>
+
+            Back
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- DELETE CARD -->
+
+    <div class="delete-card">
+
+
+        <!-- DELETE ICON -->
+
+        <div class="delete-icon">
+
+            <i class="fas fa-trash"></i>
+
+        </div>
+
+
+        <!-- TITLE -->
+
+        <h2>
+            Delete Employee?
+        </h2>
+
+
+        <p class="delete-warning">
+
+            Are you sure you want to delete this employee?
+
+        </p>
+
+
+        <p class="delete-description">
+
+            This action will permanently remove the employee
+            from your company records. This action cannot be undone.
+
+        </p>
+
+
+
+        <!-- EMPLOYEE DETAILS -->
+
+        <div class="delete-employee-info">
+
+
+            <div class="delete-avatar">
+
+                <i class="fas fa-user"></i>
+
+            </div>
+
+
+            <div class="employee-details">
+
+
+                <h3>
+
+                    {{ employee.name }}
+
+                </h3>
+
+
+                <p>
+
+                    Employee ID:
+
+                    <strong>
+                        {{ employee.employee_id }}
+                    </strong>
+
+                </p>
+
+
+                {% if employee.department %}
+
+                <p>
+
+                    Department:
+
+                    <strong>
+                        {{ employee.department }}
+                    </strong>
+
+                </p>
+
+                {% endif %}
+
+
+                {% if employee.designation %}
+
+                <p>
+
+                    Designation:
+
+                    <strong>
+                        {{ employee.designation }}
+                    </strong>
+
+                </p>
+
+                {% endif %}
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ACTIONS -->
+
+        <div class="delete-actions">
+
+
+            <!-- CANCEL -->
+
+            <a
+                href="{% url 'salary_employee_list' %}"
+                class="delete-cancel-btn"
+            >
+
+                <i class="fas fa-arrow-left"></i>
+
+                Cancel
+
+            </a>
+
+
+
+            <!-- DELETE -->
+
+            <form
+                method="POST"
+                action="{% url 'delete_employee' employee.id %}"
+            >
+
+                {% csrf_token %}
+
+
+                <button
+                    type="submit"
+                    class="delete-confirm-btn"
+                >
+
+                    <i class="fas fa-trash"></i>
+
+                    Delete Employee
+
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+    lang="{{ settings.language|default:'en' }}"
+    data-theme="{{ settings.theme|default:'light' }}"
+    data-font-size="{{ settings.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ settings.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ settings.sidebar_style|default:'expanded' }}"
+>
+<head>
+ <style>
+        :root {
+            --accent-color: {{ settings.accent_color|default:"#2563eb" }};
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>student list</title>
+    <link rel="stylesheet" href="{% static 'css/details.css' %}">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-3">
+
+                    {% if student.photo %}
+                    <img src="{{ student.photo.url }}"
+                         class="img-fluid rounded">
+                    {% endif %}
+
+                </div>
+
+                <div class="col-md-9">
+
+                    <h3>
+                        {{ student.first_name }}
+                        {{ student.last_name }}
+                    </h3>
+
+                    <hr>
+
+                    <p>
+                        <strong>Admission No:</strong>
+                        {{ student.admission_number }}
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        {{ student.email }}
+                    </p>
+
+                    <p>
+                        <strong>Mobile:</strong>
+                        {{ student.mobile }}
+                    </p>
+
+                    <p>
+                        <strong>Course:</strong>
+                        {{ student.course }}
+                    </p>
+
+                    <p>
+                        <strong>Department:</strong>
+                        {{ student.department }}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        {{ student.status }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card shadow mt-4">
+
+        <div class="card-header d-flex justify-content-between">
+
+            <h5>Documents</h5>
+
+            <a href="{% url 'upload_document' student.id %}"
+   class="btn btn-primary">
+    Upload Document
+</a>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+                        <th>Type</th>
+                        <th>File</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for document in documents %}
+
+                    <tr>
+
+                        <td>
+                            {{ document.document_type }}
+                        </td>
+
+                        <td>
+
+                            <a href="{{ document.file.url }}"
+                               target="_blank">
+
+                                View File
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="2">
+                            No Documents Uploaded
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

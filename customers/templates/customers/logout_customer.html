@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html
+    lang="en"
+    data-theme="{{ customer_appearance.theme|default:'light' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Logout</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/logout_customer.css' %}"
+    >
+
+</head>
+
+<body>
+
+<div class="logout-page">
+
+    <div class="logout-box">
+
+        <div class="logout-icon">
+            <i>↪</i>
+        </div>
+
+        <h2>
+            Are you sure you want to logout?
+        </h2>
+
+        <p>
+            You will be signed out of your customer account.
+        </p>
+
+        <form
+            method="POST"
+            action="{% url 'logout_customer' %}"
+        >
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="btn-logout"
+            >
+                Logout
+            </button>
+
+            <a
+                href="{% url 'product_dashboard' %}"
+                class="btn-cancel"
+            >
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

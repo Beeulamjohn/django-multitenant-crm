@@ -1,0 +1,884 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Bonus Settings | FlowTenant</title>
+
+    <!-- Dynamic Accent Color -->
+    <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+    <link
+        rel="stylesheet"
+        href="{% static 'css/salary_bonus_settings.css' %}"
+    >
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="salary-settings-page">
+
+    <aside class="salary-sidebar">
+
+ 
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+        <nav class="salary-navigation">
+
+            
+
+
+
+
+             <a
+                href="{% url 'salary_settings_page' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-home"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Salary Settings
+                </span>
+
+            </a>
+
+
+    
+            <a
+                href="{% url 'salary_payroll_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-money-check-dollar"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Payroll Settings
+                </span>
+
+            </a>
+
+            <a
+                href="{% url 'salary_attendance_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Attendance Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_payslip_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Payslip Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_tax_deductions_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Tax & Deductions
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="{% url 'salary_bonus_settings' %}"
+                class="salary-nav-link active"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-gift"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Bonus Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'employee_salary_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-user-tie"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Employee Salary
+                </span>
+
+            </a>
+
+            <a
+                href="{% url 'salary_notification_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+
+
+            <a
+                href="{% url 'salary_theme_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-palette"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+
+        </nav>
+        
+
+
+    </aside>
+
+    <main class="salary-main">
+
+        <header class="page-header">
+
+
+            <div class="header-left">
+
+
+                <div class="header-icon">
+
+                    <i class="fas fa-gift"></i>
+
+                </div>
+
+
+                <div>
+
+                    <div class="breadcrumb">
+
+                        <span>
+                            Salary
+                        </span>
+
+                        <i class="fas fa-chevron-right"></i>
+
+                        <span>
+                            Settings
+                        </span>
+
+                        <i class="fas fa-chevron-right"></i>
+
+                        <strong>
+                            Bonus
+                        </strong>
+
+                    </div>
+
+
+                    <h1>
+                        Bonus Settings
+                    </h1>
+
+
+                    <p>
+                        Configure employee bonuses,
+                        incentives, approvals and
+                        salary integration.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+
+        </header>
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message success">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+        <form
+            method="POST"
+            class="settings-form"
+        >
+
+            {% csrf_token %}
+
+
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon blue">
+
+                        <i class="fas fa-gift"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            General Bonus Settings
+                        </h2>
+
+                        <p>
+                            Configure the basic bonus
+                            behaviour for your company.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="switch-list">
+
+
+                    <label class="switch-row">
+
+                        {{ form.bonus_enabled }}
+
+                        <div>
+
+                            <strong>
+                                Enable Bonus Management
+                            </strong>
+
+                            <small>
+                                Allow bonuses to be created
+                                for employees.
+                            </small>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="switch-row">
+
+                        {{ form.allow_manual_bonus }}
+
+                        <div>
+
+                            <strong>
+                                Allow Manual Bonus
+                            </strong>
+
+                            <small>
+                                Allow authorized users to
+                                manually create bonuses.
+                            </small>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="switch-row">
+
+                        {{ form.require_approval }}
+
+                        <div>
+
+                            <strong>
+                                Require Bonus Approval
+                            </strong>
+
+                            <small>
+                                Require approval before
+                                processing a bonus.
+                            </small>
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Default Bonus Type
+                        </label>
+
+                        {{ form.default_bonus_type }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Minimum Bonus Amount
+                        </label>
+
+                        <div class="money-input">
+
+                            <span>₹</span>
+
+                            {{ form.minimum_bonus_amount }}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Maximum Bonus Amount
+                        </label>
+
+                        <div class="money-input">
+
+                            <span>₹</span>
+
+                            {{ form.maximum_bonus_amount }}
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon green">
+
+                        <i class="fas fa-money-check-dollar"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Payroll Integration
+                        </h2>
+
+                        <p>
+                            Control how bonuses interact
+                            with payroll and salary.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="switch-list">
+
+
+                    <label class="switch-row">
+
+                        {{ form.auto_include_in_payroll }}
+
+                        <div>
+
+                            <strong>
+                                Automatically Include in Payroll
+                            </strong>
+
+                            <small>
+                                Add approved bonuses to payroll
+                                automatically.
+                            </small>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="switch-row">
+
+                        {{ form.include_bonus_in_salary }}
+
+                        <div>
+
+                            <strong>
+                                Include Bonus in Salary
+                            </strong>
+
+                            <small>
+                                Include bonus amounts in
+                                salary calculations.
+                            </small>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="switch-row">
+
+                        {{ form.include_bonus_in_payslip }}
+
+                        <div>
+
+                            <strong>
+                                Show Bonus on Payslip
+                            </strong>
+
+                            <small>
+                                Display bonus information
+                                on employee payslips.
+                            </small>
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+
+            </section>
+
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon orange">
+
+                        <i class="fas fa-percent"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Tax & Bonus
+                        </h2>
+
+                        <p>
+                            Configure tax treatment for
+                            employee bonuses.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <label class="switch-row">
+
+                    {{ form.taxable_bonus }}
+
+                    <div>
+
+                        <strong>
+                            Taxable Bonus
+                        </strong>
+
+                        <small>
+                            Treat employee bonus amounts
+                            as taxable salary.
+                        </small>
+
+                    </div>
+
+                </label>
+
+
+            </section>
+
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon purple">
+
+                        <i class="fas fa-layer-group"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Bonus Types
+                        </h2>
+
+                        <p>
+                            Enable or disable available
+                            bonus categories.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="type-grid">
+
+
+                    <label class="type-item">
+
+                        {{ form.performance_bonus_enabled }}
+
+                        <span>
+
+                            <i class="fas fa-chart-line"></i>
+
+                            Performance Bonus
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="type-item">
+
+                        {{ form.festival_bonus_enabled }}
+
+                        <span>
+
+                            <i class="fas fa-calendar-star"></i>
+
+                            Festival Bonus
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="type-item">
+
+                        {{ form.annual_bonus_enabled }}
+
+                        <span>
+
+                            <i class="fas fa-calendar-days"></i>
+
+                            Annual Bonus
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="type-item">
+
+                        {{ form.referral_bonus_enabled }}
+
+                        <span>
+
+                            <i class="fas fa-user-plus"></i>
+
+                            Referral Bonus
+
+                        </span>
+
+                    </label>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- NOTIFICATIONS -->
+
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon pink">
+
+                        <i class="fas fa-bell"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Notifications
+                        </h2>
+
+                        <p>
+                            Configure bonus notification
+                            behaviour.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="switch-list">
+
+
+                    <label class="switch-row">
+
+                        {{ form.notify_employee }}
+
+                        <div>
+
+                            <strong>
+                                Notify Employee
+                            </strong>
+
+                            <small>
+                                Notify employees when a
+                                bonus is approved or paid.
+                            </small>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="switch-row">
+
+                        {{ form.notify_admin }}
+
+                        <div>
+
+                            <strong>
+                                Notify Administrator
+                            </strong>
+
+                            <small>
+                                Notify administrators about
+                                bonus activities.
+                            </small>
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- DESCRIPTION -->
+
+            <section class="settings-card">
+
+
+                <div class="section-heading">
+
+                    <div class="section-icon teal">
+
+                        <i class="fas fa-align-left"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Default Description
+                        </h2>
+
+                        <p>
+                            Set a default description for
+                            newly created bonuses.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Bonus Description
+                    </label>
+
+                    {{ form.default_description }}
+
+                </div>
+
+
+            </section>
+
+
+            <!-- ERRORS -->
+
+            {% if form.errors %}
+
+                <div class="form-errors">
+
+                    <strong>
+                        Please correct the following errors:
+                    </strong>
+
+                    {{ form.non_field_errors }}
+
+                    {% for field in form %}
+
+                        {% for error in field.errors %}
+
+                            <div>
+                                {{ field.label }}:
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+
+                <a
+                    href="{% url 'salary_dashboard' %}"
+                    class="cancel-btn"
+                >
+
+                    <i class="fas fa-xmark"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+
+                    <i class="fas fa-save"></i>
+
+                    Save Bonus Settings
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

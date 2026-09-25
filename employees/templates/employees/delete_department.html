@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="{{ appearance.language|default:'en' }}"
+      data-theme="{{ appearance.theme|default:'light' }}"
+      data-font-size="{{ appearance.font_size|default:'medium' }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Department | FlowTenant CRM</title>
+
+    <style>
+        :root{
+            --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link rel="stylesheet" href="{% static 'css/department_delete.css' %}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="delete-box">
+
+    <div class="icon">
+        <i class="fas fa-trash-alt"></i>
+    </div>
+
+    <h2>Delete Department</h2>
+
+    <p>
+        Are you sure you want to permanently delete
+        <strong>{{ department.name }}</strong>?
+    </p>
+
+    <form method="POST" class="button-group">
+        {% csrf_token %}
+
+        <button type="submit" class="delete-btn">
+            <i class="fas fa-trash"></i>
+            Yes, Delete
+        </button>
+
+        <a href="{% url 'department_list' %}" class="cancel-btn">
+            <i class="fas fa-times"></i>
+            Cancel
+        </a>
+    </form>
+
+</div>
+
+</body>
+</html>

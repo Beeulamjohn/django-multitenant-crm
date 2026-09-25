@@ -1,0 +1,294 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme|default:'light' }}"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Payment Management | FlowTenant CRM</title>
+    <style>
+        :root {
+            --accent-color:
+                {{ accent_color|default:'#2563eb' }};
+            --primary:
+                var(--accent-color);
+        }
+    </style>
+    <link
+        rel="stylesheet"
+        href="{% static 'css/payment.css' %}"
+    >
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+</head>
+<body>
+
+<div class="page">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>Payment Management</h1>
+
+            <p>Manage customer payments, transactions and receipts.</p>
+
+        </div>
+
+        <div class="header-buttons">
+
+    <a href="{% url 'product_dashboard' %}" class="btn-back">
+        
+        Back
+    </a>
+
+    
+
+    <a href="{% url 'customer_payment_form' %}" class="btn-primary">
+        <i class="fas fa-plus-circle"></i>
+        Receive Payment
+    </a>
+
+</div>
+
+    </div>
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <i class="fas fa-credit-card"></i>
+
+            <div>
+
+                <h2>{{ payments|length }}</h2>
+
+                <span>Total Payments</span>
+
+            </div>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fas fa-circle-check"></i>
+
+            <div>
+
+                <h2>Paid</h2>
+
+                <span>Successful Payments</span>
+
+            </div>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fas fa-clock"></i>
+
+            <div>
+
+                <h2>Pending</h2>
+
+                <span>Awaiting Confirmation</span>
+
+            </div>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fas fa-wallet"></i>
+
+            <div>
+
+                <h2>Revenue</h2>
+
+                <span>Total Collection</span>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="toolbar">
+
+        <div class="search-box">
+
+            <i class="fas fa-search"></i>
+
+            <input type="text"
+                   id="searchInput"
+                   placeholder="Search payment...">
+
+        </div>
+
+        <div class="filters">
+
+            <select>
+
+                <option>All Status</option>
+
+                <option>Paid</option>
+
+                <option>Pending</option>
+
+                <option>Failed</option>
+
+            </select>
+
+            <select>
+
+                <option>All Methods</option>
+
+                <option>Cash</option>
+
+                <option>UPI</option>
+
+                <option>Card</option>
+
+                <option>Bank Transfer</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-card">
+
+        <table id="paymentTable">
+
+            <thead>
+
+            <tr>
+
+                <th>No</th>
+
+                <th>Payment No</th>
+
+                <th>Customer</th>
+
+                <th>Date</th>
+
+                <th>Amount</th>
+
+                <th>Method</th>
+
+                <th>Status</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+{% for payment in payments %}
+
+<tr>
+
+    <td>{{ forloop.counter }}</td>
+
+    <td>
+        <strong>{{ payment.receipt_number }}</strong>
+    </td>
+
+    <td>{{ payment.customer.name }}</td>
+
+    <td>{{ payment.payment_date|date:"d M Y" }}</td>
+
+    <td>₹{{ payment.amount }}</td>
+
+    <td>{{ payment.payment_method }}</td>
+
+    <td>
+        <span class="status {{ payment.status|lower }}">
+            {{ payment.status }}
+        </span>
+    </td>
+
+    <td>
+
+        
+
+        <a href="{% url 'payment_update' payment.id %}"
+           class="action edit"
+           title="Edit">
+            <i class="fas fa-edit"></i>
+        </a>
+
+        <a href="{% url 'payment_print' payment.id %}"
+           class="action receipt"
+           target="_blank"
+           title="Print Receipt">
+            <i class="fas fa-print"></i>
+        </a>
+
+        <a href="{% url 'payment_delete' payment.id %}"
+           class="action delete"
+           title="Delete">
+            <i class="fas fa-trash"></i>
+        </a>
+
+    </td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+    <td colspan="8" class="empty">
+
+        <i class="fas fa-credit-card"></i>
+
+        <h2>No Payments Found</h2>
+
+        <p>Receive your first payment to get started.</p>
+
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+const search=document.getElementById("searchInput");
+
+search.addEventListener("keyup",function(){
+
+let filter=this.value.toLowerCase();
+
+let rows=document.querySelectorAll("#paymentTable tbody tr");
+
+rows.forEach(function(row){
+
+row.style.display=row.innerText.toLowerCase().includes(filter)?"":"none";
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

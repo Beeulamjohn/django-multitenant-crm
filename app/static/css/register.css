@@ -1,0 +1,266 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f8f4f2;
+    padding:30px;
+}
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    background:#fff;
+    color:#2563eb;
+    padding:14px 28px;
+    border-radius:50px;
+    font-weight:600;
+    transition:.3s;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+    margin-top: 15px;
+}
+
+.back-btn:hover{
+    background:#0f4c81;
+    color:#fff;
+    transform:translateY(-3px);
+}
+.register-container{
+    width:100%;
+    max-width:1200px;
+    background:#fff;
+    border-radius:25px;
+    overflow:hidden;
+    display:flex;
+    box-shadow:0 20px 60px rgba(0,0,0,.15);
+}
+
+.left-panel{
+    width:45%;
+   background-color: #3b1c35;
+    color:#fff;
+    padding:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.left-panel img{
+    width:180px;
+    margin-bottom:30px;
+}
+
+.left-panel h1{
+    font-size:42px;
+    margin-bottom:20px;
+}
+
+.left-panel p{
+    font-size:18px;
+    line-height:1.8;
+}
+
+.right-panel{
+    width:55%;
+    padding:50px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.register-box{
+    width:100%;
+    max-width:450px;
+}
+
+.register-box h2{
+    font-size:35px;
+    color:#3b1c35;
+}
+
+.subtitle{
+    color:black;
+    margin:10px 0 30px;
+}
+
+.input-box{
+    width:100%;
+    height:55px;
+    border:1px solid #3b1c35;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    padding:0 18px;
+    margin-bottom:18px;
+}
+
+.input-box i{
+    color:#3b1c35;
+    margin-right:12px;
+}
+
+.input-box input,
+.input-box select {
+
+    width:100%;
+    border:none;
+    outline:none;
+    font-size:15px;
+    color:#666;
+}
+
+button{
+    width:100%;
+    height:55px;
+    border:none;
+    border-radius:12px;
+    background:#3b1c35;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:red;
+}
+
+.message-box{
+    background:#dcfce7;
+    color:#166534;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.error-box{
+    background:#fee2e2;
+    color:#dc2626;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.login-link{
+    text-align:center;
+    margin-top:25px;
+    color:#666;
+}
+
+.login-link a{
+    color:#3b1c35;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.back-link{
+    display:block;
+    text-align:center;
+    margin-top:15px;
+    color:#3b1c35;
+    text-decoration:none;
+}
+
+@media screen and (max-width: 786px) {
+
+    body {
+        padding: 20px;
+        align-items: flex-start;
+    }
+
+    .register-container {
+        width: 100%;
+        max-width: 650px;
+        flex-direction: column;
+        border-radius: 22px;
+        margin: auto;
+    }
+    .left-panel {
+        width: 100%;
+        padding: 45px 30px;
+    }
+
+    .left-panel img {
+        width: 150px;
+        margin-bottom: 25px;
+    }
+
+    .left-panel h1 {
+        font-size: 34px;
+        margin-bottom: 15px;
+    }
+
+    .left-panel p {
+        font-size: 16px;
+        line-height: 1.7;
+        max-width: 550px;
+    }
+    .right-panel {
+        width: 100%;
+        padding: 45px 30px;
+    }
+
+    .register-box {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .register-box h2 {
+        font-size: 32px;
+    }
+
+    .subtitle {
+        font-size: 15px;
+        margin: 10px 0 25px;
+    }
+
+    .input-box {
+        height: 55px;
+        padding: 0 16px;
+        margin-bottom: 16px;
+    }
+
+    .input-box i {
+        margin-right: 10px;
+        font-size: 16px;
+    }
+
+    .input-box input,
+    .input-box select {
+        font-size: 15px;
+    }
+
+    button {
+        height: 55px;
+        font-size: 16px;
+    }
+
+    .message-box,
+    .error-box {
+        font-size: 14px;
+    }
+
+    .login-link {
+        margin-top: 20px;
+        font-size: 15px;
+    }
+
+    .back-link {
+        font-size: 15px;
+    }
+
+    .back-btn {
+        padding: 12px 24px;
+        font-size: 15px;
+    }
+}

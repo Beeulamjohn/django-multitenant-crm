@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>FlowTenant Register</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/register.css' %}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+
+<div class="register-container">
+
+    <div class="left-panel">
+
+        <img src="{% static 'images/flowte.png' %}"
+             alt="FlowTenant">
+
+        <h1>Join FlowTenant</h1>
+
+        <p>
+            Create your company account and manage
+            customers, students, employees, billing,
+            payroll, and analytics from one platform.
+        </p>
+
+    </div>
+
+    <div class="right-panel">
+
+        <div class="register-box">
+
+            <h2>Create Account</h2>
+
+            <p class="subtitle">
+                Start your free trial today.
+            </p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message-box">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if error %}
+                <div class="error-box">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="input-box">
+                    <i class="fa-solid fa-building"></i>
+                    <input type="text"
+                           name="company_name"
+                           placeholder="Company Name"
+                           required>
+                </div>
+
+                <div class="input-box">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text"
+                           name="full_name"
+                           placeholder="Full Name"
+                           required>
+                </div>
+
+                <div class="input-box">
+                    <i class="fa-solid fa-id-card"></i>
+                    <input type="text"
+                           name="username"
+                           placeholder="Username"
+                           required>
+                </div>
+
+                <div class="input-box">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email"
+                           name="email"
+                           placeholder="Email Address"
+                           required>
+                </div>
+
+                <div class="input-box">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="text"
+                           name="phone"
+                           placeholder="Phone Number"
+                           required>
+                </div>
+
+                <div class="input-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password"
+                           name="password"
+                           placeholder="Password"
+                           required>
+                </div>
+
+                <div class="input-box">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <input type="password"
+                           name="confirm_password"
+                           placeholder="Confirm Password"
+                           required>
+                </div>
+
+                <button type="submit">
+                    Create Account
+                </button>
+
+                <p class="login-link">
+                    Already have an account?
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+                </p>
+
+                <a href="{% url 'home' %}"
+                   class="back-link">
+                    ← Back to Home
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

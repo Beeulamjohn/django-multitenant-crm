@@ -1,0 +1,881 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      data-theme="{{ appearance_settings.theme|default:'light' }}">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Late Fee Settings | FlowTenant</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/billing_late_fee_settings.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance_settings.primary_color|default:'#2563eb' }};
+
+            --accent-dark:
+                {{ appearance_settings.primary_color|default:'#1d4ed8' }};
+
+            --accent-light:
+                {{ appearance_settings.primary_color|default:'#2563eb' }}15;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="billing-settings-page">
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="fas fa-cogs"></i>
+            <h2>Settings</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <ul>
+
+                <li>
+                    <a href="{% url 'billing_settings' %}">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_general_settings' %}">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>General Billing</span>
+                    </a>
+                </li>
+                <li>
+    <a href="{% url 'billing_company_profile_settings' %}">
+        <i class="fas fa-building"></i>
+        <span>Company Profile</span>
+    </a>
+</li>
+
+                <li>
+                    <a href="{% url 'billing_invoice_settings' %}">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Invoice Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_payment_settings' %}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_tax_settings' %}">
+                        <i class="fas fa-percent"></i>
+                        <span>Tax &amp; GST Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_fee_settings' %}">
+                        <i class="fas fa-money-check-dollar"></i>
+                        <span>Fee &amp; Discount</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="{% url 'billing_late_fee_settings' %}">
+                        <i class="fas fa-clock"></i>
+                        <span>Late Fee Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_reminder_settings' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Payment Reminders</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_appearance_settings' %}">
+                        <i class="fas fa-palette"></i>
+                        <span>Invoice Appearance</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_bank_settings' %}">
+                        <i class="fas fa-building-columns"></i>
+                        <span>Bank &amp; Payment</span>
+                    </a>
+                </li>
+
+                
+
+            </ul>
+
+        </nav>
+
+    </aside>
+    <main class="settings-content">
+
+        <header class="page-header">
+
+            <div class="header-content">
+
+                <div class="breadcrumb">
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Billing</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <strong>Late Fee Settings</strong>
+
+                </div>
+
+                <h1>Late Fee Settings</h1>
+
+                <p>
+                    Configure how overdue invoices are charged,
+                    calculated and displayed.
+                </p>
+
+            </div>
+
+            <div class="header-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+
+        </header>
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+
+                        {% if message.tags == "success" %}
+                            <i class="fas fa-circle-check"></i>
+                        {% elif message.tags == "error" %}
+                            <i class="fas fa-circle-exclamation"></i>
+                        {% elif message.tags == "warning" %}
+                            <i class="fas fa-triangle-exclamation"></i>
+                        {% else %}
+                            <i class="fas fa-circle-info"></i>
+                        {% endif %}
+
+                        <span>{{ message }}</span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST"
+              class="late-fee-form">
+
+            {% csrf_token %}
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Late Fee System</h2>
+
+                        <p>
+                            Enable and configure late charges for overdue
+                            student invoices.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-power-off"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Late Fee System Enabled</h3>
+
+                                <p>
+                                    Enable late fee calculation for
+                                    overdue invoices.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="enabled"
+                                   value="1"
+                                   {% if settings.enabled %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Grace Period</h2>
+
+                        <p>
+                            Give students a defined period after the
+                            due date before applying a late fee.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="form-group">
+
+                        <label for="grace_period_days">
+
+                            Grace Period
+
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <div class="input-with-suffix">
+
+                            <input type="number"
+                                   id="grace_period_days"
+                                   name="grace_period_days"
+                                   value="{{ settings.grace_period_days|default:0 }}"
+                                   min="0"
+                                   required>
+
+                            <span>Days</span>
+
+                        </div>
+
+                        <small>
+                            Example: 7 means the late fee begins
+                            seven days after the invoice due date.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Late Fee Calculation</h2>
+
+                        <p>
+                            Configure the amount charged when an invoice
+                            becomes overdue.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="late_fee_type">
+
+                                Late Fee Type
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <select id="late_fee_type"
+                                    name="late_fee_type"
+                                    required>
+
+                                <option value="percentage"
+                                    {% if settings.late_fee_type == "percentage" or not settings.late_fee_type %}
+                                    selected
+                                    {% endif %}>
+                                    Percentage (%)
+                                </option>
+
+                                <option value="fixed"
+                                    {% if settings.late_fee_type == "fixed" %}
+                                    selected
+                                    {% endif %}>
+                                    Fixed Amount
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="late_fee_value">
+
+                                Late Fee Value
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input type="number"
+                                   id="late_fee_value"
+                                   name="late_fee_value"
+                                   value="{{ settings.late_fee_value|default:'0.00' }}"
+                                   min="0"
+                                   step="0.01"
+                                   required>
+
+                            <small>
+                                Enter percentage or fixed amount based
+                                on the selected type.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="maximum_late_fee">
+
+                                Maximum Late Fee
+
+                            </label>
+
+                            <input type="number"
+                                   id="maximum_late_fee"
+                                   name="maximum_late_fee"
+                                   value="{{ settings.maximum_late_fee|default:'0.00' }}"
+                                   min="0"
+                                   step="0.01">
+
+                            <small>
+                                Enter 0 when no maximum limit is required.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-gears"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Automatic Application</h2>
+
+                        <p>
+                            Control when and how late fees are applied.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Apply Automatically</h3>
+
+                                <p>
+                                    Automatically calculate a late fee
+                                    when an invoice becomes overdue.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="apply_automatically"
+                                   value="1"
+                                   {% if settings.apply_automatically %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-triangle-exclamation"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Apply to Overdue Invoices</h3>
+
+                                <p>
+                                    Apply late charges only after the invoice
+                                    has entered an overdue state.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="apply_on_overdue"
+                                   value="1"
+                                   {% if settings.apply_on_overdue %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-rotate"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Repeated Late Fees</h2>
+
+                        <p>
+                            Decide whether late charges should repeat
+                            while an invoice remains unpaid.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-repeat"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Repeat Late Fee</h3>
+
+                                <p>
+                                    Continue applying late fees to unpaid
+                                    invoices after the initial charge.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="repeat_late_fee"
+                                   value="1"
+                                   {% if settings.repeat_late_fee %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-group repeat-field">
+
+                        <label for="repeat_interval">
+                            Repeat Interval
+                        </label>
+
+                        <select id="repeat_interval"
+                                name="repeat_interval">
+
+                            <option value="once"
+                                {% if settings.repeat_interval == "once" %}
+                                selected
+                                {% endif %}>
+                                One Time
+                            </option>
+
+                            <option value="daily"
+                                {% if settings.repeat_interval == "daily" %}
+                                selected
+                                {% endif %}>
+                                Daily
+                            </option>
+
+                            <option value="weekly"
+                                {% if settings.repeat_interval == "weekly" %}
+                                selected
+                                {% endif %}>
+                                Weekly
+                            </option>
+
+                            <option value="monthly"
+                                {% if settings.repeat_interval == "monthly" or not settings.repeat_interval %}
+                                selected
+                                {% endif %}>
+                                Monthly
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Invoice Display</h2>
+
+                        <p>
+                            Configure how the late fee appears on invoices.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Show Late Fee on Invoice</h3>
+
+                                <p>
+                                    Display the late fee as a separate
+                                    charge on the invoice.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="show_on_invoice"
+                                   value="1"
+                                   {% if settings.show_on_invoice %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="late_fee_description">
+
+                            Late Fee Description
+
+                        </label>
+
+                        <input type="text"
+                               id="late_fee_description"
+                               name="late_fee_description"
+                               value="{{ settings.late_fee_description|default:'Late payment fee' }}"
+                               maxlength="255">
+
+                        <small>
+                            This description can appear on the invoice.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Late Fee Summary</h2>
+
+                        <p>
+                            Review the current late fee configuration.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="summary-grid">
+
+                        <div class="summary-item">
+
+                            <span>Status</span>
+
+                            {% if settings.enabled %}
+
+                                <strong class="status-enabled">
+                                    Enabled
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="status-disabled">
+                                    Disabled
+                                </strong>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Grace Period</span>
+
+                            <strong>
+                                {{ settings.grace_period_days }} Days
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Late Fee Type</span>
+
+                            <strong>
+                                {{ settings.late_fee_type|title }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Late Fee Value</span>
+
+                            <strong>
+                                {{ settings.late_fee_value }}
+                                {% if settings.late_fee_type == "percentage" %}
+                                    %
+                                {% endif %}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Maximum Fee</span>
+
+                            <strong>
+                                {{ settings.maximum_late_fee }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Invoice Display</span>
+
+                            {% if settings.show_on_invoice %}
+
+                                <strong class="status-enabled">
+                                    Visible
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="status-disabled">
+                                    Hidden
+                                </strong>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <div class="form-actions">
+
+                <button type="reset"
+                        class="btn btn-secondary">
+
+                    <i class="fas fa-rotate-left"></i>
+
+                    Reset
+
+                </button>
+
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Late Fee Settings
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,160 @@
+body{
+    background:#f4f7fc;
+    font-family:Arial,sans-serif;
+}
+
+.container{
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.delete-card{
+    width:450px;
+    background:#fff;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.delete-icon{
+    font-size:60px;
+    color:#ef4444;
+    margin-bottom:20px;
+}
+
+.delete-card h2{
+    margin-bottom:15px;
+}
+
+.delete-card p{
+    color:#666;
+    margin-bottom:30px;
+}
+
+.delete-btn{
+    background:#ef4444;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-right:10px;
+}
+
+.cancel-btn{
+    background:#6b7280;
+    color:white;
+    text-decoration:none;
+    padding:12px 25px;
+    border-radius:10px;
+}
+@media screen and (max-width: 786px) {
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        width: 100%;
+        min-width: 100%;
+        min-height: 100%;
+    }
+
+    body {
+        padding: 0;
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    .container {
+        width: 100%;
+        min-height: 100vh;
+        height: auto;
+
+        padding: 20px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .delete-card {
+        width: 100%;
+        max-width: 450px;
+
+        padding: 30px 25px;
+
+        border-radius: 16px;
+
+        box-shadow:
+            0 8px 25px
+            rgba(0, 0, 0, 0.08);
+    }
+
+    .delete-icon {
+        font-size: 52px;
+
+        margin-bottom: 18px;
+    }
+    .delete-card h2 {
+        font-size: 24px;
+
+        line-height: 1.4;
+
+        margin-bottom: 15px;
+    }
+
+    .delete-card p {
+        font-size: 15px;
+
+        line-height: 1.7;
+
+        margin-bottom: 25px;
+    }
+
+    .delete-card form {
+        width: 100%;
+    }
+
+    .delete-btn {
+        width: 100%;
+
+        padding: 14px 20px;
+
+        margin-right: 0;
+        margin-bottom: 12px;
+
+        border-radius: 10px;
+
+        font-size: 15px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cancel-btn {
+        width: 100%;
+
+        padding: 14px 20px;
+
+        border-radius: 10px;
+
+        font-size: 15px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .delete-btn:hover {
+        transform: none;
+    }
+
+    .cancel-btn:hover {
+        transform: none;
+    }
+}

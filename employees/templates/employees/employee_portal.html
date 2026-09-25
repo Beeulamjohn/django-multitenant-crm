@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Billing Portal | FlowTenant</title>
+
+    <link rel="stylesheet" href="{% static 'css/employee_portal.css' %}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+
+<div class="portal-container">
+
+    <div class="portal-card">
+
+        <div class="logo">
+            <img src="{% static 'images/flowte.png' %}" alt="FlowTenant Logo">
+        </div>
+
+        <h1>Employee Management System</h1>
+
+        <p class="subtitle">
+            Welcome to the FlowTenant Employee Management System.
+            Please choose your login type to continue.
+        </p>
+
+        <div class="login-options">
+
+            <a href="{% url 'employee_admin_login' %}" class="login-card admin">
+
+                <div class="icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+
+                <h3>Company Admin</h3>
+
+                <p>
+                    Manage Store and manage complete employee information with
+                    secure records.
+                </p>
+
+                <span>Login <i class="fas fa-arrow-right"></i></span>
+
+            </a>
+
+            <a href="{% url 'employee_staff_login' %}" class="login-card staff">
+
+                <div class="icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+
+                <h3>Staff Login</h3>
+
+                <p>
+                    Generate Assign employees to departments, roles, and
+                    responsibilities.
+                </p>
+
+                <span>Login <i class="fas fa-arrow-right"></i></span>
+
+            </a>
+
+        </div>
+
+        <a href="{% url 'home' %}" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,909 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      class="{% if appearance.theme == 'dark' %}dark-theme{% else %}light-theme{% endif %}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+<title>Billing Dashboard</title>
+    <link rel="stylesheet"
+          href="{% static 'css/billing_dashboard.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+
+        }
+
+    </style>
+
+</head>
+<body class="tinder">
+<div class="dashboard">
+    <aside class="sidebar">
+
+    
+<div class="company-brand">
+
+    {% if company_profile.company_logo %}
+        <img src="{{ company_profile.company_logo.url }}"
+             class="company-logo"
+             alt="{{ company_profile.company_name }}">
+    {% else %}
+        <img src="{% static 'images/default-logo.png' %}"
+             class="company-logo"
+             alt="Company Logo">
+    {% endif %}
+
+    <div class="company-info">
+        <h2>{{ company_profile.company_name }}</h2>
+
+        <span>
+            {{ company_profile.email|default:"Student Billing System" }}
+        </span>
+    </div>
+
+</div>
+
+
+
+    <ul>
+
+        {% if company.company_type == "billing" %}
+
+        <li class="active">
+            <a href="{% url 'billing_dashboard' %}">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'create_invoice' %}">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Create Invoice</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'fee_configuration' %}">
+                <i class="fas fa-rupee-sign"></i>
+                <span>Fee Configuration</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'gst_settings' %}">
+                <i class="fas fa-percent"></i>
+                <span>GST Settings</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'billing_payment_list' %}">
+                <i class="fas fa-credit-card"></i>
+                <span>Payments</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'emi_list' %}">
+                <i class="fas fa-calendar-alt"></i>
+                <span>EMI Tracking</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'invoice_report' %}">
+                <i class="fas fa-file-pdf"></i>
+                <span>Invoice Reports</span>
+            </a>
+        </li>
+        <li>
+    <a href="{% url 'billing_settings' %}">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+    </a>
+</li>
+        
+<li>
+    <a href="{% url 'logout_billing' %}"
+       onclick="return confirm('Are you sure you want to logout?');">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+    </a>
+</li>
+        {% endif %}
+
+    </ul>
+
+</aside>
+   
+
+    <main class="main-content">
+
+        <div class="header">
+
+            <div class="header-left">
+
+                <h1>Billing Dashboard</h1>
+
+                <p>
+
+                    Welcome back,
+
+                    <strong>{{ request.user.username }}</strong>
+
+                </p>
+
+            </div>
+
+            <div class="search-box">
+
+                <i class="fas fa-search"></i>
+
+                <input type="text"
+                       placeholder="Search invoices, students, payments...">
+
+            </div>
+            <div class="header-right">
+
+                <a href="{% url 'home' %}" class="back-btn">
+                    Home
+                </a>
+
+                
+
+            </div>
+
+
+        </div>
+
+
+        <div class="cards">
+            <div class="card revenue">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-indian-rupee-sign"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>{{ currency_symbol }}{{ total_collection }}</h2>
+
+                    <p>Total Collection</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card paid">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-user-check"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>{{ paid_students }}</h2>
+
+                    <p>Paid Students</p>
+
+                </div>
+
+            </div>
+
+            <div class="card pending">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-clock"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>{{ pending_payments }}</h2>
+
+                    <p>Pending Payments</p>
+
+                </div>
+
+            </div>
+
+            <div class="card overdue">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-triangle-exclamation"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>{{ overdue_payments }}</h2>
+
+                    <p>Overdue Payments</p>
+
+                </div>
+
+            </div>
+
+            <div class="card invoices">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-file-invoice"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>{{ total_invoices }}</h2>
+
+                    <p>Total Invoices</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card students">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-user-graduate"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>{{ total_students }}</h2>
+
+                    <p>Total Students</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    
+
+
+        <div class="table-card">
+
+            <div class="table-header">
+
+                <h2>Billing Management System</h2>
+
+            </div>
+
+            <div class="feature-grid">
+
+        
+
+                <div class="feature-card">
+
+                    <div class="feature-icon customer">
+
+                        <i class="fas fa-user-graduate"></i>
+
+                    </div>
+
+                    <h3>Student Billing</h3>
+
+                    <p>
+
+                        Manage student fee collection, admissions,
+                        fee structures and billing records.
+
+                    </p>
+
+                    <ul>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Student Fee Collection
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Semester Fee Management
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Course-wise Billing
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Student Fee History
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+        
+
+                <div class="feature-card">
+
+                    <div class="feature-icon invoice">
+
+                        <i class="fas fa-file-invoice-dollar"></i>
+
+                    </div>
+
+                    <h3>Invoice Management</h3>
+
+                    <p>
+
+                        Generate professional invoices with automatic
+                        calculations and GST support.
+
+                    </p>
+
+                    <ul>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Create Invoice
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Automatic Invoice Number
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            PDF Download
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Print Invoice
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon payment">
+
+                        <i class="fas fa-credit-card"></i>
+
+                    </div>
+
+                    <h3>Payment Management</h3>
+
+                    <p>
+
+                        Record payments and monitor pending,
+                        partial and completed transactions.
+
+                    </p>
+
+                    <ul>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Cash / UPI / Card
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Partial Payments
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Pending Tracking
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Payment History
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+     
+                <div class="feature-card">
+
+                    <div class="feature-icon billing">
+
+                        <i class="fas fa-percent"></i>
+
+                    </div>
+
+                    <h3>GST & Reports</h3>
+
+                    <p>
+
+                        Configure GST settings and generate
+                        financial reports for your company.
+
+                    </p>
+
+                    <ul>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            GST Configuration
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Tax Calculation
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Invoice Reports
+
+                        </li>
+
+                        <li>
+
+                            <i class="fas fa-check"></i>
+
+                            Revenue Analytics
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <div class="table-header">
+
+                <h2>Recent Invoices</h2>
+
+                
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="dashboard-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Invoice No.</th>
+
+                            <th>Student</th>
+
+                            <th>Course</th>
+
+                            <th>Invoice Date</th>
+
+                            <th>Total Amount</th>
+
+                            <th>Amount Paid</th>
+
+                            <th>Balance</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+    {% for bill in bills %}
+    <tr>
+
+        <td>
+            <strong>{{ bill.invoice_number }}</strong>
+        </td>
+
+        <td>
+            {% if bill.student %}
+                {{ bill.student.first_name }} {{ bill.student.last_name }}
+            {% else %}
+                N/A
+            {% endif %}
+        </td>
+
+        <!-- Course -->
+        <td>
+            {{ bill.student.course|default:"N/A" }}
+        </td>
+
+        <!-- Invoice Date -->
+        <td>
+            {{ bill.created_at|date:"d M Y" }}
+        </td>
+
+       <td>{{ currency_symbol }}{{ bill.total_amount }}</td>
+
+
+        
+<td class="amount">{{ currency_symbol }}{{ payment.amount }}</td>
+        <td>{{ currency_symbol }}{{ bill.balance_amount }}</td>
+
+        <td>
+            {% if bill.status == "Paid" %}
+                <span class="status paid">Paid</span>
+
+            {% elif bill.status == "Partial" %}
+                <span class="status partial">Partial</span>
+
+            {% elif bill.status == "Overdue" %}
+                <span class="status overdue">Overdue</span>
+
+            {% else %}
+                <span class="status pending">Pending</span>
+            {% endif %}
+        </td>
+
+        <td>
+            <a href="{% url 'create_invoice_list' %}" class="table-btn view" title="View">
+                <i class="fas fa-eye"></i>
+            </a>
+
+            <a href="{% url 'create_invoice_update' bill.id %}" class="table-btn edit" title="Edit">
+                <i class="fas fa-edit"></i>
+            </a>
+
+            <a href="{% url 'create_invoice_delete' bill.id %}" class="table-btn delete" title="Delete">
+                <i class="fas fa-trash"></i>
+            </a>
+        </td>
+
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="9" class="empty-message">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <h3>No Invoices Found</h3>
+            <p>No invoice records are available for your company.</p>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="table-card">
+
+            <div class="table-header">
+
+                <h2>Recent Payments</h2>
+
+                
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="dashboard-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Receipt No.</th>
+
+                            <th>Student</th>
+
+                            <th>Invoice No.</th>
+
+                            <th>Payment Date</th>
+
+                            <th>Amount</th>
+
+                            <th>Payment Mode</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for payment in recent_payments %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>{{ payment.receipt_number }}</strong>
+
+                            </td>
+
+                            <td>
+
+                                {% if payment.student %}
+
+                                    {{ payment.student.first_name }}
+                                    {{ payment.student.last_name }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if payment.invoice %}
+
+                                    {{ payment.invoice.invoice_number }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ payment.payment_date }}
+
+                            </td>
+
+                            <td class="amount">
+
+                                ₹{{ payment.amount }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="payment-mode">
+
+                                    {{ payment.payment_method }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {% if payment.status == "Paid" %}
+
+                                    <span class="status paid">
+
+                                        Paid
+
+                                    </span>
+
+                                {% elif payment.status == "Partial" %}
+
+                                    <span class="status partial">
+
+                                        Partial
+
+                                    </span>
+
+                                {% elif payment.status == "Failed" %}
+
+                                    <span class="status overdue">
+
+                                        Failed
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status pending">
+
+                                        Pending
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+    <a href="{% url 'billing_payment_form' %}"
+       class="table-btn view"
+       title="View">
+        <i class="fas fa-eye"></i>
+    </a>
+
+    <a href="{% url 'edit_payment' payment.id %}"
+       class="table-btn edit"
+       title="Edit">
+        <i class="fas fa-edit"></i>
+    </a>
+
+    <a href="{% url 'delete_payment' payment.id %}"
+       class="table-btn delete"
+       title="Delete"
+       onclick="return confirm('Are you sure you want to delete this payment?');">
+        <i class="fas fa-trash"></i>
+    </a>
+</td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="8" class="empty-message">
+
+                                <i class="fas fa-credit-card"></i>
+
+                                <h3>No Payments Found</h3>
+
+                                <p>
+
+                                    No payment records are available for
+                                    your company.
+
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* Summary Cards */
+
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach((card, index) => {
+
+        card.style.opacity = "0";
+        card.style.transform = "translateY(30px)";
+
+        setTimeout(() => {
+
+            card.style.transition = "all .5s ease";
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+
+        }, index * 120);
+
+    });
+
+
+    const features = document.querySelectorAll(".feature-card");
+
+    features.forEach((card, index) => {
+
+        card.style.opacity = "0";
+        card.style.transform = "translateY(40px)";
+
+        setTimeout(() => {
+
+            card.style.transition = "all .6s ease";
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+
+        }, index * 150);
+
+    });
+
+
+    const actions = document.querySelectorAll(".action-card");
+
+    actions.forEach((card, index) => {
+
+        card.style.opacity = "0";
+        card.style.transform = "scale(.9)";
+
+        setTimeout(() => {
+
+            card.style.transition = "all .45s ease";
+            card.style.opacity = "1";
+            card.style.transform = "scale(1)";
+
+        }, index * 100);
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

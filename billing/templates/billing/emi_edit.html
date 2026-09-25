@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit EMI | Billing Management</title>
+
+    <link rel="stylesheet" href="{% static 'css/emi_form.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="page-header">
+
+        <div class="header-left">
+
+            <h1>
+                <i class="fas fa-pen-to-square"></i>
+                Edit EMI
+            </h1>
+
+            <p>Update EMI installment details.</p>
+
+            <div class="breadcrumb">
+
+                <a href="{% url 'billing_dashboard' %}">
+                    Billing Dashboard
+                </a>
+
+                <span>/</span>
+
+                <a href="{% url 'emi_list' %}">
+                    EMI Tracking
+                </a>
+
+                <span>/</span>
+
+                <span class="active">
+                    Edit EMI
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="header-right">
+
+            <a href="{% url 'emi_list' %}" class="back-btn">
+
+                <i class="fas fa-arrow-left"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            <i class="fas fa-circle-info"></i>
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+
+                <i class="fas fa-edit"></i>
+
+                Edit EMI Installment
+
+            </h2>
+
+            <p>Modify the EMI information below.</p>
+
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+                        Student
+                        <span class="required">*</span>
+                    </label>
+
+                    <select name="student" required>
+
+                        {% for student in students %}
+
+                        <option value="{{ student.id }}"
+                            {% if student.id == emi.student.id %}selected{% endif %}>
+
+                            {{ student.first_name }}
+                            {{ student.last_name }}
+                            ({{ student.admission_number }})
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Installment Number
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="installment"
+                        value="{{ emi.installment_no }}"
+                        min="1"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Due Date
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="date"
+                        name="due_date"
+                        value="{{ emi.due_date|date:'Y-m-d' }}"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        EMI Status
+                    </label>
+
+                    <input
+                        type="text"
+                        id="emiStatus"
+                        class="status-preview"
+                        value="{{ emi.status }}"
+                        readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        EMI Amount (₹)
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        name="amount"
+                        value="{{ emi.amount }}"
+                        required>
+
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button type="submit" class="save-btn">
+
+                    <i class="fas fa-save"></i>
+
+                    Update EMI
+
+                </button>
+
+                <a href="{% url 'emi_list' %}" class="cancel-btn">
+
+                    <i class="fas fa-times"></i>
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+const dueDate=document.querySelector('input[name="due_date"]');
+const status=document.getElementById("emiStatus");
+
+function updateStatus(){
+
+    if(!dueDate.value){
+        return;
+    }
+
+    const today=new Date();
+    today.setHours(0,0,0,0);
+
+    const selected=new Date(dueDate.value);
+
+    if(selected>=today){
+
+        status.value="Pending";
+        status.className="status-preview pending";
+
+    }else{
+
+        status.value="Overdue";
+        status.className="status-preview overdue";
+
+    }
+
+}
+
+dueDate.addEventListener("change",updateStatus);
+
+updateStatus();
+
+</script>
+
+</body>
+</html>

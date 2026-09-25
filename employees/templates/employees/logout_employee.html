@@ -1,0 +1,87 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme_settings.theme|default:'light' }}"
+    data-font-size="{{ theme_settings.font_size|default:'medium' }}"
+    data-sidebar-style="{{ theme_settings.sidebar_style|default:'expanded' }}"
+    style="
+        --accent-color: {{ theme_settings.accent_color|default:'#2563eb' }};
+    "
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Logout | FlowTenant</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/logout_employee.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+    <main class="logout-page">
+
+        <div class="logout-box">
+
+            <div class="logout-icon">
+                <i class="fas fa-right-from-bracket"></i>
+            </div>
+
+            <h2>
+                Are you sure you want to logout?
+            </h2>
+
+            <p class="logout-message">
+                You will be signed out of your employee account.
+            </p>
+
+            <form
+                method="POST"
+                action="{% url 'employee_logout' %}"
+                class="logout-form"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="btn-logout"
+                >
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+
+                <a
+                    href="{% url 'employee_dashboard' %}"
+                    class="btn-cancel"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Cancel</span>
+                </a>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

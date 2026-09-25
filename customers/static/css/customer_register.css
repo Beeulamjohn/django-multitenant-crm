@@ -1,0 +1,150 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f8f4f2;
+    padding:30px;
+}
+
+.register-container{
+    width:100%;
+    max-width:1200px;
+    background:#fff;
+    border-radius:25px;
+    overflow:hidden;
+    display:flex;
+    box-shadow:0 20px 60px rgba(0,0,0,.15);
+}
+
+.left-panel{
+    width:45%;
+   background-color: #3b1c35;
+    color:#fff;
+    padding:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.left-panel img{
+    width:180px;
+    margin-bottom:30px;
+}
+
+.left-panel h1{
+    font-size:42px;
+    margin-bottom:20px;
+}
+
+.left-panel p{
+    font-size:18px;
+    line-height:1.8;
+}
+
+.right-panel{
+    width:55%;
+    padding:50px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.register-box{
+    width:100%;
+    max-width:450px;
+}
+
+.register-box h2{
+    font-size:35px;
+    color:#3b1c35;
+}
+
+.subtitle{
+    color:black;
+    margin:10px 0 30px;
+}
+
+.input-box{
+    width:100%;
+    height:55px;
+    border:1px solid #3b1c35;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    padding:0 18px;
+    margin-bottom:18px;
+}
+
+.input-box i{
+    color:#3b1c35;
+    margin-right:12px;
+}
+
+.input-box input{
+    width:100%;
+    border:none;
+    outline:none;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    height:55px;
+    border:none;
+    border-radius:12px;
+    background:#3b1c35;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:red;
+}
+
+.message-box{
+    background:#dcfce7;
+    color:#166534;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.error-box{
+    background:#fee2e2;
+    color:#dc2626;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.login-link{
+    text-align:center;
+    margin-top:25px;
+    color:#666;
+}
+
+.login-link a{
+    color:#3b1c35;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.back-link{
+    display:block;
+    text-align:center;
+    margin-top:15px;
+    color:#3b1c35;
+    text-decoration:none;
+}

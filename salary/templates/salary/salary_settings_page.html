@@ -1,0 +1,594 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Salary Settings | FlowTenant</title>
+
+    <!-- Dynamic Accent Color -->
+    <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <!-- Salary Settings CSS -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/salary_settings_page.css' %}"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="salary-settings-layout">
+
+
+    <aside class="salary-sidebar">
+
+        
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+        <nav class="salary-sidebar-nav">
+            
+
+
+            <a
+                href="{% url 'salary_settings_page' %}"
+                class="salary-nav-link active"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-home"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Salary Settings
+                </span>
+
+            </a>
+
+
+    
+            <a
+                href="{% url 'salary_payroll_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-money-check-dollar"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Payroll Settings
+                </span>
+
+            </a>
+
+
+            <!-- Attendance -->
+
+            <a
+                href="{% url 'salary_attendance_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Attendance Settings
+                </span>
+
+            </a>
+
+
+            <!-- Payslip -->
+
+            <a
+                href="{% url 'salary_payslip_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Payslip Settings
+                </span>
+
+            </a>
+
+
+            <!-- Tax & Deductions -->
+
+            <a
+                href="{% url 'salary_tax_deductions_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Tax & Deductions
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="{% url 'salary_bonus_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-gift"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Bonus Settings
+                </span>
+
+            </a>
+
+
+            <!-- Employee Salary -->
+
+            <a
+                href="{% url 'employee_salary_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-user-tie"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Employee Salary
+                </span>
+
+            </a>
+
+
+            <!-- Notifications -->
+
+            <a
+                href="{% url 'salary_notification_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+
+
+            <!-- Theme -->
+
+            <a
+                href="{% url 'salary_theme_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-palette"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+
+        </nav>
+        <div class="salary-sidebar-footer">
+
+            <a
+                href="{% url 'salary_dashboard' %}"
+                class="salary-back-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+
+                <span>
+                    Back to Salary
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+    <main class="salary-main-content">
+
+        <header class="salary-page-header">
+
+            <div class="salary-page-header-text">
+
+                <div class="salary-breadcrumb">
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Salary</span>
+
+                </div>
+
+
+                <h1>
+                    Salary Settings
+                </h1>
+
+
+                <p>
+                    Manage salary structures, payroll,
+                    attendance, payslips, deductions,
+                    bonuses, employee salaries,
+                    notifications and appearance.
+                </p>
+
+            </div>
+
+
+            
+
+        </header>
+
+        <section class="salary-settings-section">
+
+            <div class="salary-settings-grid">
+                <a
+                    href="{% url 'salary_settings_page' %}"
+                    class="salary-setting-card"
+                >
+
+                    <div class="salary-card-icon blue">
+
+                        <i class="fas fa-sliders"></i>
+
+                    </div>
+
+
+                    <div class="salary-card-content">
+
+                        <h3>
+                            Salary Settings
+                        </h3>
+
+                        <p>
+                            Configure salary structures,
+                            salary components, salary cycles
+                            and default salary preferences.
+                        </p>
+
+                        <span class="salary-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <a
+                    href="{% url 'salary_payroll_settings' %}"
+                    class="salary-setting-card"
+                >
+
+                    <div class="salary-card-icon teal">
+
+                        <i class="fas fa-money-check-dollar"></i>
+
+                    </div>
+
+
+                    <div class="salary-card-content">
+
+                        <h3>
+                            Payroll Settings
+                        </h3>
+
+                        <p>
+                            Configure payroll processing,
+                            salary periods, payment cycles,
+                            allowances and deductions.
+                        </p>
+
+                        <span class="salary-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <a
+                    href="{% url 'salary_attendance_settings' %}"
+                    class="salary-setting-card"
+                >
+
+                    <div class="salary-card-icon green">
+
+                        <i class="fas fa-calendar-check"></i>
+
+                    </div>
+
+
+                    <div class="salary-card-content">
+
+                        <h3>
+                            Attendance Settings
+                        </h3>
+
+                        <p>
+                            Configure working days,
+                            attendance rules, overtime,
+                            late marks and salary attendance rules.
+                        </p>
+
+                        <span class="salary-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+                <a
+                    href="{% url 'salary_payslip_settings' %}"
+                    class="salary-setting-card"
+                >
+
+                    <div class="salary-card-icon purple">
+
+                        <i class="fas fa-file-invoice"></i>
+
+                    </div>
+
+
+                    <div class="salary-card-content">
+
+                        <h3>
+                            Payslip Settings
+                        </h3>
+
+                        <p>
+                            Configure payslip layout,
+                            company information, salary details,
+                            numbering and print preferences.
+                        </p>
+
+                        <span class="salary-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+                <a
+                    href="{% url 'salary_tax_deductions_settings' %}"
+                    class="salary-setting-card"
+                >
+
+                    <div class="salary-card-icon red">
+
+                        <i class="fas fa-file-invoice-dollar"></i>
+
+                    </div>
+
+
+                    <div class="salary-card-content">
+
+                        <h3>
+                            Tax & Deductions
+                        </h3>
+
+                        <p>
+                            Configure tax rules, statutory
+                            deductions, employee deductions
+                            and payroll compliance settings.
+                        </p>
+
+                        <span class="salary-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+                <a
+                    href="{% url 'salary_bonus_settings' %}"
+                    class="salary-setting-card"
+                >
+
+                    <div class="salary-card-icon orange">
+
+                        <i class="fas fa-gift"></i>
+
+                    </div>
+
+
+                    <div class="salary-card-content">
+
+                        <h3>
+                            Bonus Settings
+                        </h3>
+
+                        <p>
+                            Configure bonuses, incentives,
+                            performance payments, festival
+                            bonuses and other salary benefits.
+                        </p>
+
+                        <span class="salary-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+                <a
+                    href="{% url 'employee_salary_settings' %}"
+                    class="salary-setting-card"
+                >
+
+                    <div class="salary-card-icon indigo">
+
+                        <i class="fas fa-user-tie"></i>
+
+                    </div>
+
+
+                    <div class="salary-card-content">
+
+                        <h3>
+                            Employee Salary
+                        </h3>
+
+                        <p>
+                            Manage individual employee salary,
+                            basic pay, allowances, deductions,
+                            net salary and payment status.
+                        </p>
+
+                        <span class="salary-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <a
+                    href="{% url 'salary_notification_settings' %}"
+                    class="salary-setting-card"
+                >
+
+                    <div class="salary-card-icon pink">
+
+                        <i class="fas fa-bell"></i>
+
+                    </div>
+
+
+                    <div class="salary-card-content">
+
+                        <h3>
+                            Notifications
+                        </h3>
+
+                        <p>
+                            Configure salary reminders,
+                            payroll notifications, payslip
+                            alerts and payment notifications.
+                        </p>
+
+                        <span class="salary-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <a
+                    href="{% url 'salary_theme_settings' %}"
+                    class="salary-setting-card"
+                >
+
+                    <div class="salary-card-icon violet">
+
+                        <i class="fas fa-palette"></i>
+
+                    </div>
+
+
+                    <div class="salary-card-content">
+
+                        <h3>
+                            Theme & Appearance
+                        </h3>
+
+                        <p>
+                            Configure salary settings theme,
+                            colors, fonts, layout, sidebar
+                            and interface preferences.
+                        </p>
+
+                        <span class="salary-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+        </section>
+           
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

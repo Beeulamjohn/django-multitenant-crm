@@ -1,0 +1,467 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+:root {
+    --accent-color: #2563eb;
+    --primary-color: #2563eb;
+    --danger-color: #dc2626;
+    --danger-dark: #b91c1c;
+    --text-color: #1e293b;
+    --muted-color: #64748b;
+    --border-color: #e2e8f0;
+    --card-bg: #ffffff;
+    --page-bg: #f8f4f2;
+}
+
+
+html[data-theme="dark"] {
+    --text-color: #f1f5f9;
+    --muted-color: #94a3b8;
+    --border-color: #334155;
+    --card-bg: #1e293b;
+    --page-bg: #0f172a;
+}
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--page-bg);
+    color: var(--text-color);
+    min-height: 100vh;
+}
+
+
+/* ==============================
+   DELETE PAGE
+============================== */
+
+.delete-page {
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 40px 20px;
+}
+
+
+/* ==============================
+   DELETE CARD
+============================== */
+
+.delete-card {
+    width: 100%;
+    max-width: 560px;
+
+    background: var(--card-bg);
+
+    border: 1px solid var(--border-color);
+
+    border-radius: 18px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ==============================
+   DELETE ICON
+============================== */
+
+.delete-icon {
+    width: 72px;
+    height: 72px;
+
+    margin: 0 auto 22px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #fee2e2;
+
+    color: var(--danger-color);
+
+    font-size: 28px;
+}
+
+
+/* ==============================
+   HEADING
+============================== */
+
+.delete-card h1 {
+    font-size: 28px;
+
+    font-weight: 700;
+
+    margin-bottom: 10px;
+
+    color: var(--text-color);
+}
+
+
+.delete-message {
+    color: var(--muted-color);
+
+    font-size: 16px;
+
+    line-height: 1.6;
+
+    margin-bottom: 28px;
+}
+
+
+/* ==============================
+   CUSTOMER DETAILS
+============================== */
+
+.customer-details {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    text-align: left;
+
+    padding: 18px;
+
+    margin-bottom: 22px;
+
+    border: 1px solid var(--border-color);
+
+    border-radius: 12px;
+
+    background: rgba(148, 163, 184, 0.06);
+}
+
+
+.customer-avatar {
+    width: 52px;
+    height: 52px;
+
+    min-width: 52px;
+
+    border-radius: 50%;
+
+    background: var(--accent-color);
+
+    color: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+.customer-info {
+    min-width: 0;
+}
+
+
+.customer-info h2 {
+    font-size: 18px;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+
+    color: var(--text-color);
+
+    word-break: break-word;
+}
+
+
+.customer-info p {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--muted-color);
+
+    font-size: 14px;
+
+    margin-top: 4px;
+
+    word-break: break-word;
+}
+
+
+.customer-info p i {
+    width: 15px;
+
+    color: var(--accent-color);
+}
+
+
+/* ==============================
+   WARNING BOX
+============================== */
+
+.warning-box {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    text-align: left;
+
+    padding: 16px;
+
+    margin-bottom: 28px;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 10px;
+
+    background: #fef2f2;
+
+    color: #991b1b;
+}
+
+
+.warning-box > i {
+    font-size: 18px;
+
+    margin-top: 2px;
+}
+
+
+.warning-box strong {
+    display: block;
+
+    font-size: 15px;
+
+    margin-bottom: 5px;
+}
+
+
+.warning-box p {
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    color: #991b1b;
+}
+
+
+/* ==============================
+   FORM
+============================== */
+
+.delete-form {
+    display: flex;
+
+    gap: 12px;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+}
+
+
+/* ==============================
+   DELETE BUTTON
+============================== */
+
+.delete-btn {
+    border: none;
+
+    cursor: pointer;
+
+    min-height: 46px;
+
+    padding: 0 22px;
+
+    border-radius: 9px;
+
+    background: var(--danger-color);
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    transition: 0.2s ease;
+}
+
+
+.delete-btn:hover {
+    background: var(--danger-dark);
+
+    transform: translateY(-1px);
+}
+
+
+.delete-btn:active {
+    transform: translateY(0);
+}
+
+
+/* ==============================
+   CANCEL BUTTON
+============================== */
+
+.cancel-btn {
+    min-height: 46px;
+
+    padding: 0 22px;
+
+    border-radius: 9px;
+
+    border: 1px solid var(--border-color);
+
+    background: var(--card-bg);
+
+    color: var(--text-color);
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    transition: 0.2s ease;
+}
+
+
+.cancel-btn:hover {
+    background: rgba(148, 163, 184, 0.1);
+
+    border-color: var(--accent-color);
+
+    color: var(--accent-color);
+}
+
+
+/* ==============================
+   DARK MODE
+============================== */
+
+html[data-theme="dark"] .delete-icon {
+    background: rgba(220, 38, 38, 0.15);
+}
+
+
+html[data-theme="dark"] .warning-box {
+    background: rgba(220, 38, 38, 0.08);
+
+    border-color: rgba(248, 113, 113, 0.3);
+}
+
+
+html[data-theme="dark"] .warning-box,
+html[data-theme="dark"] .warning-box p {
+    color: #fca5a5;
+}
+
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media (max-width: 600px) {
+
+    .delete-page {
+        padding: 20px 14px;
+    }
+
+
+    .delete-card {
+        padding: 28px 20px;
+
+        border-radius: 14px;
+    }
+
+
+    .delete-card h1 {
+        font-size: 24px;
+    }
+
+
+    .delete-message {
+        font-size: 14px;
+    }
+
+
+    .customer-details {
+        padding: 14px;
+
+        gap: 12px;
+    }
+
+
+    .customer-avatar {
+        width: 46px;
+        height: 46px;
+
+        min-width: 46px;
+
+        font-size: 17px;
+    }
+
+
+    .customer-info h2 {
+        font-size: 16px;
+    }
+
+
+    .customer-info p {
+        font-size: 13px;
+    }
+
+
+    .delete-form {
+        flex-direction: column;
+    }
+
+
+    .delete-btn,
+    .cancel-btn {
+        width: 100%;
+    }
+
+}

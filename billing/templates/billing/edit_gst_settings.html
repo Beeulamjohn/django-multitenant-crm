@@ -1,0 +1,140 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en"
+      class="{% if appearance.theme == 'dark' %}dark-theme{% else %}light-theme{% endif %}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit GST Settings</title>
+
+    <link rel="stylesheet" href="{% static 'css/gst.css' %}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+        :root{
+            --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+</head>
+
+<body class="lotter">
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+            <i class="fas fa-edit"></i>
+            Edit GST Settings
+        </h1>
+
+        <a href="{% url 'gst_settings' %}"
+           class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back
+        </a>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Update GST Configuration</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="input-box">
+                    <label>GST Number</label>
+
+                    <input type="text"
+                           name="gst_number"
+                           value="{{ gst.gst_number }}"
+                           autocomplete="off"
+                           required>
+                </div>
+
+                <div class="input-box">
+
+                    <label>CGST (%)</label>
+
+                    <input type="number"
+                           step="0.01"
+                           name="cgst"
+                           value="{{ gst.cgst }}"
+                           autocomplete="off"
+                           required>
+
+                </div>
+
+                <div class="input-box">
+
+                    <label>SGST (%)</label>
+
+                    <input type="number"
+                           step="0.01"
+                           name="sgst"
+                           value="{{ gst.sgst }}"
+                           autocomplete="off"
+                           required>
+
+                </div>
+
+                <div class="input-box">
+
+                    <label>IGST (%)</label>
+
+                    <input type="number"
+                           step="0.01"
+                           name="igst"
+                           value="{{ gst.igst }}"
+                           autocomplete="off"
+                           required>
+
+                </div>
+
+                <div class="input-box">
+
+                    <label>Status</label>
+
+                    <select name="is_active">
+
+                        <option value="on"
+                        {% if gst.is_active %}
+                        selected
+                        {% endif %}>
+                            Enabled
+                        </option>
+
+                        <option value=""
+                        {% if not gst.is_active %}
+                        selected
+                        {% endif %}>
+                            Disabled
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="save-btn">
+    <i class="fas fa-save"></i>
+    Update GST Settings
+</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

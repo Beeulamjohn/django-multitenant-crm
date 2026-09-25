@@ -1,0 +1,985 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Employee Settings | FlowTenant</title>
+
+    <style>
+        :root {
+            --accent-color: {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/student_employee_settings.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<div class="settings-page">
+
+  
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+
+            <h2>Settings</h2>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <ul class="sidebar-menu">
+
+                <li>
+                    <a href="{% url 'company_settings' %}">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'company_profile' %}">
+                        <i class="fas fa-building"></i>
+                        <span>Company Profile</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'account_settings' %}">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Account</span>
+                    </a>
+                </li>
+
+
+                <li class="active">
+                    <a href="{% url 'student_employee_settings' %}">
+                        <i class="fas fa-users"></i>
+                        <span>Employees</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'student_settings' %}">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Students</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'notification_settings' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'appearance_settings' %}">
+                        <i class="fas fa-palette"></i>
+                        <span>Appearance</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'report_settings' %}">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main-content">
+
+        <header class="page-header">
+
+            <div class="header-left">
+
+                <div class="page-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+
+                <h1>Employee Settings</h1>
+
+                <p>
+                    Configure working hours, attendance, salary,
+                    leave and employee identification settings.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             FORM
+        ========================== -->
+
+        <form
+            method="POST"
+            action="{% url 'student_employee_settings' %}"
+            class="settings-form"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- =========================
+                 WORKING HOURS
+            ========================== -->
+
+            <section class="settings-card">
+
+                <div class="section-header">
+
+                    <div class="section-icon blue">
+                        <i class="fas fa-clock"></i>
+                    </div>
+
+                    <div>
+                        <h2>Working Hours</h2>
+
+                        <p>
+                            Configure the standard working schedule
+                            for employees.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="working_hours">
+                            Default Working Hours
+                            <span>*</span>
+                        </label>
+
+                        <div class="input-with-icon">
+
+                            <i class="fas fa-business-time"></i>
+
+                            <input
+                                type="number"
+                                id="working_hours"
+                                name="working_hours"
+                                value="{{ form.working_hours.value|default:'8' }}"
+                                min="1"
+                                max="24"
+                                step="0.5"
+                                required
+                            >
+
+                            <small>hours/day</small>
+
+                        </div>
+
+                        <p class="help-text">
+                            Standard number of working hours per day.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="office_start">
+                            Office Start Time
+                            <span>*</span>
+                        </label>
+
+                        <div class="input-with-icon">
+
+                            <i class="fas fa-sun"></i>
+
+                            <input
+                                type="time"
+                                id="office_start"
+                                name="office_start"
+                                value="{{ form.office_start.value|default:'09:00' }}"
+                                required
+                            >
+
+                        </div>
+
+                        <p class="help-text">
+                            Default employee check-in time.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="office_end">
+                            Office End Time
+                            <span>*</span>
+                        </label>
+
+                        <div class="input-with-icon">
+
+                            <i class="fas fa-moon"></i>
+
+                            <input
+                                type="time"
+                                id="office_end"
+                                name="office_end"
+                                value="{{ form.office_end.value|default:'17:00' }}"
+                                required
+                            >
+
+                        </div>
+
+                        <p class="help-text">
+                            Default employee check-out time.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="attendance_method">
+                            Attendance Method
+                        </label>
+
+                        <div class="select-wrapper">
+
+                            <i class="fas fa-fingerprint"></i>
+
+                            <select
+                                id="attendance_method"
+                                name="attendance_method"
+                            >
+
+                                <option
+                                    value="manual"
+                                    {% if form.attendance_method.value == "manual" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Manual Entry
+                                </option>
+
+                                <option
+                                    value="biometric"
+                                    {% if form.attendance_method.value == "biometric" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Biometric
+                                </option>
+
+                                <option
+                                    value="qr"
+                                    {% if form.attendance_method.value == "qr" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    QR Code
+                                </option>
+
+                                <option
+                                    value="web"
+                                    {% if form.attendance_method.value == "web" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Web Check-in
+                                </option>
+
+                                <option
+                                    value="mobile"
+                                    {% if form.attendance_method.value == "mobile" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Mobile Check-in
+                                </option>
+
+                            </select>
+
+                            <i class="fas fa-chevron-down select-arrow"></i>
+
+                        </div>
+
+                        <p class="help-text">
+                            Select how employee attendance is recorded.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 SALARY & OVERTIME
+            ========================== -->
+
+            <section class="settings-card">
+
+                <div class="section-header">
+
+                    <div class="section-icon green">
+                        <i class="fas fa-money-check-dollar"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Salary &amp; Overtime</h2>
+
+                        <p>
+                            Configure salary cycles and overtime
+                            calculation rules.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="salary_cycle">
+                            Salary Cycle
+                        </label>
+
+                        <div class="select-wrapper">
+
+                            <i class="fas fa-calendar-days"></i>
+
+                            <select
+                                id="salary_cycle"
+                                name="salary_cycle"
+                            >
+
+                                <option
+                                    value="monthly"
+                                    {% if form.salary_cycle.value == "monthly" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Monthly
+                                </option>
+
+                                <option
+                                    value="weekly"
+                                    {% if form.salary_cycle.value == "weekly" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Weekly
+                                </option>
+
+                            </select>
+
+                            <i class="fas fa-chevron-down select-arrow"></i>
+
+                        </div>
+
+                        <p class="help-text">
+                            Choose how frequently salaries are processed.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="overtime_calculation">
+                            Overtime Calculation
+                        </label>
+
+                        <div class="select-wrapper">
+
+                            <i class="fas fa-stopwatch"></i>
+
+                            <select
+                                id="overtime_calculation"
+                                name="overtime_calculation"
+                            >
+
+                                <option
+                                    value="disabled"
+                                    {% if form.overtime_calculation.value == "disabled" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Disabled
+                                </option>
+
+                                <option
+                                    value="hourly"
+                                    {% if form.overtime_calculation.value == "hourly" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Hourly Rate
+                                </option>
+
+                                <option
+                                    value="fixed"
+                                    {% if form.overtime_calculation.value == "fixed" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Fixed Overtime Rate
+                                </option>
+
+                                <option
+                                    value="percentage"
+                                    {% if form.overtime_calculation.value == "percentage" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Percentage of Hourly Rate
+                                </option>
+
+                            </select>
+
+                            <i class="fas fa-chevron-down select-arrow"></i>
+
+                        </div>
+
+                        <p class="help-text">
+                            Define how employee overtime should be calculated.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="overtime_rate">
+                            Overtime Rate
+                        </label>
+
+                        <div class="input-with-icon">
+
+                            <i class="fas fa-indian-rupee-sign"></i>
+
+                            <input
+                                type="number"
+                                id="overtime_rate"
+                                name="overtime_rate"
+                                value="{{ form.overtime_rate.value|default:'0' }}"
+                                min="0"
+                                step="0.01"
+                            >
+
+                            <small>/hour</small>
+
+                        </div>
+
+                        <p class="help-text">
+                            Overtime amount paid for each additional hour.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 LEAVE POLICY
+            ========================== -->
+
+            <section class="settings-card">
+
+                <div class="section-header">
+
+                    <div class="section-icon orange">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Leave Policy</h2>
+
+                        <p>
+                            Set the default annual leave allowance
+                            for employees.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="annual_leave">
+                            Annual Leave
+                        </label>
+
+                        <div class="input-with-icon">
+
+                            <i class="fas fa-umbrella-beach"></i>
+
+                            <input
+                                type="number"
+                                id="annual_leave"
+                                name="annual_leave"
+                                value="{{ form.annual_leave.value|default:'12' }}"
+                                min="0"
+                                max="365"
+                            >
+
+                            <small>days/year</small>
+
+                        </div>
+
+                        <p class="help-text">
+                            Total paid leave allowed per year.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="sick_leave">
+                            Sick Leave
+                        </label>
+
+                        <div class="input-with-icon">
+
+                            <i class="fas fa-notes-medical"></i>
+
+                            <input
+                                type="number"
+                                id="sick_leave"
+                                name="sick_leave"
+                                value="{{ form.sick_leave.value|default:'12' }}"
+                                min="0"
+                                max="365"
+                            >
+
+                            <small>days/year</small>
+
+                        </div>
+
+                        <p class="help-text">
+                            Default sick leave allowance.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <div class="toggle-label">
+
+                            <span>Allow Leave Carry Forward</span>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    name="leave_carry_forward"
+                                    {% if form.leave_carry_forward.value %}
+                                        checked
+                                    {% elif form.leave_carry_forward.value == None %}
+                                        checked
+                                    {% endif %}
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <p class="help-text">
+                            Allow unused leave to be carried into
+                            the next year.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 EMPLOYEE ID
+            ========================== -->
+
+            <section class="settings-card">
+
+                <div class="section-header">
+
+                    <div class="section-icon purple">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Employee ID Settings</h2>
+
+                        <p>
+                            Configure employee identification numbers.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="employee_prefix">
+                            Employee ID Prefix
+                        </label>
+
+                        <div class="input-with-icon">
+
+                            <i class="fas fa-tag"></i>
+
+                            <input
+                                type="text"
+                                id="employee_prefix"
+                                name="employee_prefix"
+                                value="{{ form.employee_prefix.value|default:'EMP' }}"
+                                maxlength="10"
+                                placeholder="EMP"
+                            >
+
+                        </div>
+
+                        <p class="help-text">
+                            Example: EMP-0001, EMP-0002.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <div class="toggle-label">
+
+                            <span>Auto Generate Employee ID</span>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    name="auto_employee_id"
+                                    {% if form.auto_employee_id.value %}
+                                        checked
+                                    {% elif form.auto_employee_id.value == None %}
+                                        checked
+                                    {% endif %}
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <p class="help-text">
+                            Automatically generate a unique employee
+                            ID when a new employee is added.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="starting_number">
+                            Starting Number
+                        </label>
+
+                        <div class="input-with-icon">
+
+                            <i class="fas fa-hashtag"></i>
+
+                            <input
+                                type="number"
+                                id="starting_number"
+                                name="starting_number"
+                                value="{{ form.starting_number.value|default:'1' }}"
+                                min="1"
+                            >
+
+                        </div>
+
+                        <p class="help-text">
+                            Starting sequence number for new employees.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 PROBATION PERIOD
+            ========================== -->
+
+            <section class="settings-card">
+
+                <div class="section-header">
+
+                    <div class="section-icon red">
+                        <i class="fas fa-user-clock"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Probation Period</h2>
+
+                        <p>
+                            Configure the default probation period
+                            for newly joined employees.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="probation_period">
+                            Probation Period
+                        </label>
+
+                        <div class="input-with-icon">
+
+                            <i class="fas fa-calendar-week"></i>
+
+                            <input
+                                type="number"
+                                id="probation_period"
+                                name="probation_period"
+                                value="{{ form.probation_period.value|default:'6' }}"
+                                min="0"
+                                max="60"
+                            >
+
+                            <small>months</small>
+
+                        </div>
+
+                        <p class="help-text">
+                            Default probation duration for new employees.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <div class="toggle-label">
+
+                            <span>Enable Probation Tracking</span>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    name="probation_tracking"
+                                    {% if form.probation_tracking.value %}
+                                        checked
+                                    {% elif form.probation_tracking.value == None %}
+                                        checked
+                                    {% endif %}
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                        <p class="help-text">
+                            Automatically track probation completion
+                            dates for employees.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 ACTION BAR
+            ========================== -->
+
+            <div class="action-bar">
+
+                <button
+                    type="reset"
+                    class="btn btn-reset"
+                >
+                    <i class="fas fa-rotate-left"></i>
+                    Reset
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    <i class="fas fa-floppy-disk"></i>
+                    Save Employee Settings
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* --------------------------------
+       OFFICE TIME VALIDATION
+    -------------------------------- */
+
+    const startTime = document.getElementById("office_start");
+    const endTime = document.getElementById("office_end");
+
+    function validateOfficeTime() {
+
+        if (
+            startTime &&
+            endTime &&
+            startTime.value &&
+            endTime.value &&
+            endTime.value <= startTime.value
+        ) {
+
+            endTime.setCustomValidity(
+                "Office end time must be after office start time."
+            );
+
+        } else if (endTime) {
+
+            endTime.setCustomValidity("");
+
+        }
+
+    }
+
+
+    if (startTime && endTime) {
+
+        startTime.addEventListener(
+            "change",
+            validateOfficeTime
+        );
+
+        endTime.addEventListener(
+            "change",
+            validateOfficeTime
+        );
+
+    }
+
+
+    /* --------------------------------
+       EMPLOYEE PREFIX
+    -------------------------------- */
+
+    const prefix = document.getElementById("employee_prefix");
+
+    if (prefix) {
+
+        prefix.addEventListener(
+            "input",
+            function () {
+
+                this.value = this.value
+                    .toUpperCase()
+                    .replace(/[^A-Z0-9_-]/g, "");
+
+            }
+        );
+
+    }
+
+});
+
+</script>
+
+
+</body>
+</html>

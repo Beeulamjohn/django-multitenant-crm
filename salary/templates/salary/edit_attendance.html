@@ -1,0 +1,200 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Attendance</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/mark_attendance.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <div class="heading">
+
+            <div class="icon">
+
+                <i class="fas fa-user-edit"></i>
+
+            </div>
+
+            <div>
+
+                <h1>Edit Attendance</h1>
+
+                <p>Update employee attendance information</p>
+
+            </div>
+
+        </div>
+
+        <a href="{% url 'attendance_dashboard' %}" class="back-btn">
+
+            <i class="fas fa-arrow-left"></i>
+
+            Back
+
+        </a>
+
+    </div>
+
+    <!-- Form -->
+
+    <div class="card">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="grid">
+
+                <div class="form-group">
+
+                    <label>Employee</label>
+
+                    <select name="employee" required>
+
+                        {% for employee in employees %}
+
+                        <option
+                            value="{{ employee.id }}"
+                            {% if attendance.employee.id == employee.id %}selected{% endif %}>
+
+                            {{ employee.name }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Date</label>
+
+                    <input
+                        type="date"
+                        name="date"
+                        value="{{ attendance.date|date:'Y-m-d' }}"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Status</label>
+
+                    <select name="status">
+
+                        <option value="Present"
+                        {% if attendance.status == "Present" %}selected{% endif %}>
+                            Present
+                        </option>
+
+                        <option value="Absent"
+                        {% if attendance.status == "Absent" %}selected{% endif %}>
+                            Absent
+                        </option>
+
+                        <option value="Leave"
+                        {% if attendance.status == "Leave" %}selected{% endif %}>
+                            Leave
+                        </option>
+
+                        <option value="Half Day"
+                        {% if attendance.status == "Half Day" %}selected{% endif %}>
+                            Half Day
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Check In</label>
+
+                    <input
+                        type="time"
+                        name="check_in"
+                        value="{{ attendance.check_in|time:'H:i' }}">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Check Out</label>
+
+                    <input
+                        type="time"
+                        name="check_out"
+                        value="{{ attendance.check_out|time:'H:i' }}">
+
+                </div>
+
+                <div class="form-group full">
+
+                    <label>Remarks</label>
+
+                    <textarea
+                        name="remarks"
+                        rows="4">{{ attendance.remarks }}</textarea>
+
+                </div>
+
+            </div>
+
+            <div class="buttons">
+
+                <button
+                    type="reset"
+                    class="reset-btn">
+
+                    <i class="fas fa-rotate-left"></i>
+
+                    Reset
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="save-btn">
+
+                    <i class="fas fa-save"></i>
+
+                    Update Attendance
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

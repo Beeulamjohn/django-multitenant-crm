@@ -1,0 +1,40 @@
+<div class="profile-option">
+
+    <div class="option-text">
+
+        <strong>
+            {{ title }}
+        </strong>
+
+        <span>
+            {{ description }}
+        </span>
+
+        {% if field.errors %}
+
+            <div class="profile-field-error">
+
+                {% for error in field.errors %}
+
+                    <small>
+                        {{ error }}
+                    </small>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <label class="profile-switch">
+
+        {{ field }}
+
+        <span class="profile-slider"></span>
+
+    </label>
+
+</div>

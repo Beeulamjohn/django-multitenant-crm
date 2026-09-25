@@ -1,0 +1,242 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Add Salary Structure | Salary Management
+</title>
+<style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+<link rel="stylesheet"
+href="{% static 'css/add_salary_structure.css' %}">
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="page-container">
+
+
+<div class="header">
+
+
+<div>
+
+<h1>
+<i class="fas fa-wallet"></i>
+Add Salary Structure
+</h1>
+
+<p>
+Create employee salary configuration
+</p>
+
+</div>
+
+
+
+<a href="{% url 'salary_dashboard' %}"
+class="back-btn">
+
+
+Back
+
+</a>
+
+
+</div>
+
+
+
+
+
+<div class="form-card">
+
+
+
+<div class="form-heading">
+
+<i class="fas fa-money-check-alt"></i>
+
+<h2>
+Salary Details
+</h2>
+
+
+</div>
+
+
+
+
+
+<form method="POST">
+
+{% csrf_token %}
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+<label>
+Employee
+</label>
+
+{{ form.employee }}
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Basic Salary
+</label>
+
+{{ form.basic_salary }}
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+HRA
+</label>
+
+{{ form.hra }}
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Allowance
+</label>
+
+{{ form.allowance }}
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Deduction
+</label>
+
+{{ form.deduction }}
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Net Salary
+</label>
+
+{{ form.net_salary }}
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<div class="action-buttons">
+
+
+<button type="submit"
+class="save-btn">
+
+<i class="fas fa-save"></i>
+
+Save Salary Structure
+
+</button>
+
+
+
+
+
+<a href="{% url 'salary_dashboard' %}"
+class="cancel-btn">
+
+<i class="fas fa-times"></i>
+
+Cancel
+
+</a>
+
+
+</div>
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+</body>
+
+</html>

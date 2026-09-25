@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html
+    lang="{{ settings.language|default:'en' }}"
+    data-theme="{{ settings.theme|default:'light' }}"
+    data-font-size="{{ settings.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ settings.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ settings.sidebar_style|default:'expanded' }}"
+>
+<head>
+ <style>
+        :root {
+            --accent-color: {{ settings.accent_color|default:"#2563eb" }};
+        }
+    </style>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Delete User | Student Management System
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/user_settings.css' %}">
+
+</head>
+
+<body>
+
+<div class="settings-page">
+
+    <main class="settings-content"
+          style="width:100%; margin-left:0;">
+
+        <section class="settings-card"
+                 style="max-width:600px; margin:80px auto;">
+
+            <div class="security-info">
+
+                <div class="security-icon"
+                     style="color:#dc2626; background:#fef2f2;">
+
+                    <i class="fas fa-trash"></i>
+
+                </div>
+
+                <div class="security-content">
+
+                    <h3>
+                        Delete User
+                    </h3>
+
+                    <p>
+
+                        Are you sure you want to permanently
+                        delete
+
+                        <strong>
+                            {{ user_obj.username }}
+                        </strong>
+
+                       ?
+
+                        This action cannot be undone.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form method="POST"
+                  style="padding:22px;">
+
+                {% csrf_token %}
+
+                <div class="modal-footer">
+
+                    <a href="{% url 'user_settings' %}"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn"
+                            style="background:#dc2626;color:white;">
+
+                        <i class="fas fa-trash"></i>
+
+                        Delete User
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

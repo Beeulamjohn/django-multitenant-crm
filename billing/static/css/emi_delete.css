@@ -1,0 +1,293 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+}
+
+.container{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.delete-card{
+    width:100%;
+    max-width:550px;
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+    padding:35px;
+    text-align:center;
+}
+
+.icon{
+    width:80px;
+    height:80px;
+    margin:auto;
+    border-radius:50%;
+    background:#fdeaea;
+    color:#dc2626;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:34px;
+    margin-bottom:20px;
+}
+
+.delete-card h2{
+    color:#222;
+    margin-bottom:10px;
+}
+
+.delete-card p{
+    color:#666;
+    line-height:1.6;
+}
+
+.details{
+    margin-top:25px;
+    text-align:left;
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    padding:20px;
+}
+
+.details p{
+    margin-bottom:12px;
+}
+
+.details strong{
+    color:#111827;
+}
+
+.button-group{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+}
+
+.delete-btn{
+    background:#dc2626;
+    color:#fff;
+    padding:12px 24px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.delete-btn:hover{
+    background:#b91c1c;
+}
+
+.cancel-btn{
+    background:#2563eb;
+    color:#fff;
+    padding:12px 24px;
+    border-radius:8px;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.cancel-btn:hover{
+    background:#1d4ed8;
+}
+
+@media(max-width:600px){
+
+.button-group{
+    flex-direction:column;
+}
+
+.delete-btn,
+.cancel-btn{
+    width:100%;
+}
+}
+
+@media (max-width:1024px){
+
+    .container{
+        padding:25px;
+    }
+
+    .delete-card{
+        max-width:650px;
+        padding:30px;
+    }
+
+    .delete-card h2{
+        font-size:28px;
+    }
+
+    .delete-card p{
+        font-size:15px;
+    }
+
+    .details{
+        padding:18px;
+    }
+}
+
+
+@media (max-width:912px){
+
+    .container{
+        padding:20px;
+    }
+
+    .delete-card{
+        max-width:100%;
+        padding:28px;
+    }
+
+    .icon{
+        width:75px;
+        height:75px;
+        font-size:32px;
+    }
+
+    .delete-card h2{
+        font-size:26px;
+    }
+
+    .details{
+        padding:18px;
+    }
+
+    .button-group{
+        gap:12px;
+    }
+}
+@media (max-width:768px){
+
+    .container{
+        padding:18px;
+        align-items:flex-start;
+    }
+
+    .delete-card{
+        padding:25px;
+        border-radius:15px;
+    }
+
+    .icon{
+        width:70px;
+        height:70px;
+        font-size:30px;
+        margin-bottom:18px;
+    }
+
+    .delete-card h2{
+        font-size:24px;
+    }
+
+    .delete-card p{
+        font-size:15px;
+    }
+
+    .details{
+        padding:16px;
+    }
+
+    .button-group{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .delete-btn,
+    .cancel-btn{
+        width:100%;
+        text-align:center;
+        justify-content:center;
+        padding:14px;
+    }
+}
+
+
+@media (max-width:576px){
+
+    .container{
+        padding:15px;
+    }
+
+    .delete-card{
+        padding:20px;
+    }
+
+    .icon{
+        width:65px;
+        height:65px;
+        font-size:28px;
+    }
+
+    .delete-card h2{
+        font-size:22px;
+    }
+
+    .delete-card p,
+    .details p{
+        font-size:14px;
+    }
+
+    .details{
+        padding:15px;
+    }
+
+    .delete-btn,
+    .cancel-btn{
+        font-size:14px;
+        padding:13px;
+    }
+}
+
+@media (max-width:400px){
+
+    .container{
+        padding:10px;
+    }
+
+    .delete-card{
+        padding:18px 15px;
+        border-radius:12px;
+    }
+
+    .icon{
+        width:60px;
+        height:60px;
+        font-size:24px;
+    }
+
+    .delete-card h2{
+        font-size:20px;
+    }
+
+    .delete-card p,
+    .details p{
+        font-size:13px;
+        line-height:1.5;
+    }
+
+    .details{
+        padding:12px;
+    }
+
+    .delete-btn,
+    .cancel-btn{
+        width:100%;
+        padding:12px;
+        font-size:13px;
+    }
+}

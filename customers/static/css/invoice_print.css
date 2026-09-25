@@ -1,0 +1,671 @@
+/* =========================================================
+   FLOWTENANT CUSTOMER INVOICE - PRINT CSS
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   RESET
+   --------------------------------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+
+/* ---------------------------------------------------------
+   BODY
+   --------------------------------------------------------- */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #f1f5f9;
+
+    color: #1e293b;
+
+    line-height: 1.5;
+}
+
+
+.print-body {
+    padding: 40px 20px;
+}
+
+
+/* ---------------------------------------------------------
+   MAIN INVOICE
+   --------------------------------------------------------- */
+
+.print-invoice {
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    padding: 45px;
+
+    background: #ffffff;
+
+    border: 1px solid #dbe3ef;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ---------------------------------------------------------
+   HEADER
+   --------------------------------------------------------- */
+
+.print-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 30px;
+
+    padding-bottom: 25px;
+
+    margin-bottom: 30px;
+
+    border-bottom: 3px solid #3b1c35;
+}
+
+
+.company-details h1 {
+    font-size: 32px;
+
+    font-weight: 800;
+
+    color: #3b1c35;
+
+    letter-spacing: 1px;
+}
+
+
+.company-details p {
+    margin-top: 6px;
+
+    font-size: 14px;
+
+    color: #64748b;
+}
+
+
+/* ---------------------------------------------------------
+   INVOICE NUMBER
+   --------------------------------------------------------- */
+
+.invoice-number {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 6px;
+}
+
+
+.invoice-label {
+    font-size: 18px;
+
+    font-weight: 800;
+
+    color: #3b1c35;
+
+    letter-spacing: 1px;
+}
+
+
+.invoice-number strong {
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #475569;
+}
+
+
+/* ---------------------------------------------------------
+   INVOICE INFORMATION
+   --------------------------------------------------------- */
+
+.invoice-information {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 35px;
+}
+
+
+.information-box {
+    padding: 17px;
+
+    background: #f8fafc;
+
+    border: 1px solid #dbe3ef;
+
+    border-radius: 10px;
+}
+
+
+.information-box span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    color: #64748b;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+.information-box strong {
+    display: block;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #1e293b;
+
+    word-break: break-word;
+}
+
+
+/* ---------------------------------------------------------
+   SECTION TITLE
+   --------------------------------------------------------- */
+
+.section-title {
+    margin-bottom: 12px;
+}
+
+
+.section-title h2 {
+    font-size: 18px;
+
+    font-weight: 700;
+
+    color: #3b1c35;
+}
+
+
+/* ---------------------------------------------------------
+   INVOICE TABLE
+   --------------------------------------------------------- */
+
+.invoice-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-bottom: 30px;
+
+    border: 1px solid #dbe3ef;
+}
+
+
+.invoice-table th {
+    padding: 14px 12px;
+
+    background: #3b1c35;
+
+    color: #ffffff;
+
+    border: 1px solid #3b1c35;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    text-align: left;
+}
+
+
+.invoice-table td {
+    padding: 14px 12px;
+
+    background: #ffffff;
+
+    color: #334155;
+
+    border: 1px solid #dbe3ef;
+
+    font-size: 14px;
+}
+
+
+/* ---------------------------------------------------------
+   TABLE ALIGNMENT
+   --------------------------------------------------------- */
+
+.invoice-table th:nth-child(2),
+.invoice-table td:nth-child(2) {
+    text-align: center;
+}
+
+
+.invoice-table th:nth-child(3),
+.invoice-table td:nth-child(3) {
+    text-align: right;
+}
+
+
+.invoice-table th:nth-child(4),
+.invoice-table td:nth-child(4) {
+    text-align: right;
+}
+
+
+.invoice-table th:nth-child(5),
+.invoice-table td:nth-child(5) {
+    text-align: right;
+}
+
+
+/* ---------------------------------------------------------
+   TABLE TOTAL
+   --------------------------------------------------------- */
+
+.invoice-table tfoot td {
+    background: #f8fafc;
+
+    font-weight: 700;
+}
+
+
+.invoice-table .total-label {
+    text-align: right;
+
+    color: #3b1c35;
+
+    font-size: 15px;
+}
+
+
+.invoice-table .total-amount {
+    text-align: right;
+
+    color: #2563eb;
+
+    font-size: 17px;
+
+    font-weight: 800;
+}
+
+
+/* ---------------------------------------------------------
+   PAYMENT SECTION
+   --------------------------------------------------------- */
+
+.payment-section {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 20px;
+
+    margin-bottom: 30px;
+
+    background: #f8fafc;
+
+    border: 1px solid #dbe3ef;
+
+    border-radius: 10px;
+}
+
+
+.payment-box {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.payment-box span {
+    font-size: 11px;
+
+    font-weight: 700;
+
+    color: #64748b;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+.payment-box strong {
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #1e293b;
+}
+
+
+.payment-status {
+    color: #2563eb !important;
+}
+
+
+.grand-total {
+    color: #2563eb !important;
+
+    font-size: 18px !important;
+}
+
+
+/* ---------------------------------------------------------
+   NOTES
+   --------------------------------------------------------- */
+
+.notes-section {
+    padding: 20px;
+
+    margin-bottom: 35px;
+
+    background: #ffffff;
+
+    border: 1px solid #dbe3ef;
+
+    border-radius: 10px;
+}
+
+
+.notes-section h2 {
+    margin-bottom: 10px;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    color: #3b1c35;
+}
+
+
+.notes-section p {
+    font-size: 14px;
+
+    color: #475569;
+
+    line-height: 1.7;
+
+    white-space: pre-line;
+
+    overflow-wrap: break-word;
+}
+
+
+.notes-section .no-notes {
+    color: #94a3b8;
+
+    font-style: italic;
+}
+
+
+/* ---------------------------------------------------------
+   FOOTER
+   --------------------------------------------------------- */
+
+.invoice-footer {
+    padding-top: 25px;
+
+    border-top: 1px solid #dbe3ef;
+
+    text-align: center;
+}
+
+
+.invoice-footer p {
+    margin-bottom: 5px;
+
+    font-size: 12px;
+
+    color: #64748b;
+}
+
+
+.invoice-footer p:first-child {
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #3b1c35;
+}
+
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+
+@media screen and (max-width: 786px) {
+
+    .print-body {
+        padding: 20px 10px;
+    }
+
+
+    .print-invoice {
+        padding: 30px 20px;
+    }
+
+
+    .print-header {
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+
+    .invoice-number {
+        align-items: flex-start;
+    }
+
+
+    .invoice-information {
+        grid-template-columns: 1fr;
+    }
+
+
+    .payment-section {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media screen and (max-width: 480px) {
+
+    .print-body {
+        padding: 0;
+    }
+
+
+    .print-invoice {
+        padding: 20px 12px;
+
+        border: none;
+
+        box-shadow: none;
+    }
+
+
+    .company-details h1 {
+        font-size: 26px;
+    }
+
+
+    .invoice-table {
+        display: block;
+
+        overflow-x: auto;
+    }
+
+
+    .invoice-table th,
+    .invoice-table td {
+        white-space: nowrap;
+
+        padding: 10px 8px;
+
+        font-size: 12px;
+    }
+
+}
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+@media print {
+
+    @page {
+        size: A4;
+
+        margin: 15mm;
+    }
+
+
+    html,
+    body {
+        width: 100%;
+
+        min-height: 100%;
+
+        background: #ffffff !important;
+    }
+
+
+    .print-body {
+        padding: 0;
+
+        background: #ffffff !important;
+    }
+
+
+    .print-invoice {
+        width: 100%;
+
+        max-width: none;
+
+        margin: 0;
+
+        padding: 0;
+
+        background: #ffffff !important;
+
+        border: none;
+
+        box-shadow: none;
+    }
+
+
+    /* Keep sections together */
+
+    .invoice-information,
+    .payment-section,
+    .notes-section,
+    .invoice-footer {
+        break-inside: avoid;
+
+        page-break-inside: avoid;
+    }
+
+
+    /* Table rows should not split */
+
+    .invoice-table tr {
+        break-inside: avoid;
+
+        page-break-inside: avoid;
+    }
+
+
+    /* Repeat table header on additional pages */
+
+    .invoice-table thead {
+        display: table-header-group;
+    }
+
+
+    .invoice-table tfoot {
+        display: table-row-group;
+    }
+
+
+    /* Preserve invoice header color */
+
+    .invoice-table th {
+        background: #3b1c35 !important;
+
+        color: #ffffff !important;
+
+        -webkit-print-color-adjust: exact;
+
+        print-color-adjust: exact;
+    }
+
+
+    .invoice-information .information-box,
+    .payment-section,
+    .invoice-table tfoot td {
+        background: #f8fafc !important;
+
+        -webkit-print-color-adjust: exact;
+
+        print-color-adjust: exact;
+    }
+
+
+    .print-header {
+        border-bottom-color: #3b1c35 !important;
+    }
+
+
+    /* Remove unnecessary links/buttons if added later */
+
+    a {
+        color: inherit;
+
+        text-decoration: none;
+    }
+
+}

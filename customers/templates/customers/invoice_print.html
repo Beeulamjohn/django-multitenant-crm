@@ -1,0 +1,326 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Invoice {{ invoice.invoice_number }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/invoice_print.css' %}"
+    >
+
+</head>
+
+
+<body class="print-body">
+
+
+<div class="print-invoice">
+
+
+    <!-- ==========================================
+         INVOICE HEADER
+         ========================================== -->
+
+    <div class="print-header">
+
+        <div class="company-details">
+
+            <!-- AUTOMATIC COMPANY NAME -->
+
+            <h1>
+                {{ company.company_name }}
+            </h1>
+
+            <p>
+                Customer Invoice
+            </p>
+
+        </div>
+
+
+        <div class="invoice-number">
+
+            <span class="invoice-label">
+                INVOICE
+            </span>
+
+            <strong>
+                {{ invoice.invoice_number }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==========================================
+         INVOICE INFORMATION
+         ========================================== -->
+
+    <div class="invoice-information">
+
+        <div class="information-box">
+
+            <span>
+                Invoice Number
+            </span>
+
+            <strong>
+                {{ invoice.invoice_number }}
+            </strong>
+
+        </div>
+
+
+        <div class="information-box">
+
+            <span>
+                Customer
+            </span>
+
+            <strong>
+                {{ invoice.customer.name }}
+            </strong>
+
+        </div>
+
+
+        <div class="information-box">
+
+            <span>
+                Invoice Date
+            </span>
+
+            <strong>
+                {{ invoice.invoice_date }}
+            </strong>
+
+        </div>
+
+
+        <div class="information-box">
+
+            <span>
+                Due Date
+            </span>
+
+            <strong>
+                {{ invoice.due_date|default:"-" }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==========================================
+         PRODUCT DETAILS
+         ========================================== -->
+
+    <div class="section-title">
+
+        <h2>
+            Product Details
+        </h2>
+
+    </div>
+
+
+    <table class="invoice-table">
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Product
+                </th>
+
+                <th>
+                    Quantity
+                </th>
+
+                <th>
+                    Unit Price
+                </th>
+
+                <th>
+                    GST
+                </th>
+
+                <th>
+                    Amount
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr>
+
+                <td>
+                    {{ invoice.product|default:"-" }}
+                </td>
+
+                <td>
+                    {{ invoice.quantity|default:"1" }}
+                </td>
+
+                <td>
+                    ₹{{ invoice.unit_price|default:"0.00" }}
+                </td>
+
+                <td>
+                    {{ invoice.gst|default:"0" }}%
+                </td>
+
+                <td>
+                    ₹{{ invoice.total_amount }}
+                </td>
+
+            </tr>
+
+        </tbody>
+
+
+        <tfoot>
+
+            <tr>
+
+                <td
+                    colspan="4"
+                    class="total-label"
+                >
+                    Total Amount
+                </td>
+
+                <td class="total-amount">
+                    ₹{{ invoice.total_amount }}
+                </td>
+
+            </tr>
+
+        </tfoot>
+
+    </table>
+
+
+
+    <!-- ==========================================
+         PAYMENT DETAILS
+         ========================================== -->
+
+    <div class="payment-section">
+
+        <div class="payment-box">
+
+            <span>
+                Payment Status
+            </span>
+
+            <strong class="payment-status">
+                {{ invoice.payment_status|default:"Pending" }}
+            </strong>
+
+        </div>
+
+
+        <div class="payment-box">
+
+            <span>
+                Total Amount
+            </span>
+
+            <strong class="grand-total">
+                ₹{{ invoice.total_amount }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==========================================
+         NOTES
+         ========================================== -->
+
+    <div class="notes-section">
+
+        <h2>
+            Notes
+        </h2>
+
+
+        {% if invoice.notes %}
+
+            <p>
+                {{ invoice.notes }}
+            </p>
+
+        {% else %}
+
+            <p class="no-notes">
+                No additional notes.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+
+    <div class="invoice-footer">
+
+        <p>
+            Thank you for your business.
+        </p>
+
+        <p>
+            Generated by {{ company.company_name }}
+        </p>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+window.onload = function () {
+
+    window.print();
+
+};
+
+</script>
+
+
+</body>
+
+</html>

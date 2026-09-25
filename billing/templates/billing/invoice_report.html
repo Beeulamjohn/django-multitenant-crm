@@ -1,0 +1,493 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      class="{% if appearance.theme == 'dark' %}dark-theme{% else %}light-theme{% endif %}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+ <title>Invoice Reports | Billing Management</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/invoice_report.css' %}">
+          
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="page-header">
+    
+   
+
+    <div class="header-left">
+
+        <div class="title-section">
+
+            <div class="page-icon">
+                <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+
+            <div>
+
+                <h1>Invoice Reports</h1>
+
+                <p>
+                    View, search, print and export invoice reports for your billing management system.
+                </p>
+
+            </div>
+
+        </div>
+
+      
+
+        <div class="breadcrumb">
+
+            <a href="{% url 'billing_dashboard' %}">
+                <i class="fas fa-home"></i>
+                Dashboard
+            </a>
+
+            <span>
+                <i class="fas fa-angle-right"></i>
+            </span>
+
+            <a href="{% url 'invoice_list' %}">
+                Invoice Management
+            </a>
+
+            <span>
+                <i class="fas fa-angle-right"></i>
+            </span>
+
+            <span class="active">
+                Invoice Reports
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <a href="{% url 'billing_dashboard' %}" class="back-btn">
+           
+
+            Back 
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="summary-cards">
+
+  
+
+    <div class="summary-card">
+
+        <div class="card-icon total">
+
+            <i class="fas fa-file-invoice"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h5>Total Invoices</h5>
+
+            <h2>{{ total_invoices }}</h2>
+
+        </div>
+
+    </div>
+
+
+ 
+    <div class="summary-card">
+
+        <div class="card-icon amount">
+
+            <i class="fas fa-wallet"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h5>Total Amount</h5>
+
+            <h2>₹ {{ total_amount }}</h2>
+
+        </div>
+
+    </div>
+
+
+
+
+    <div class="summary-card">
+
+        <div class="card-icon paid">
+
+            <i class="fas fa-check-circle"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h5>Paid Amount</h5>
+
+            <h2>₹ {{ paid_amount }}</h2>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+        <div class="card-icon pending">
+
+            <i class="fas fa-hourglass-half"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h5>Pending Amount</h5>
+
+            <h2>₹ {{ pending_amount }}</h2>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+        <div class="card-icon success">
+
+            <i class="fas fa-user-check"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h5>Paid Invoices</h5>
+
+            <h2>{{ paid_count }}</h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="card-icon danger">
+
+            <i class="fas fa-user-clock"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h5>Pending Invoices</h5>
+
+            <h2>{{ pending_count }}</h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="toolbar">
+
+
+
+    <div class="search-box">
+
+        <i class="fas fa-search"></i>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search Invoice Number or Student Name">
+
+    </div>
+
+
+  
+
+    <div class="toolbar-buttons">
+
+        <button
+            type="button"
+            class="print-btn"
+            id="printBtn">
+
+            <i class="fas fa-print"></i>
+
+            Print Report
+
+        </button>
+    </div>
+
+</div>
+
+
+<div class="table-container">
+
+    <table id="reportTable">
+
+        <thead>
+            <tr>
+                <th>Invoice No</th>
+                <th>Student</th>
+                <th>Course Fee</th>
+                <th>Registration Fee</th>
+                <th>GST</th>
+                <th>Total</th>
+                <th>Paid</th>
+                <th>Balance</th>
+                <th>Payment Type</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Created Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for invoice in invoices %}
+
+            <tr>
+
+                <td>
+                    <strong>{{ invoice.invoice_number }}</strong>
+                </td>
+
+                <td>
+                    <div class="student-info">
+                        <i class="fas fa-user-graduate"></i>
+
+                        <div>
+                            <strong>
+                                {{ invoice.student.first_name }}
+                                {{ invoice.student.last_name }}
+                            </strong>
+
+                            <br>
+
+                            <small>
+                                {{ invoice.student.admission_number }}
+                            </small>
+                        </div>
+                    </div>
+                </td>
+
+                <td>₹ {{ invoice.course_fee }}</td>
+
+                <td>₹ {{ invoice.registration_fee }}</td>
+
+                <td>₹ {{ invoice.gst_amount }}</td>
+
+                <td>
+                    <strong>₹ {{ invoice.total_amount }}</strong>
+                </td>
+
+                <td class="paid-amount">
+                    ₹ {{ invoice.amount_paid }}
+                </td>
+
+                <td class="balance-amount">
+                    ₹ {{ invoice.balance_amount }}
+                </td>
+
+                <td>
+                    <span class="payment-type">
+                        {{ invoice.payment_type }}
+                    </span>
+                </td>
+
+                <td>
+                    {{ invoice.due_date|date:"d M Y" }}
+                </td>
+
+                <td>
+
+                    {% if invoice.status == "Paid" %}
+
+                        <span class="status paid">
+                            <i class="fas fa-check-circle"></i>
+                            Paid
+                        </span>
+
+                    {% elif invoice.status == "Pending" %}
+
+                        <span class="status pending">
+                            <i class="fas fa-clock"></i>
+                            Pending
+                        </span>
+
+                    {% elif invoice.status == "Partial" %}
+
+                        <span class="status partial">
+                            <i class="fas fa-hourglass-half"></i>
+                            Partial
+                        </span>
+
+                    {% else %}
+
+                        <span class="status overdue">
+                            <i class="fas fa-exclamation-circle"></i>
+                            Overdue
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+                    {{ invoice.created_at|date:"d M Y" }}
+                </td>
+
+                <td>
+
+                    <a href="{% url 'create_invoice_delete' invoice.id %}"
+                       class="delete-btn"
+                       onclick="return confirm('Are you sure you want to delete this invoice?');">
+
+                        <i class="fas fa-trash"></i>
+                        Delete
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="13" class="empty-table">
+
+                    <div class="empty-state">
+
+                        <i class="fas fa-file-invoice"></i>
+
+                        <h3>No Invoice Reports Found</h3>
+
+                        <p>
+                            There are no invoices available.
+                        </p>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+const searchInput = document.getElementById("searchInput");
+
+if (searchInput) {
+
+    searchInput.addEventListener("keyup", function () {
+
+        const filter = this.value.toLowerCase();
+
+        const rows = document.querySelectorAll("#reportTable tbody tr");
+
+        rows.forEach(function (row) {
+
+            row.style.display = row.innerText.toLowerCase().includes(filter)
+                ? ""
+                : "none";
+
+        });
+
+    });
+
+}
+
+const printBtn = document.getElementById("printBtn");
+
+if (printBtn) {
+
+    printBtn.addEventListener("click", function () {
+
+        const printContent = document.querySelector(".table-container").innerHTML;
+
+        const originalContent = document.body.innerHTML;
+
+        document.body.innerHTML = printContent;
+
+        window.print();
+
+        document.body.innerHTML = originalContent;
+
+        location.reload();
+
+    });
+
+}
+
+const pdfBtn = document.getElementById("pdfBtn");
+
+if (pdfBtn) {
+
+    pdfBtn.addEventListener("click", function () {
+
+        const element = document.querySelector(".table-container");
+
+        html2pdf()
+            .from(element)
+            .save("Invoice_Report.pdf");
+
+    });
+
+}
+
+</script>
+
+</body>
+
+</html>

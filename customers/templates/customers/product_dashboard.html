@@ -1,0 +1,817 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme|default:'light' }}"
+    data-font-size="medium"
+    data-dashboard-layout="grid"
+    data-sidebar-style="expanded"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Customer Dashboard | FlowTenant</title>
+
+    <style>
+        :root {
+            --accent-color: {{ accent_color|default:'#2563eb' }};
+            --primary: var(--accent-color);
+        }
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/will.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+
+    <aside class="sidebar">
+   <div class="company-brand">
+
+    {% if company_profile and company_profile.company_logo %}
+        <img
+            src="{{ company_profile.company_logo.url }}"
+            alt="{{ company_profile.company_name }}"
+            class="company-logo">
+    {% else %}
+        <img
+            src="{% static 'images/default-logo.png' %}"
+            alt="Default Logo"
+            class="company-logo">
+    {% endif %}
+
+    <div class="company-info">
+        <h2>{{ company_profile.company_name|default:company.company_name }}</h2>
+        <span>Customer Billing System</span>
+    </div>
+
+</div>
+        <ul>
+            {% if company.company_type == "customer" %}
+            <li class="active">
+                <a href="{% url 'product_dashboard' %}">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'customer_list' %}">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'product_list' %}">
+                    <i class="fas fa-box-open"></i>
+                    <span>Products</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'invoice_list' %}">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>Invoices</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'customer_payment_list' %}">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payments</span>
+                </a>
+            </li>
+
+            <li>
+
+                <a href="{% url 'gst_settings_list' %}">
+
+                    <i class="fas fa-percent"></i>
+
+                    <span>GST Settings</span>
+
+                </a>
+
+            </li>
+
+            <li>
+                <a href="{% url 'reports' %}">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
+           <li>
+    <a href="{% url 'customer_billing_settings' %}">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+    </a>
+</li>
+            
+            <li>
+                <a href="{% url 'logout_customer' %}">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+            {% endif %}
+
+        </ul>
+
+    </aside>
+
+   
+
+    <main class="main-content">
+
+        <div class="header">
+
+            <div class="header-left">
+
+                <h1>Customer/billing Dashboard</h1>
+
+                <p>
+                    Welcome back,
+                    <strong>{{ request.user.username }}</strong>
+                </p>
+
+            </div>
+
+            <div class="search-box">
+
+                <i class="fas fa-search"></i>
+
+                <input type="text"
+                       placeholder="Search customers, invoices, products...">
+
+            </div>
+            <div class="header-right">
+
+                <a href="{% url 'home' %}" class="back-btn">
+                    
+                    Home
+                </a>
+
+                
+
+            </div>
+
+
+        </div>
+
+
+        <div class="cards">
+
+
+            <div class="card customers">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-users"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>{{ total_customers }}</h2>
+
+                    <p>Total Customers</p>
+
+                </div>
+
+            </div>
+
+            <div class="card products">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-box-open"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>{{ total_products }}</h2>
+
+                    <p>Total Products</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card invoices">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-file-invoice"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>{{ total_invoices }}</h2>
+
+                    <p>Total Invoices</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card revenue">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-indian-rupee-sign"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>₹{{ total_revenue }}</h2>
+
+                    <p>Total Revenue</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card paid">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-check-circle"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>{{ paid_invoices }}</h2>
+
+                    <p>Paid Invoices</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card pending">
+
+                <div class="card-icon">
+
+                    <i class="fas fa-clock"></i>
+
+                </div>
+
+                <div class="card-content">
+
+                    <h2>{{ pending_invoices }}</h2>
+
+                    <p>Pending Payments</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <div class="table-header">
+
+                <h2>Product / Customer Billing System</h2>
+
+            </div>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon customer">
+
+                        <i class="fas fa-users"></i>
+
+                    </div>
+
+                    <h3>Customer Management</h3>
+
+                    <p>
+                        Manage all customer information with GST details.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <i class="fas fa-check"></i>
+                            Add Customers
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check"></i>
+                            Edit Customer Details
+                        </li>
+
+                        <li>
+                           <i class="fas fa-check"></i>
+                            Delete Customers
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check"></i>
+                            Optional GST Number
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <div class="feature-icon billing">
+
+                        <i class="fas fa-file-invoice-dollar"></i>
+
+                    </div>
+
+                    <h3>Billing Management</h3>
+
+                    <p>
+                        Create professional GST-enabled invoices.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                           <i class="fas fa-check"></i>
+                            Add Products & Services
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check"></i>
+                            Quantity Management
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check"></i>
+                            Pricing & Discounts
+                        </li>
+
+                        <li>
+                           <i class="fas fa-check"></i>
+                            Automatic GST Calculation
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon payment">
+
+                        <i class="fas fa-credit-card"></i>
+
+                    </div>
+
+                    <h3>Payment Management</h3>
+
+                    <p>
+                        Track every payment with multiple payment options.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <i class="fas fa-check"></i>
+                            Paid Payments
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check"></i>
+                            Unpaid Payments
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check"></i>
+                            Partial Payments
+                        </li>
+
+                        <li>
+                           <i class="fas fa-check"></i>
+                            Cash / Card / UPI / Bank Transfer
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <div class="feature-icon invoice">
+
+                        <i class="fas fa-print"></i>
+
+                    </div>
+
+                    <h3>Invoice Management</h3>
+
+                    <p>
+                        Generate branded invoices for your company.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                           <i class="fas fa-check"></i>
+                            Create Invoice
+                        </li>
+
+                        <li>
+                            <i class="fas fa-check"></i>
+                            Download PDF
+                        </li>
+
+                        <li>
+                           <i class="fas fa-check"></i>
+                            Print Invoice
+                        </li>
+
+                        <li>
+                           <i class="fas fa-check"></i>
+                            Company Branding
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="table-card">
+
+            <div class="table-header">
+
+                <h2>Recent Invoices</h2>
+
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="dashboard-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Invoice No.</th>
+
+                            <th>Customer</th>
+
+                            <th>Date</th>
+
+                            <th>Total Amount</th>
+
+                            <th>GST</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for invoice in recent_invoices %}
+
+                        <tr>
+
+                            <td>
+                                <strong>{{ invoice.invoice_number }}</strong>
+                            </td>
+
+                            <td>
+
+                                {% if invoice.customer %}
+
+                                    {{ invoice.customer.name }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ invoice.invoice_date }}
+
+                            </td>
+
+                            <td>
+
+                                ₹{{ invoice.total_amount }}
+
+                            </td>
+
+                            <td>
+
+                                ₹{{ invoice.gst_amount }}
+
+                            </td>
+
+                            <td>
+
+                                {% if invoice.payment_status == "Paid" %}
+
+                                    <span class="status paid">
+                                        Paid
+                                    </span>
+
+                                {% elif invoice.payment_status == "Partial" %}
+
+                                    <span class="status partial">
+                                        Partial
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status pending">
+                                        Pending
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+   
+
+    <a href="{% url 'invoice_edit' invoice.id %}"
+       class="table-btn edit"
+       title="Edit Invoice">
+
+        <i class="fas fa-edit"></i>
+
+    </a>
+
+    <a href="{% url 'invoice_delete' invoice.id %}"
+       class="table-btn delete"
+       title="Delete Invoice">
+
+        <i class="fas fa-trash"></i>
+
+    </a>
+
+</td>
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="7" class="empty-message">
+
+                                <i class="fas fa-file-invoice"></i>
+
+                                <p>No invoices available.</p>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="table-card">
+
+            <div class="table-header">
+
+                <h2>Recent Payments</h2>
+
+               
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="dashboard-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Receipt No.</th>
+
+                            <th>Customer</th>
+
+                            <th>Invoice</th>
+
+                            <th>Amount</th>
+
+                            <th>Payment Mode</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for payment in recent_payments %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>{{ payment.receipt_number }}</strong>
+
+                            </td>
+
+                            <td>
+
+                                {% if payment.customer %}
+
+                                    {{ payment.customer.name }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if payment.invoice %}
+
+                                    {{ payment.invoice.invoice_number }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                ₹{{ payment.amount }}
+
+                            </td>
+
+                            <td>
+
+                                {{ payment.payment_mode }}
+
+                            </td>
+
+                            <td>
+
+                                {% if payment.status == "Paid" %}
+
+                                    <span class="status paid">
+
+                                        Paid
+
+                                    </span>
+
+                                {% elif payment.status == "Partial" %}
+
+                                    <span class="status partial">
+
+                                        Partial
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status pending">
+
+                                        Pending
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                               
+                                <a href="{% url 'payment_update' payment.id %}"
+                                   class="table-btn edit">
+
+                                    <i class="fas fa-edit"></i>
+
+                                </a>
+
+                                <a href="{% url 'payment_delete' payment.id %}"
+                                   class="table-btn delete">
+
+                                    <i class="fas fa-trash"></i>
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="7" class="empty-message">
+
+                                <i class="fas fa-credit-card"></i>
+
+                                <p>No payment records available.</p>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+       
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach((card, index) => {
+
+        card.style.opacity = "0";
+
+        card.style.transform = "translateY(30px)";
+
+        setTimeout(() => {
+
+            card.style.transition = "0.5s ease";
+
+            card.style.opacity = "1";
+
+            card.style.transform = "translateY(0)";
+
+        }, index * 120);
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

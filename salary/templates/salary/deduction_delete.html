@@ -1,0 +1,105 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>
+Delete Deduction
+</title>
+
+
+<link rel="stylesheet"
+href="{% static 'css/deduction_delete.css' %}">
+
+
+</head>
+
+
+<body>
+
+
+
+<div class="delete-wrapper">
+
+
+
+<div class="delete-card">
+
+
+
+<div class="delete-icon">
+
+<i class="fa fa-trash"></i>
+
+</div>
+
+
+
+
+<h1>
+Delete Deduction?
+</h1>
+
+
+
+
+<p>
+
+Are you sure you want to delete deduction record of
+
+<strong>
+{{deduction.employee.name}}
+</strong>
+
+?
+
+</p>
+
+
+
+
+<form method="POST">
+
+
+{% csrf_token %}
+
+
+
+<button class="delete-btn">
+
+<i class="fa fa-trash"></i>
+
+Delete
+
+</button>
+
+
+
+
+<a href="{% url 'deduction_list' %}"
+class="cancel-btn">
+
+Cancel
+
+</a>
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+</body>
+
+</html>

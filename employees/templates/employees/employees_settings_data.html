@@ -1,0 +1,682 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Settings | FlowTenant</title>
+
+    <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link rel="stylesheet"
+          href="{% static 'css/employee_settings_data.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+<div class="employee-settings-layout">
+
+
+    <aside class="employee-sidebar">
+
+        <div class="employee-sidebar-logo">
+
+            
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+
+
+        </div>
+
+        <nav class="employee-sidebar-nav">
+
+
+            <a href="{% url 'employee_settings' %}"
+               class="employee-nav-link active">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-home"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Dashboard
+                </span>
+
+            </a>
+
+            <a href="{% url 'employee_general_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sliders"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    General
+                </span>
+
+            </a>
+
+
+            <!-- Employee Profile -->
+            <a href="{% url 'employee_profile_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-id-card"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Employee Profile
+                </span>
+
+            </a>
+
+
+        
+            <a href="{% url 'employee_departments_roles_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sitemap"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Departments & Roles
+                </span>
+
+            </a>
+
+            <a href="{% url 'employee_attendance_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Attendance
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_leave_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-minus"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Leave
+                </span>
+
+            </a>
+
+
+            <!-- Payroll -->
+            <a href="{% url 'employee_payroll_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-money-check-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Payroll
+                </span>
+
+            </a>
+
+
+            <!-- Tax & Statutory -->
+            <a href="{% url 'employee_tax_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Tax & Statutory
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_notification_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+
+
+            <!-- Documents -->
+            <a href="{% url 'employee_document_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-folder-open"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Documents
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_report_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-chart-column"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Reports
+                </span>
+
+            </a>
+
+
+           
+            <a href="{% url 'employee_security_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Security & Permissions
+                </span>
+
+            </a>
+
+
+            <!-- Theme -->
+            <a href="{% url 'employee_theme_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-palette"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+
+        </nav>
+
+        <div class="employee-sidebar-footer">
+
+            <a href="{% url 'employee_dashboard' %}"
+               class="employee-back-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+
+                <span>
+                    Back to Employees
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+    <main class="employee-main-content">
+
+        <header class="employee-page-header">
+
+            <div class="employee-page-header-text">
+
+                <div class="employee-breadcrumb">
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Employee</span>
+
+                </div>
+
+                <h1>
+                    Employee Settings
+                </h1>
+
+                <p>
+                    Manage employee profiles, departments,
+                    attendance, leave, payroll, documents,
+                    security and appearance preferences.
+                </p>
+
+            </div>
+
+
+           
+
+        </header>
+
+
+
+
+        <section class="employee-settings-section">
+
+
+            <div class="employee-section-header">
+
+
+            </div>
+
+
+            <div class="employee-settings-grid">
+
+                <a href="{% url 'employee_general_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon blue">
+
+                        <i class="fas fa-sliders"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            General
+                        </h3>
+
+                        <p>
+                            Configure employee ID,
+                            status, employment type
+                            and default employee settings.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <a href="{% url 'employee_profile_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon purple">
+
+                        <i class="fas fa-id-card"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            Employee Profile
+                        </h3>
+
+                        <p>
+                            Configure employee personal,
+                            contact and profile information.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+                <a href="{% url 'employee_departments_roles_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon indigo">
+
+                        <i class="fas fa-sitemap"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            Departments & Roles
+                        </h3>
+
+                        <p>
+                            Manage departments,
+                            job positions, roles
+                            and organizational structure.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <a href="{% url 'employee_attendance_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon green">
+
+                        <i class="fas fa-calendar-check"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            Attendance
+                        </h3>
+
+                        <p>
+                            Configure attendance tracking,
+                            working hours and attendance alerts.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+                <a href="{% url 'employee_leave_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon orange">
+
+                        <i class="fas fa-calendar-minus"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            Leave
+                        </h3>
+
+                        <p>
+                            Configure leave types,
+                            leave policies, balances
+                            and approval rules.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <a href="{% url 'employee_payroll_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon teal">
+
+                        <i class="fas fa-money-check-dollar"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            Payroll
+                        </h3>
+
+                        <p>
+                            Configure salary cycles,
+                            salary processing,
+                            allowances and deductions.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+                <a href="{% url 'employee_tax_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon red">
+
+                        <i class="fas fa-file-invoice-dollar"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            Tax & Statutory
+                        </h3>
+
+                        <p>
+                            Configure employee tax,
+                            statutory deductions,
+                            compliance and payroll rules.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <a href="{% url 'employee_notification_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon pink">
+
+                        <i class="fas fa-bell"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            Notifications
+                        </h3>
+
+                        <p>
+                            Configure employee alerts,
+                            attendance notifications,
+                            payroll notifications and reminders.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <a href="{% url 'employee_document_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon yellow">
+
+                        <i class="fas fa-folder-open"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            Documents
+                        </h3>
+
+                        <p>
+                            Configure employee document
+                            requirements, document types
+                            and storage preferences.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <a href="{% url 'employee_report_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon cyan">
+
+                        <i class="fas fa-chart-column"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            Reports
+                        </h3>
+
+                        <p>
+                            Configure employee reports,
+                            attendance reports,
+                            payroll reports and exports.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+                <a href="{% url 'employee_security_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon dark">
+
+                        <i class="fas fa-shield-halved"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            Security & Permissions
+                        </h3>
+
+                        <p>
+                            Manage employee access,
+                            roles, permissions,
+                            authentication and security.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+                <a href="{% url 'employee_theme_settings' %}"
+                   class="employee-setting-card">
+
+                    <div class="employee-card-icon violet">
+
+                        <i class="fas fa-palette"></i>
+
+                    </div>
+
+                    <div class="employee-card-content">
+
+                        <h3>
+                            Theme & Appearance
+                        </h3>
+
+                        <p>
+                            Configure employee settings
+                            theme, colors, layout,
+                            fonts and interface preferences.
+                        </p>
+
+                        <span class="employee-card-link">
+                            Configure
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+        </section>
+       
+    </main>
+</div>
+</body>
+</html>

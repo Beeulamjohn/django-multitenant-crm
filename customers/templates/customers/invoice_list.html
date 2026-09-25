@@ -1,0 +1,604 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html
+    lang="en"
+    data-theme="{{ theme|default:'dark' }}"
+    data-font-size="medium"
+    data-dashboard-layout="grid"
+    data-sidebar-style="expanded"
+>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Invoice Management | FlowTenant CRM</title>
+
+
+    <!-- Dynamic Accent Color -->
+
+    <style>
+
+        :root {
+
+            --accent-color: {{ accent_color|default:"#2563eb" }};
+
+            --primary: var(--accent-color);
+
+        }
+
+    </style>
+
+
+    <!-- Main CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/voice.css' %}"
+    >
+
+
+    <!-- Font Awesome -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+
+<div class="invoice-page">
+
+
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
+
+    <div class="page-header">
+
+
+        <div class="header-content">
+
+            <h1>
+                Invoice Management
+            </h1>
+
+            <p>
+                Create, manage and track customer invoices.
+            </p>
+
+        </div>
+
+
+        <div class="header-right">
+
+
+            <a
+                href="{% url 'product_dashboard' %}"
+                class="back-btn"
+            >
+
+                Back
+
+            </a>
+
+
+            <a
+                href="{% url 'invoice_create' %}"
+                class="btn-primary"
+            >
+
+                <i class="fas fa-plus-circle"></i>
+
+                Create Invoice
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         SUMMARY CARDS
+    ========================== -->
+
+    <div class="summary-grid">
+
+
+        <!-- TOTAL INVOICES -->
+
+        <div class="summary-card">
+
+            <i class="fas fa-file-invoice"></i>
+
+            <div>
+
+                <h2>
+                    {{ total_invoices }}
+                </h2>
+
+                <span>
+                    Total Invoices
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PAID -->
+
+        <div class="summary-card">
+
+            <i class="fas fa-circle-check"></i>
+
+            <div>
+
+                <h2>
+                    {{ paid_invoices }}
+                </h2>
+
+                <span>
+                    Completed
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PENDING -->
+
+        <div class="summary-card">
+
+            <i class="fas fa-clock"></i>
+
+            <div>
+
+                <h2>
+                    {{ pending_invoices }}
+                </h2>
+
+                <span>
+                    Awaiting Payment
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- REVENUE -->
+
+        <div class="summary-card">
+
+            <i class="fas fa-indian-rupee-sign"></i>
+
+            <div>
+
+                <h2>
+                    ₹{{ total_revenue }}
+                </h2>
+
+                <span>
+                    Total Collection
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         TOOLBAR
+    ========================== -->
+
+    <div class="toolbar">
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <i class="fas fa-search"></i>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search Invoice"
+            >
+
+        </div>
+
+
+
+        <!-- FILTERS -->
+
+        <div class="toolbar-right">
+
+
+            <select id="statusFilter">
+
+                <option value="">
+                    All Status
+                </option>
+
+                <option value="paid">
+                    Paid
+                </option>
+
+                <option value="pending">
+                    Pending
+                </option>
+
+                <option value="overdue">
+                    Overdue
+                </option>
+
+            </select>
+
+
+
+            <input
+                type="date"
+                id="dateFilter"
+            >
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         INVOICE TABLE
+    ========================== -->
+
+    <div class="table-card">
+
+
+        <table id="invoiceTable">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>No</th>
+
+                    <th>Invoice</th>
+
+                    <th>Customer</th>
+
+                    <th>Date</th>
+
+                    <th>Due Date</th>
+
+                    <th>Amount</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+
+
+            <tbody>
+
+
+                {% for invoice in invoices %}
+
+
+                <tr
+                    data-status="{{ invoice.status|lower }}"
+                    data-date="{{ invoice.invoice_date|date:'Y-m-d' }}"
+                >
+
+
+                    <td>
+
+                        {{ forloop.counter }}
+
+                    </td>
+
+
+
+                    <td>
+
+                        <strong>
+
+                            {{ invoice.invoice_number }}
+
+                        </strong>
+
+                    </td>
+
+
+
+                    <td>
+
+                        {{ invoice.customer }}
+
+                    </td>
+
+
+
+                    <td>
+
+                        {{ invoice.invoice_date }}
+
+                    </td>
+
+
+
+                    <td>
+
+                        {{ invoice.due_date }}
+
+                    </td>
+
+
+
+                    <td>
+
+                        ₹{{ invoice.total_amount }}
+
+                    </td>
+
+
+
+                    <td>
+
+                        <span
+                            class="status {{ invoice.status|lower }}"
+                        >
+
+                            {{ invoice.status }}
+
+                        </span>
+
+                    </td>
+
+
+
+                  <td>
+
+    <!-- VIEW -->
+
+    
+
+    <!-- EDIT -->
+
+    <a
+        href="{% url 'invoice_edit' invoice.id %}"
+        class="action edit"
+        title="Edit Invoice"
+    >
+
+        <i class="fas fa-edit"></i>
+
+    </a>
+
+
+    <!-- PRINT -->
+
+    <a
+        href="{% url 'invoice_print' invoice.id %}"
+        class="action print"
+        title="Print Invoice"
+        target="_blank"
+    >
+
+        <i class="fas fa-print"></i>
+
+    </a>
+
+
+    <!-- DELETE -->
+
+    <form
+        method="POST"
+        action="{% url 'invoice_delete' invoice.id %}"
+        style="display: inline;"
+        onsubmit="return confirm('Are you sure you want to delete this invoice?');"
+    >
+
+        {% csrf_token %}
+
+        <button
+            type="submit"
+            class="action delete"
+            title="Delete Invoice"
+        >
+
+            <i class="fas fa-trash"></i>
+
+        </button>
+
+    </form>
+
+</td>
+                </tr>
+
+
+                {% empty %}
+
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="empty"
+                    >
+
+                        <i class="fas fa-file-circle-xmark"></i>
+
+                        <h2>
+                            No Invoices Found
+                        </h2>
+
+                        <p>
+                            Create your first invoice.
+                        </p>
+
+                    </td>
+
+                </tr>
+
+
+                {% endfor %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     SEARCH + FILTER SCRIPT
+========================== -->
+
+<script>
+
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+
+    const statusFilter =
+        document.getElementById("statusFilter");
+
+
+    const dateFilter =
+        document.getElementById("dateFilter");
+
+
+    function filterInvoices() {
+
+        const searchValue =
+            searchInput.value.toLowerCase();
+
+
+        const statusValue =
+            statusFilter.value.toLowerCase();
+
+
+        const dateValue =
+            dateFilter.value;
+
+
+        const rows =
+            document.querySelectorAll(
+                "#invoiceTable tbody tr[data-status]"
+            );
+
+
+        rows.forEach(function(row) {
+
+
+            const rowText =
+                row.innerText.toLowerCase();
+
+
+            const rowStatus =
+                row.dataset.status;
+
+
+            const rowDate =
+                row.dataset.date;
+
+
+            const matchesSearch =
+                rowText.includes(searchValue);
+
+
+            const matchesStatus =
+                !statusValue ||
+                rowStatus === statusValue;
+
+
+            const matchesDate =
+                !dateValue ||
+                rowDate === dateValue;
+
+
+            if (
+                matchesSearch &&
+                matchesStatus &&
+                matchesDate
+            ) {
+
+                row.style.display = "";
+
+            }
+
+            else {
+
+                row.style.display = "none";
+
+            }
+
+
+        });
+
+
+    }
+
+
+    searchInput.addEventListener(
+        "keyup",
+        filterInvoices
+    );
+
+
+    statusFilter.addEventListener(
+        "change",
+        filterInvoices
+    );
+
+
+    dateFilter.addEventListener(
+        "change",
+        filterInvoices
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

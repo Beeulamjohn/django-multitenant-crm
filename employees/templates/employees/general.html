@@ -1,0 +1,1105 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Employee General Settings | FlowTenant</title>
+    <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link rel="stylesheet"
+          href="{% static 'css/general.css' %}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+
+<body>
+
+<div class="employee-settings-layout">
+    <aside class="employee-sidebar">
+
+
+        <div class="employee-sidebar-logo">
+
+            <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+        </div>
+        <nav class="employee-sidebar-nav">
+            <a href="{% url 'employee_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-home"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Dashboard
+                </span>
+
+            </a>
+            <a href="{% url 'employee_general_settings' %}"
+               class="employee-nav-link active">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sliders"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    General
+                </span>
+
+            </a>
+
+            <a href="{% url 'employee_profile_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-id-card"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Employee Profile
+                </span>
+
+            </a>
+
+            <a href="{% url 'employee_departments_roles_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sitemap"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Departments & Roles
+                </span>
+
+            </a>
+            <a href="{% url 'employee_attendance_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Attendance
+                </span>
+
+            </a>
+            <a href="{% url 'employee_leave_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-minus"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Leave
+                </span>
+
+            </a>
+
+            <a href="{% url 'employee_payroll_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-money-check-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Payroll
+                </span>
+
+            </a>
+            <a href="{% url 'employee_tax_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Tax & Statutory
+                </span>
+
+            </a>
+
+            <a href="{% url 'employee_notification_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+
+            <a href="{% url 'employee_document_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-folder-open"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Documents
+                </span>
+
+            </a>
+
+            <a href="{% url 'employee_report_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-chart-column"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Reports
+                </span>
+
+            </a>
+
+            <a href="{% url 'employee_security_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Security & Permissions
+                </span>
+
+            </a>
+
+            <a href="{% url 'employee_theme_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-palette"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+
+        </nav>
+
+       
+
+
+    </aside>
+
+
+    <main class="employee-main-content">
+        <header class="employee-page-header">
+
+
+            <div class="employee-page-header-text">
+
+                <div class="employee-breadcrumb">
+
+                    <span>
+                        Settings
+                    </span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>
+                        General
+                    </span>
+
+                </div>
+
+                <h1>
+                    General Settings
+                </h1>
+
+                <p>
+                    Configure employee IDs, default employee
+                    settings, attendance, payroll and
+                    notification preferences.
+                </p>
+
+
+            </div>
+
+        </header>
+
+
+        <section class="employee-general-section">
+            <div class="employee-section-header">
+
+
+                <div class="employee-section-icon">
+
+                    <i class="fas fa-sliders"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        General Configuration
+                    </h2>
+
+                    <p>
+                        Manage default employee settings,
+                        attendance, payroll and notification
+                        preferences.
+                    </p>
+
+                </div>
+
+
+            </div>
+            {% if error %}
+
+                <div class="general-alert general-alert-error">
+
+                    <div class="general-alert-icon">
+
+                        <i class="fas fa-circle-exclamation"></i>
+
+                    </div>
+
+                    <div class="general-alert-content">
+
+                        <strong>
+                            Error
+                        </strong>
+
+                        <span>
+                            {{ error }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+            {% if form.non_field_errors %}
+
+                <div class="general-alert general-alert-error">
+
+                    <div class="general-alert-icon">
+
+                        <i class="fas fa-circle-exclamation"></i>
+
+                    </div>
+
+                    <div class="general-alert-content">
+
+                        <strong>
+                            Please correct the following:
+                        </strong>
+
+                        {% for error in form.non_field_errors %}
+
+                            <span>
+                                {{ error }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+            <form method="POST"
+                  class="employee-general-form">
+
+                {% csrf_token %}
+                <div class="general-settings-card">
+
+                    <div class="general-card-header">
+
+
+                        <div class="general-card-icon blue">
+
+                            <i class="fas fa-id-card"></i>
+
+                        </div>
+
+
+                        <div class="general-card-heading">
+
+                            <h3>
+                                Employee ID Settings
+                            </h3>
+
+                            <p>
+                                Configure how employee IDs are created.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+                    <div class="general-card-body">
+
+
+                        <div class="general-form-grid">
+
+                            <div class="general-form-group">
+
+                                <label for="{{ form.employee_id_prefix.id_for_label }}">
+
+                                    Employee ID Prefix
+
+                                </label>
+
+
+                                {{ form.employee_id_prefix }}
+
+
+                                {% if form.employee_id_prefix.errors %}
+
+                                    <div class="general-field-error">
+
+                                        {{ form.employee_id_prefix.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                <small>
+                                    Example: EMP
+                                </small>
+
+                            </div>
+
+
+
+                            <!-- Employee Format -->
+
+                            <div class="general-form-group">
+
+                                <label for="{{ form.employee_id_format.id_for_label }}">
+
+                                    Employee ID Format
+
+                                </label>
+
+
+                                {{ form.employee_id_format }}
+
+
+                                {% if form.employee_id_format.errors %}
+
+                                    <div class="general-field-error">
+
+                                        {{ form.employee_id_format.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                <small>
+                                    Example: EMP-{year}-{number}
+                                </small>
+
+                            </div>
+
+                            <div class="general-form-group general-full-width">
+
+
+                                <div class="general-checkbox-card">
+
+
+                                    {{ form.auto_generate_employee_id }}
+
+
+                                    <div>
+
+                                        <label for="{{ form.auto_generate_employee_id.id_for_label }}">
+
+                                            Automatically generate employee IDs
+
+                                        </label>
+
+
+                                        <small>
+
+                                            Generate employee IDs automatically
+                                            when adding new employees.
+
+                                        </small>
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="general-settings-card">
+
+
+                    <div class="general-card-header">
+
+
+                        <div class="general-card-icon purple">
+
+                            <i class="fas fa-user-gear"></i>
+
+                        </div>
+
+
+                        <div class="general-card-heading">
+
+                            <h3>
+                                Default Employee Settings
+                            </h3>
+
+                            <p>
+                                Set default values for newly created employees.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="general-card-body">
+
+
+                        <div class="general-form-grid">
+
+
+                            <div class="general-form-group">
+
+                                <label for="{{ form.default_employment_status.id_for_label }}">
+
+                                    Default Employment Status
+
+                                </label>
+
+
+                                {{ form.default_employment_status }}
+
+
+                                {% if form.default_employment_status.errors %}
+
+                                    <div class="general-field-error">
+
+                                        {{ form.default_employment_status.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="general-form-group">
+
+                                <label for="{{ form.default_department.id_for_label }}">
+
+                                    Default Department
+
+                                </label>
+
+
+                                {{ form.default_department }}
+
+
+                                {% if form.default_department.errors %}
+
+                                    <div class="general-field-error">
+
+                                        {{ form.default_department.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="general-form-group">
+
+                                <label for="{{ form.default_role.id_for_label }}">
+
+                                    Default Role
+
+                                </label>
+
+
+                                {{ form.default_role }}
+
+
+                                {% if form.default_role.errors %}
+
+                                    <div class="general-field-error">
+
+                                        {{ form.default_role.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="general-settings-card">
+
+
+                    <div class="general-card-header">
+
+
+                        <div class="general-card-icon green">
+
+                            <i class="fas fa-calendar-check"></i>
+
+                        </div>
+
+
+                        <div class="general-card-heading">
+
+                            <h3>
+                                Attendance Settings
+                            </h3>
+
+                            <p>
+                                Configure employee attendance tracking.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="general-card-body">
+
+
+                        <div class="general-toggle-grid">
+
+                            <div class="general-toggle-card">
+
+                                <div class="general-toggle-content">
+
+                                    <strong>
+                                        Attendance Tracking
+                                    </strong>
+
+                                    <span>
+                                        Track daily employee attendance.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="general-switch">
+
+                                    {{ form.attendance_tracking }}
+
+                                    <span class="general-slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="general-toggle-card">
+
+                                <div class="general-toggle-content">
+
+                                    <strong>
+                                        Attendance Alerts
+                                    </strong>
+
+                                    <span>
+                                        Send alerts for attendance issues.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="general-switch">
+
+                                    {{ form.attendance_alerts }}
+
+                                    <span class="general-slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="general-toggle-card">
+
+                                <div class="general-toggle-content">
+
+                                    <strong>
+                                        Late Arrival Tracking
+                                    </strong>
+
+                                    <span>
+                                        Track employees arriving late.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="general-switch">
+
+                                    {{ form.late_arrival_tracking }}
+
+                                    <span class="general-slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="general-toggle-card">
+
+                                <div class="general-toggle-content">
+
+                                    <strong>
+                                        Overtime Tracking
+                                    </strong>
+
+                                    <span>
+                                        Track employee overtime hours.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="general-switch">
+
+                                    {{ form.overtime_tracking }}
+
+                                    <span class="general-slider"></span>
+
+                                </label>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+                <div class="general-settings-card">
+
+
+                    <div class="general-card-header">
+
+
+                        <div class="general-card-icon orange">
+
+                            <i class="fas fa-money-check-dollar"></i>
+
+                        </div>
+
+
+                        <div class="general-card-heading">
+
+                            <h3>
+                                Payroll Settings
+                            </h3>
+
+                            <p>
+                                Configure employee salary and payroll preferences.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="general-card-body">
+
+
+                        <div class="general-form-grid">
+
+                            <div class="general-form-group general-full-width">
+
+
+                                <div class="general-checkbox-card">
+
+
+                                    {{ form.payroll_enabled }}
+
+
+                                    <div>
+
+                                        <label for="{{ form.payroll_enabled.id_for_label }}">
+
+                                            Enable Payroll
+
+                                        </label>
+
+
+                                        <small>
+
+                                            Enable salary and payroll management
+                                            for employees.
+
+                                        </small>
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="general-form-group">
+
+                                <label for="{{ form.salary_currency.id_for_label }}">
+
+                                    Salary Currency
+
+                                </label>
+
+
+                                {{ form.salary_currency }}
+
+
+                                {% if form.salary_currency.errors %}
+
+                                    <div class="general-field-error">
+
+                                        {{ form.salary_currency.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="general-form-group">
+
+                                <label for="{{ form.salary_cycle.id_for_label }}">
+
+                                    Salary Cycle
+
+                                </label>
+
+
+                                {{ form.salary_cycle }}
+
+
+                                {% if form.salary_cycle.errors %}
+
+                                    <div class="general-field-error">
+
+                                        {{ form.salary_cycle.errors }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="general-settings-card">
+
+
+                    <div class="general-card-header">
+
+
+                        <div class="general-card-icon cyan">
+
+                            <i class="fas fa-bell"></i>
+
+                        </div>
+
+
+                        <div class="general-card-heading">
+
+                            <h3>
+                                Notification Settings
+                            </h3>
+
+                            <p>
+                                Control employee-related notifications.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="general-card-body">
+
+
+                        <div class="general-toggle-grid">
+
+
+                            <div class="general-toggle-card">
+
+                                <div class="general-toggle-content">
+
+                                    <strong>
+                                        Employee Notifications
+                                    </strong>
+
+                                    <span>
+                                        Enable general employee notifications.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="general-switch">
+
+                                    {{ form.employee_notifications }}
+
+                                    <span class="general-slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="general-toggle-card">
+
+                                <div class="general-toggle-content">
+
+                                    <strong>
+                                        Attendance Notifications
+                                    </strong>
+
+                                    <span>
+                                        Receive attendance-related notifications.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="general-switch">
+
+                                    {{ form.attendance_notifications }}
+
+                                    <span class="general-slider"></span>
+
+                                </label>
+
+                            </div>
+                            <div class="general-toggle-card">
+
+                                <div class="general-toggle-content">
+
+                                    <strong>
+                                        Payroll Notifications
+                                    </strong>
+
+                                    <span>
+                                        Receive payroll-related notifications.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="general-switch">
+
+                                    {{ form.payroll_notifications }}
+
+                                    <span class="general-slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="general-toggle-card">
+
+                                <div class="general-toggle-content">
+
+                                    <strong>
+                                        Leave Notifications
+                                    </strong>
+
+                                    <span>
+                                        Receive employee leave notifications.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="general-switch">
+
+                                    {{ form.leave_notifications }}
+
+                                    <span class="general-slider"></span>
+
+                                </label>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+                <div class="general-form-actions">
+
+
+                    <a href="{% url 'employee_settings' %}"
+                       class="general-cancel-button">
+
+                        <i class="fas fa-arrow-left"></i>
+
+                        Cancel
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="general-save-button">
+
+                        <i class="fas fa-check"></i>
+
+                        Save Changes
+
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const cards =
+        document.querySelectorAll(".general-settings-card");
+
+    cards.forEach(function (card, index) {
+
+        card.style.opacity = "0";
+
+        card.style.transform =
+            "translateY(15px)";
+
+        setTimeout(function () {
+
+            card.style.transition =
+                "opacity .35s ease, transform .35s ease";
+
+            card.style.opacity = "1";
+
+            card.style.transform =
+                "translateY(0)";
+
+        }, index * 70);
+
+    });
+
+    const form =
+        document.querySelector(".employee-general-form");
+
+    const saveButton =
+        document.querySelector(".general-save-button");
+
+
+    if (form && saveButton) {
+
+        form.addEventListener("submit", function () {
+
+            saveButton.classList.add("saving");
+
+            saveButton.innerHTML =
+                '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+        });
+
+    }
+
+});
+
+</script>
+
+
+</body>
+</html>

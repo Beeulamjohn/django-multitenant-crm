@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Delete EMI</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/emi_delete.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="delete-card">
+
+        <div class="icon">
+
+            <i class="fas fa-trash-alt"></i>
+
+        </div>
+
+        <h2>Delete EMI</h2>
+
+        <p>
+
+            Are you sure you want to delete this EMI installment?
+
+        </p>
+
+        <div class="details">
+
+            <p>
+                <strong>Student :</strong>
+                {{ emi.student.first_name }} {{ emi.student.last_name }}
+            </p>
+
+            <p>
+                <strong>Installment :</strong>
+                EMI {{ emi.installment_no }}
+            </p>
+
+            <p>
+                <strong>Due Date :</strong>
+                {{ emi.due_date }}
+            </p>
+
+            <p>
+                <strong>Amount :</strong>
+                ₹ {{ emi.amount }}
+            </p>
+
+            <p>
+                <strong>Status :</strong>
+                {{ emi.status }}
+            </p>
+
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="button-group">
+
+                <button type="submit" class="delete-btn">
+
+                    <i class="fas fa-trash"></i>
+
+                    Delete EMI
+
+                </button>
+
+                <a href="{% url 'emi_list' %}" class="cancel-btn">
+
+                    <i class="fas fa-arrow-left"></i>
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

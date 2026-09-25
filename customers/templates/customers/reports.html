@@ -1,0 +1,618 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme|default:'light' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Product & Billing Reports | FlowTenant</title>
+
+    <!-- Dynamic Accent Color -->
+    <style>
+        :root {
+            --accent-color:
+                {{ accent_color|default:'#2563eb' }};
+        }
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/ports.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<div class="container">
+<header class="header">
+
+
+<div>
+
+
+<h1>
+
+<i class="fas fa-boxes-stacked"></i>
+
+Product & Billing Reports
+
+</h1>
+
+
+<p>
+
+{{ company.company_name }}
+
+</p>
+
+
+</div>
+
+
+
+<div class="header-right">
+
+
+<span>
+
+<i class="fas fa-calendar-alt"></i>
+
+{% now "F d, Y" %}
+
+</span>
+
+
+
+<a href="{% url 'product_dashboard' %}" class="back-btn">
+
+
+    Back
+
+</a>
+
+</div>
+
+
+</header>
+
+<section class="cards">
+
+
+<div class="card blue">
+
+
+<div>
+
+<h2>
+
+{{ total_products }}
+
+</h2>
+
+
+<p>
+
+Total Products
+
+</p>
+
+
+</div>
+
+
+<i class="fas fa-box"></i>
+
+
+</div>
+
+<div class="card green">
+
+
+<div>
+
+<h2>
+
+{{ total_sales }}
+
+</h2>
+
+
+<p>
+
+Total Sales
+
+</p>
+
+
+</div>
+
+
+<i class="fas fa-cart-shopping"></i>
+
+
+</div>
+
+<div class="card purple">
+
+
+<div>
+
+<h2>
+
+{{ total_invoices }}
+
+</h2>
+
+
+<p>
+
+Generated Bills
+
+</p>
+
+
+</div>
+
+
+<i class="fas fa-file-invoice"></i>
+
+
+</div>
+
+<div class="card orange">
+
+
+<div>
+
+<h2>
+
+₹{{ total_collection }}
+
+</h2>
+
+
+<p>
+
+Total Collection
+
+</p>
+
+
+</div>
+
+
+<i class="fas fa-wallet"></i>
+
+
+</div>
+
+<div class="card red">
+
+
+<div>
+
+<h2>
+
+₹{{ pending_amount }}
+
+</h2>
+
+
+<p>
+
+Pending Payment
+
+</p>
+
+
+</div>
+
+
+<i class="fas fa-clock"></i>
+
+
+</div>
+
+
+
+</section>
+
+
+<section class="stats">
+
+
+<div class="stat-box">
+
+
+<h3>
+
+Invoice Status
+
+</h3>
+
+
+
+<div class="progress-row">
+
+
+<span>
+
+Paid Invoice
+
+</span>
+
+
+<strong>
+
+{{ paid_invoice }}
+
+</strong>
+
+
+</div>
+<div class="progress-row">
+
+
+<span>
+
+Pending Invoice
+
+</span>
+
+
+<strong>
+
+{{ pending_invoice }}
+
+</strong>
+
+
+</div>
+
+<div class="progress-row">
+
+
+<span>
+
+Overdue Invoice
+
+</span>
+
+
+<strong>
+
+{{ overdue_invoice }}
+
+</strong>
+
+
+</div>
+
+</div>
+
+<div class="stat-box">
+
+
+<h3>
+
+GST Summary
+
+</h3>
+
+<div class="progress-row">
+
+
+<span>
+
+CGST
+
+</span>
+
+
+<strong>
+
+₹{{ total_cgst }}
+
+</strong>
+
+
+</div>
+
+
+<div class="progress-row">
+
+
+<span>
+
+SGST
+
+</span>
+
+
+<strong>
+
+₹{{ total_sgst }}
+
+</strong>
+
+
+</div>
+
+
+<div class="progress-row">
+
+
+<span>
+
+Total Tax
+
+</span>
+
+
+<strong>
+
+₹{{ total_tax }}
+
+</strong>
+
+
+</div>
+
+
+
+</div>
+
+</section>
+<section class="table-card">
+<div class="table-header">
+
+    <h2>
+        <i class="fas fa-box-open"></i>
+        Product Stock Overview
+    </h2>
+
+    <button type="button"
+        class="print-btn"
+        onclick="printSection('product-report', 'Product Stock Overview')">
+
+    <i class="fas fa-print"></i>
+
+    Print
+
+</button>
+
+</div>
+
+<div id="product-report">
+
+<table>
+
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Stock</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for product in products %}
+
+    <tr>
+
+        <td>{{ product.name }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.stock }}</td>
+
+        <td>
+
+            {% if product.stock > 20 %}
+                <span class="status active">Available</span>
+
+            {% elif product.stock > 0 %}
+                <span class="status pending">Low Stock</span>
+
+            {% else %}
+                <span class="status inactive">Out Of Stock</span>
+
+            {% endif %}
+
+        </td>
+
+    </tr>
+
+    {% empty %}
+
+    <tr>
+        <td colspan="4">No Products Available</td>
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<section class="table-card">
+
+
+<div class="table-header">
+
+    <h2>
+
+        <i class="fas fa-file-invoice-dollar"></i>
+
+        Recent Billing Transactions
+
+    </h2>
+
+    <button type="button"
+        class="print-btn"
+        onclick="printSection('invoice-report', 'Recent Billing Transactions')">
+
+    <i class="fas fa-print"></i>
+
+    Print
+
+</button>
+
+</div>
+
+<div id="invoice-report">
+
+<table>
+
+<thead>
+
+<tr>
+
+    <th>Invoice No</th>
+    <th>Customer</th>
+    <th>Amount</th>
+    <th>GST</th>
+    <th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for invoice in invoices %}
+
+<tr>
+
+    <td>{{ invoice.invoice_number }}</td>
+
+    <td>{{ invoice.student }}</td>
+
+    <td>₹{{ invoice.total_amount }}</td>
+
+    <td>₹{{ invoice.gst_amount }}</td>
+
+    <td>
+
+        <span class="status {{ invoice.status|lower }}">
+            {{ invoice.status }}
+        </span>
+
+    </td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+    <td colspan="5">
+        No Invoice Records
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+
+</section>
+</div>
+</body>
+<script>
+
+function printSection(id, heading){
+
+    let content = document.getElementById(id).innerHTML;
+
+    let win = window.open("", "", "width=1000,height=700");
+
+    win.document.write(`
+        <html>
+
+        <head>
+
+            <title>${heading}</title>
+
+            <style>
+
+                body{
+                    font-family:Arial,sans-serif;
+                    padding:30px;
+                }
+
+                h2{
+                    text-align:center;
+                    margin-bottom:20px;
+                }
+
+                table{
+                    width:100%;
+                    border-collapse:collapse;
+                    margin-top:20px;
+                }
+
+                table th,
+                table td{
+                    border:1px solid #000;
+                    padding:10px;
+                    text-align:left;
+                }
+
+                table th{
+                    background:#f2f2f2;
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            <h2>${heading}</h2>
+
+            ${content}
+
+        </body>
+
+        </html>
+    `);
+
+    win.document.close();
+
+    win.focus();
+
+    win.print();
+
+    win.close();
+
+}
+
+</script>
+</script>
+</html>

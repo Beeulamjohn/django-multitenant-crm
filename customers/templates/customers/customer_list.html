@@ -1,0 +1,321 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme|default:'light' }}"
+    data-font-size="medium"
+    data-dashboard-layout="grid"
+    data-sidebar-style="expanded"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Customer Dashboard | FlowTenant</title>
+
+    <style>
+        :root {
+            --accent-color: {{ accent_color|default:'#2563eb' }};
+            --primary: var(--accent-color);
+        }
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/customer_list.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+<body>
+
+<div class="customer-page">
+
+    <div class="page-header">
+
+        <div class="header-left">
+
+            <h1>Customer Management</h1>
+
+            <p>
+                Manage customers, billing information, invoices, and payment history.
+            </p>
+
+        </div>
+
+        <div class="header-right">
+
+            <div class="header-right">
+
+                <a href="{% url 'product_dashboard' %}" class="back-btn">
+                    
+                    Back
+                </a>
+
+                
+
+            </div>
+
+            <a href="{% url 'customer_create' %}" class="btn-primary">
+                <i class="fas fa-user-plus"></i>
+                Add Customer
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <i class="fas fa-users"></i>
+
+            <div>
+
+                <h2>{{ customers|length }}</h2>
+
+                <span>Total Customers</span>
+
+            </div>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fas fa-user-check"></i>
+
+            <div>
+
+                <h2>Active</h2>
+
+                <span>Customer Status</span>
+
+            </div>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fas fa-file-invoice"></i>
+
+            <div>
+
+                <h2>Invoices</h2>
+
+                <span>Billing Records</span>
+
+            </div>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fas fa-indian-rupee-sign"></i>
+
+            <div>
+
+                <h2>Revenue</h2>
+
+                <span>Total Collection</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="toolbar">
+
+        <div class="search-box">
+
+            <i class="fas fa-search"></i>
+
+            <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by customer name, email or phone">
+
+        </div>
+
+        <div class="toolbar-right">
+
+            <select>
+
+                <option>All Customers</option>
+
+                <option>Active</option>
+
+                <option>Inactive</option>
+
+            </select>
+
+            <select>
+
+                <option>Sort By</option>
+
+                <option>Name</option>
+
+                <option>Newest</option>
+
+                <option>Oldest</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <div class="table-card">
+
+        <table id="customerTable">
+
+            <thead>
+
+            <tr>
+
+                <th>No</th>
+
+                <th>Customer</th>
+
+                <th>Phone</th>
+
+                <th>Email</th>
+
+                <th>Address</th>
+
+                <th>Status</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for customer in customers %}
+
+            <tr>
+
+                <td>{{ forloop.counter }}</td>
+
+                <td>
+
+                    <div class="customer-info">
+
+                        <div class="avatar">
+
+                            {{ customer.name|first }}
+
+                        </div>
+
+                        <div>
+
+                            <strong>{{ customer.name }}</strong><br>
+
+                            <small>Customer ID :
+                                {{ customer.id }}</small>
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+                <td>{{ customer.phone }}</td>
+
+                <td>{{ customer.email }}</td>
+
+                <td>{{ customer.address }}</td>
+
+                <td>
+
+                    <span class="status active">
+                        Active
+                    </span>
+
+                </td>
+
+                <td>
+
+    <a href="{% url 'customer_edit' customer.id %}" class="action edit">
+        <i class="fas fa-edit"></i>
+    </a>
+
+    <a href="{% url 'customer_delete' customer.id %}"
+       class="action delete"
+       onclick="return confirm('Are you sure you want to delete this customer?');">
+        <i class="fas fa-trash"></i>
+    </a>
+
+</td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="7" class="empty">
+
+                    <i class="fas fa-users-slash"></i>
+
+                    <h3>No Customers Found</h3>
+
+                    <p>
+                        Click "Add Customer" to create your first customer.
+                    </p>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    
+
+</div>
+
+<script>
+
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup", function () {
+
+    let filter = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#customerTable tbody tr");
+
+    rows.forEach(function (row) {
+
+        let text = row.innerText.toLowerCase();
+
+        row.style.display = text.includes(filter) ? "" : "none";
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

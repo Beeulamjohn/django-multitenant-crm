@@ -1,0 +1,254 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>FlowTenant Register</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/register.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="register-container">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+
+        <img src="{% static 'images/flowte.png' %}"
+             alt="FlowTenant">
+
+        <h1>Join FlowTenant</h1>
+
+        <p>
+            Create your company account and manage
+            customers, students, employees, billing,
+            payroll, and analytics from one platform.
+        </p>
+
+        <a href="{% url 'home' %}" class="back-btn">
+            Back to Home
+        </a>
+
+    </div>
+
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+
+        <div class="register-box">
+
+            <h2>Create Account</h2>
+
+            <p class="subtitle">
+                Start your free trial today.
+            </p>
+
+
+            <!-- MESSAGES -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message-box">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+
+            {% if error %}
+                <div class="error-box">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+
+            <!-- REGISTER FORM -->
+           <form method="POST" autocomplete="off">
+
+    {% csrf_token %}
+
+    <!-- COMPANY NAME -->
+    <div class="input-box">
+        <i class="fa-solid fa-building"></i>
+
+        <input
+            type="text"
+            name="company_name"
+            placeholder="Company Name"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="words"
+            spellcheck="false"
+            required
+        >
+    </div>
+
+
+    <!-- COMPANY ADMIN NAME -->
+    <div class="input-box">
+        <i class="fa-solid fa-user"></i>
+
+        <input
+            type="text"
+            name="full_name"
+            placeholder="Company Admin Name"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="words"
+            spellcheck="false"
+            required
+        >
+    </div>
+
+
+    <!-- BUSINESS MODULE -->
+    <div class="input-box">
+        <i class="fa-solid fa-layer-group"></i>
+
+        <select name="company_type" required>
+            <option value="" selected disabled>
+                Select Business Module
+            </option>
+
+            <option value="education">Education</option>
+            <option value="billing">Billing</option>
+            <option value="customer">Customer</option>
+            <option value="employee">Employee</option>
+            <option value="salary">Salary</option>
+        </select>
+    </div>
+
+
+    <!-- USERNAME -->
+    <div class="input-box">
+        <i class="fa-solid fa-id-card"></i>
+
+        <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="none"
+            spellcheck="false"
+            required
+        >
+    </div>
+
+
+    <!-- EMAIL -->
+    <div class="input-box">
+        <i class="fa-solid fa-envelope"></i>
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Business Email"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="none"
+            spellcheck="false"
+            required
+        >
+    </div>
+
+
+    <!-- PHONE -->
+    <div class="input-box">
+        <i class="fa-solid fa-phone"></i>
+
+        <input
+            type="tel"
+            name="phone"
+            placeholder="Phone Number"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            required
+        >
+    </div>
+
+
+    <!-- PLAN -->
+    <div class="input-box">
+        <i class="fa-solid fa-crown"></i>
+
+        <select name="plan" required>
+            <option value="" selected disabled>
+                Choose Subscription Plan
+            </option>
+
+            <option value="Starter">
+                Starter - Basic Features
+            </option>
+
+            <option value="Professional">
+                Professional - Business Features
+            </option>
+
+            <option value="Enterprise">
+                Enterprise - All Features
+            </option>
+        </select>
+    </div>
+
+
+    <!-- PASSWORD -->
+    <div class="input-box">
+        <i class="fa-solid fa-lock"></i>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            autocomplete="new-password"
+            required
+        >
+    </div>
+
+
+    <!-- CONFIRM PASSWORD -->
+    <div class="input-box">
+        <i class="fa-solid fa-shield-halved"></i>
+
+        <input
+            type="password"
+            name="confirm_password"
+            placeholder="Confirm Password"
+            autocomplete="new-password"
+            required
+        >
+    </div>
+
+
+    <button type="submit">
+        Create Account
+    </button>
+
+
+    <p class="login-link">
+        Already have an account?
+
+        <a href="{% url 'login' %}">
+            Login
+        </a>
+    </p>
+
+</form>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

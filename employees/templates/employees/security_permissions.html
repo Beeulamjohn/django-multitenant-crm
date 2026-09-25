@@ -1,0 +1,1088 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme_settings.theme|default:'light' }}"
+    data-font-size="{{ theme_settings.font_size|default:'medium' }}"
+    data-sidebar-style="{{ theme_settings.sidebar_style|default:'expanded' }}"
+>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Security & Permissions | FlowTenant
+    </title>
+
+    <style>
+    :root {
+        --accent-color:
+            {{ theme_settings.accent_color|default:"#2563eb" }};
+    }
+</style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/security_permissions.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<div class="employee-security-layout">
+    <aside class="employee-sidebar">
+
+
+        <div class="employee-sidebar-logo">
+
+            <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+        </div>
+
+
+        <nav class="employee-sidebar-nav">
+
+
+            <a href="{% url 'employee_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-home"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_general_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sliders"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    General
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_profile_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-id-card"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Employee Profile
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_departments_roles_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sitemap"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Departments & Roles
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_attendance_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Attendance
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_leave_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-minus"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Leave
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_payroll_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-money-check-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Payroll
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_tax_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Tax & Statutory
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_notification_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_document_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-folder-open"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Documents
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_report_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-chart-column"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Reports
+                </span>
+
+            </a>
+            <a href="{% url 'employee_security_settings' %}"
+               class="employee-nav-link active">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Security & Permissions
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_theme_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-palette"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        
+
+    </aside>
+
+    <main class="employee-main-content">
+
+
+        <header class="employee-page-header">
+
+            <div class="employee-page-header-text">
+
+                <div class="employee-breadcrumb">
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Security & Permissions</span>
+
+                </div>
+
+                <h1>
+                    Security & Permissions
+                </h1>
+
+                <p>
+                    Control employee login access, security,
+                    sessions and employee permissions.
+                </p>
+
+            </div>
+
+
+            
+
+        </header>
+
+
+        {% if messages %}
+
+            <div class="security-messages">
+
+                {% for message in messages %}
+
+                    <div class="security-message">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        <span>
+                            {{ message }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        {% if error %}
+
+            <div class="security-alert">
+
+                <i class="fas fa-circle-exclamation"></i>
+
+                <span>
+                    {{ error }}
+                </span>
+
+            </div>
+
+        {% endif %}
+
+        <form method="POST"
+              class="security-form">
+
+            {% csrf_token %}
+
+
+
+            <section class="security-card">
+
+                <div class="security-card-header">
+
+                    <div class="security-card-icon blue">
+                        <i class="fas fa-right-to-bracket"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Login & Access
+                        </h2>
+
+                        <p>
+                            Configure how employees access
+                            the employee portal.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-option-grid">
+
+
+                    <label class="security-option">
+
+                        {{ form.employee_login_enabled }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Employee Login
+                            </strong>
+
+                            <small>
+                                Allow employees to log into
+                                the employee system.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.allow_employee_portal }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Employee Portal
+                            </strong>
+
+                            <small>
+                                Allow employees to access
+                                the employee portal.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.allow_employee_self_login }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Self Login
+                            </strong>
+
+                            <small>
+                                Allow employees to authenticate
+                                using their own account.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.require_login_for_employee_portal }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Require Login
+                            </strong>
+
+                            <small>
+                                Require authentication before
+                                accessing employee portal pages.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+            <section class="security-card">
+
+                <div class="security-card-header">
+
+                    <div class="security-card-icon purple">
+                        <i class="fas fa-lock"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Password Security
+                        </h2>
+
+                        <p>
+                            Configure password requirements
+                            for employee accounts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-option-grid">
+
+
+                    <label class="security-option">
+
+                        {{ form.require_strong_password }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Strong Password
+                            </strong>
+
+                            <small>
+                                Require employees to use
+                                stronger passwords.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.password_expiry_enabled }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Password Expiry
+                            </strong>
+
+                            <small>
+                                Require employees to change
+                                passwords periodically.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="input-grid">
+
+                    <div class="input-group">
+
+                        <label>
+                            Minimum Password Length
+                        </label>
+
+                        {{ form.password_min_length }}
+
+                        {% for error in form.password_min_length.errors %}
+
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>
+                            Password Expiry Days
+                        </label>
+
+                        {{ form.password_expiry_days }}
+
+                        {% for error in form.password_expiry_days.errors %}
+
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="security-card">
+
+                <div class="security-card-header">
+
+                    <div class="security-card-icon green">
+                        <i class="fas fa-clock"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Session Security
+                        </h2>
+
+                        <p>
+                            Control employee login sessions.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-option-grid">
+
+
+                    <label class="security-option">
+
+                        {{ form.session_timeout_enabled }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Session Timeout
+                            </strong>
+
+                            <small>
+                                Automatically expire inactive
+                                employee sessions.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.allow_multiple_sessions }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Multiple Sessions
+                            </strong>
+
+                            <small>
+                                Allow an employee to stay
+                                logged in on multiple devices.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="input-grid">
+
+                    <div class="input-group">
+
+                        <label>
+                            Session Timeout
+                            <span>(minutes)</span>
+                        </label>
+
+                        {{ form.session_timeout_minutes }}
+
+                        {% for error in form.session_timeout_minutes.errors %}
+
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="security-card">
+
+                <div class="security-card-header">
+
+                    <div class="security-card-icon orange">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Employee Permissions
+                        </h2>
+
+                        <p>
+                            Control information employees
+                            can access.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-option-grid">
+
+
+                    <label class="security-option">
+
+                        {{ form.allow_profile_edit }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Profile Editing
+                            </strong>
+
+                            <small>
+                                Allow employees to edit
+                                their profiles.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.allow_attendance_view }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Attendance
+                            </strong>
+
+                            <small>
+                                Allow employees to view
+                                attendance information.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.allow_leave_view }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Leave
+                            </strong>
+
+                            <small>
+                                Allow employees to view
+                                their leave information.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.allow_payroll_view }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Payroll
+                            </strong>
+
+                            <small>
+                                Allow employees to view
+                                salary and payroll information.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.allow_document_view }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Documents
+                            </strong>
+
+                            <small>
+                                Allow employees to access
+                                their documents.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.allow_report_view }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Reports
+                            </strong>
+
+                            <small>
+                                Allow employees to access
+                                employee reports.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+            <section class="security-card">
+
+                <div class="security-card-header">
+
+                    <div class="security-card-icon red">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Administrator Approval
+                        </h2>
+
+                        <p>
+                            Require administrator approval
+                            for important employee actions.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-option-grid">
+
+
+                    <label class="security-option">
+
+                        {{ form.require_admin_approval_for_profile_changes }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Profile Changes
+                            </strong>
+
+                            <small>
+                                Require admin approval for
+                                employee profile changes.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.require_admin_approval_for_leave }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Leave Requests
+                            </strong>
+
+                            <small>
+                                Require administrator approval
+                                for leave requests.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.require_admin_approval_for_documents }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Documents
+                            </strong>
+
+                            <small>
+                                Require approval before documents
+                                are accepted.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+            <section class="security-card">
+
+                <div class="security-card-header">
+
+                    <div class="security-card-icon cyan">
+                        <i class="fas fa-bell"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Security Notifications
+                        </h2>
+
+                        <p>
+                            Configure important employee
+                            security notifications.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-option-grid">
+
+
+                    <label class="security-option">
+
+                        {{ form.notify_login }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Login Notifications
+                            </strong>
+
+                            <small>
+                                Notify administrators when
+                                employees log in.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.notify_password_change }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Password Change
+                            </strong>
+
+                            <small>
+                                Notify when an employee changes
+                                their password.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="security-option">
+
+                        {{ form.notify_security_changes }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Security Changes
+                            </strong>
+
+                            <small>
+                                Notify administrators when
+                                security settings change.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <section class="security-card">
+
+                <div class="security-card-header">
+
+                    <div class="security-card-icon dark">
+                        <i class="fas fa-list-check"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Security Audit
+                        </h2>
+
+                        <p>
+                            Keep records of important security
+                            events and changes.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-option-grid">
+
+
+                    <label class="security-option">
+
+                        {{ form.enable_security_audit_log }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Security Audit Log
+                            </strong>
+
+                            <small>
+                                Record important employee
+                                security activities.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+            <div class="security-form-actions">
+
+                <a href="{% url 'employee_settings' %}"
+                   class="cancel-button">
+
+                    <i class="fas fa-arrow-left"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button type="submit"
+                        class="save-button">
+
+                    <i class="fas fa-check"></i>
+
+                    Save Security Settings
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </main>
+
+</div>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const form =
+            document.querySelector(".security-form");
+
+        const button =
+            document.querySelector(".save-button");
+
+        if (form && button) {
+
+            form.addEventListener(
+                "submit",
+                function () {
+
+                    button.disabled = true;
+
+                    button.innerHTML =
+                        '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>

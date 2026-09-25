@@ -1,0 +1,1106 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ appearance_settings.theme|default:'light' }}"
+    data-font-size="{{ appearance_settings.font_size|default:'medium' }}"
+>
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Payment Reminders | FlowTenant</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/billing_reminder_settings.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="billing-settings-page">
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <ul>
+
+                <li>
+                    <a href="{% url 'billing_settings' %}">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_general_settings' %}">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>General Billing</span>
+                    </a>
+                </li>
+                <li>
+    <a href="{% url 'billing_company_profile_settings' %}">
+        <i class="fas fa-building"></i>
+        <span>Company Profile</span>
+    </a>
+</li>
+
+                <li>
+                    <a href="{% url 'billing_invoice_settings' %}">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Invoice Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_payment_settings' %}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_tax_settings' %}">
+                        <i class="fas fa-percent"></i>
+                        <span>Tax &amp; GST Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_fee_settings' %}">
+                        <i class="fas fa-money-check-dollar"></i>
+                        <span>Fee &amp; Discount</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_late_fee_settings' %}">
+                        <i class="fas fa-clock"></i>
+                        <span>Late Fee Settings</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="{% url 'billing_reminder_settings' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Payment Reminders</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_appearance_settings' %}">
+                        <i class="fas fa-palette"></i>
+                        <span>Invoice Appearance</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_bank_settings' %}">
+                        <i class="fas fa-building-columns"></i>
+                        <span>Bank &amp; Payment</span>
+                    </a>
+                </li>
+
+
+            </ul>
+
+        </nav>
+
+    </aside>
+    <main class="settings-content">
+
+        <header class="page-header">
+
+            <div class="header-content">
+
+                <div class="breadcrumb">
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Billing</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <strong>Payment Reminders</strong>
+
+                </div>
+
+                <h1>Payment Reminder Settings</h1>
+
+                <p>
+                    Configure when payment reminders are sent and how
+                    customers are notified about pending payments.
+                </p>
+
+            </div>
+
+            <div class="header-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+
+        </header>
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+
+                        {% if message.tags == "success" %}
+                            <i class="fas fa-circle-check"></i>
+                        {% elif message.tags == "error" %}
+                            <i class="fas fa-circle-exclamation"></i>
+                        {% elif message.tags == "warning" %}
+                            <i class="fas fa-triangle-exclamation"></i>
+                        {% else %}
+                            <i class="fas fa-circle-info"></i>
+                        {% endif %}
+
+                        <span>{{ message }}</span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST"
+              class="reminder-settings-form">
+
+            {% csrf_token %}
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Reminder System</h2>
+
+                        <p>
+                            Enable or disable automatic payment reminders.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-power-off"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Payment Reminder System</h3>
+
+                                <p>
+                                    Automatically send reminders for
+                                    pending and overdue invoices.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="enabled"
+                                   value="1"
+                                   {% if settings.enabled %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-calendar-minus"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Before Due Date</h2>
+
+                        <p>
+                            Send an advance payment reminder before
+                            the invoice becomes due.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Reminder Before Due Date</h3>
+
+                                <p>
+                                    Notify the customer before the
+                                    payment due date.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="reminder_before_due"
+                                   value="1"
+                                   {% if settings.reminder_before_due %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="before_due_days">
+                            Send Reminder
+                        </label>
+
+                        <div class="input-with-suffix">
+
+                            <input type="number"
+                                   id="before_due_days"
+                                   name="before_due_days"
+                                   value="{{ settings.before_due_days|default:3 }}"
+                                   min="0">
+
+                            <span>Days Before</span>
+
+                        </div>
+
+                        <small>
+                            Example: 3 means the reminder is sent
+                            three days before the due date.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Due Date Reminder</h2>
+
+                        <p>
+                            Send a reminder on the actual invoice
+                            due date.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Reminder on Due Date</h3>
+
+                                <p>
+                                    Notify the customer that the invoice
+                                    payment is due today.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="reminder_on_due_date"
+                                   value="1"
+                                   {% if settings.reminder_on_due_date %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-calendar-xmark"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Overdue Reminder</h2>
+
+                        <p>
+                            Notify customers after the payment due date
+                            has passed.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-triangle-exclamation"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Reminder After Due Date</h3>
+
+                                <p>
+                                    Send a reminder for unpaid overdue
+                                    invoices.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="reminder_after_due"
+                                   value="1"
+                                   {% if settings.reminder_after_due %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="after_due_days">
+                            Send First Overdue Reminder
+                        </label>
+
+                        <div class="input-with-suffix">
+
+                            <input type="number"
+                                   id="after_due_days"
+                                   name="after_due_days"
+                                   value="{{ settings.after_due_days|default:1 }}"
+                                   min="0">
+
+                            <span>Days After</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-rotate"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Repeated Reminders</h2>
+
+                        <p>
+                            Continue reminding customers while invoices
+                            remain unpaid.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-repeat"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Repeat Reminders</h3>
+
+                                <p>
+                                    Continue sending reminders until
+                                    the invoice is paid or the limit
+                                    is reached.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="repeat_reminders"
+                                   value="1"
+                                   {% if settings.repeat_reminders %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="repeat_interval">
+                                Repeat Interval
+                            </label>
+
+                            <select id="repeat_interval"
+                                    name="repeat_interval">
+
+                                <option value="daily"
+                                    {% if settings.repeat_interval == "daily" %}
+                                    selected
+                                    {% endif %}>
+                                    Daily
+                                </option>
+
+                                <option value="weekly"
+                                    {% if settings.repeat_interval == "weekly" or not settings.repeat_interval %}
+                                    selected
+                                    {% endif %}>
+                                    Weekly
+                                </option>
+
+                                <option value="monthly"
+                                    {% if settings.repeat_interval == "monthly" %}
+                                    selected
+                                    {% endif %}>
+                                    Monthly
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="maximum_reminders">
+                                Maximum Reminders
+                            </label>
+
+                            <input type="number"
+                                   id="maximum_reminders"
+                                   name="maximum_reminders"
+                                   value="{{ settings.maximum_reminders|default:3 }}"
+                                   min="1">
+
+                            <small>
+                                Maximum number of reminder messages
+                                for a single invoice.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Reminder Delivery</h2>
+
+                        <p>
+                            Select how payment reminders should be delivered.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Email Reminders</h3>
+
+                                <p>
+                                    Send payment reminders through email.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="email_reminders"
+                                   value="1"
+                                   {% if settings.email_reminders %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-comment-sms"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>SMS Reminders</h3>
+
+                                <p>
+                                    Send reminders through SMS.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="sms_reminders"
+                                   value="1"
+                                   {% if settings.sms_reminders %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>WhatsApp Reminders</h3>
+
+                                <p>
+                                    Send reminders through WhatsApp
+                                    when the integration is available.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="whatsapp_reminders"
+                                   value="1"
+                                   {% if settings.whatsapp_reminders %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-file-lines"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Reminder Content</h2>
+
+                        <p>
+                            Choose billing information included in
+                            reminder messages.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-file-invoice"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Show Invoice Number</h3>
+
+                                <p>
+                                    Include the invoice number in the
+                                    reminder message.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="show_invoice_number"
+                                   value="1"
+                                   {% if settings.show_invoice_number %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-indian-rupee-sign"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Show Due Amount</h3>
+
+                                <p>
+                                    Include the outstanding amount in
+                                    the reminder.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="show_due_amount"
+                                   value="1"
+                                   {% if settings.show_due_amount %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Show Due Date</h3>
+
+                                <p>
+                                    Include the invoice due date in
+                                    reminder messages.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="show_due_date"
+                                   value="1"
+                                   {% if settings.show_due_date %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="reminder_message">
+                            Reminder Message
+                        </label>
+
+                        <textarea id="reminder_message"
+                                  name="reminder_message"
+                                  rows="6"
+                                  placeholder="Enter your payment reminder message...">{{ settings.reminder_message }}</textarea>
+
+                        <small>
+                            This is the default message used when
+                            generating payment reminders.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Reminder Summary</h2>
+
+                        <p>
+                            Review the current reminder configuration.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="summary-grid">
+
+
+                        <div class="summary-item">
+
+                            <span>Reminder System</span>
+
+                            {% if settings.enabled %}
+
+                                <strong class="status-enabled">
+                                    Enabled
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="status-disabled">
+                                    Disabled
+                                </strong>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Before Due</span>
+
+                            <strong>
+                                {{ settings.before_due_days }} Days
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>After Due</span>
+
+                            <strong>
+                                {{ settings.after_due_days }} Days
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Repeat</span>
+
+                            {% if settings.repeat_reminders %}
+
+                                <strong class="status-enabled">
+                                    Enabled
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="status-disabled">
+                                    Disabled
+                                </strong>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Email</span>
+
+                            {% if settings.email_reminders %}
+
+                                <strong class="status-enabled">
+                                    Enabled
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="status-disabled">
+                                    Disabled
+                                </strong>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Maximum Reminders</span>
+
+                            <strong>
+                                {{ settings.maximum_reminders }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <div class="form-actions">
+
+                <button type="reset"
+                        class="btn btn-secondary">
+
+                    <i class="fas fa-rotate-left"></i>
+
+                    Reset
+
+                </button>
+
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Reminder Settings
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+<script>
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const themeInputs = document.querySelectorAll(
+            'input[name="theme"]'
+        );
+
+        themeInputs.forEach(function (input) {
+
+            input.addEventListener(
+                "change",
+                function () {
+
+                    document.documentElement.setAttribute(
+                        "data-theme",
+                        this.value
+                    );
+
+                }
+            );
+
+        });
+
+    }
+);
+</script>
+</body>
+
+</html>

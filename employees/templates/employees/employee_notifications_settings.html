@@ -1,0 +1,1069 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Employee Notifications | FlowTenant
+    </title>
+
+    <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/employee_notifications_settings.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="employee-settings-layout">
+
+
+    <aside class="employee-sidebar">
+
+
+        <div class="employee-sidebar-logo">
+
+            <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+        </div>
+
+        <nav class="employee-sidebar-nav">
+
+
+            <a href="{% url 'employee_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-home"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_general_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sliders"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    General
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_profile_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-id-card"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Employee Profile
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_departments_roles_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sitemap"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Departments & Roles
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_attendance_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Attendance
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_leave_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-minus"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Leave
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_payroll_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-money-check-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Payroll
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_tax_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Tax & Statutory
+                </span>
+
+            </a>
+
+            <a href="{% url 'employee_notification_settings' %}"
+               class="employee-nav-link active">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_document_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-folder-open"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Documents
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_report_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-chart-column"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_security_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Security & Permissions
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_theme_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-palette"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+        </nav>
+
+
+    </aside>
+    <main class="employee-main-content">
+
+
+        <header class="employee-page-header">
+
+            <div>
+
+                <div class="employee-breadcrumb">
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Notifications</span>
+
+                </div>
+
+                <h1>
+                    Employee Notification Settings
+                </h1>
+
+                <p>
+                    Configure employee, attendance, leave,
+                    payroll and system notifications.
+                </p>
+
+            </div>
+
+
+        </header>
+
+        {% if messages %}
+
+            <div class="messages-container">
+
+                {% for message in messages %}
+
+                    <div class="message success">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        {% if form.non_field_errors %}
+
+            <div class="notification-alert">
+
+                <i class="fas fa-circle-exclamation"></i>
+
+                <div>
+
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST"
+              class="notification-form">
+
+            {% csrf_token %}
+            <section class="notification-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon blue">
+
+                        <i class="fas fa-bell"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            General Notifications
+                        </h2>
+
+                        <p>
+                            Control general employee notification behavior.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="option-grid">
+
+
+                    <label class="notification-option">
+
+                        {{ form.employee_notifications }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Employee Notifications
+                            </strong>
+
+                            <small>
+                                Enable notifications for employees.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="notification-option">
+
+                        {{ form.admin_notifications }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Admin Notifications
+                            </strong>
+
+                            <small>
+                                Notify administrators about employee events.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="notification-option">
+
+                        {{ form.manager_notifications }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Manager Notifications
+                            </strong>
+
+                            <small>
+                                Notify managers about employee events.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+            <section class="notification-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon purple">
+
+                        <i class="fas fa-user"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Employee Notifications
+                        </h2>
+
+                        <p>
+                            Configure employee profile and status alerts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="option-grid">
+
+
+                    <label class="notification-option">
+
+                        {{ form.new_employee_notification }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                New Employee
+                            </strong>
+
+                            <small>
+                                Notify when a new employee is added.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="notification-option">
+
+                        {{ form.employee_profile_update_notification }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Profile Updates
+                            </strong>
+
+                            <small>
+                                Notify when employee information changes.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="notification-option">
+
+                        {{ form.employee_status_change_notification }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Status Changes
+                            </strong>
+
+                            <small>
+                                Notify when employment status changes.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="notification-option">
+
+                        {{ form.employee_document_notification }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Employee Documents
+                            </strong>
+
+                            <small>
+                                Notify about employee document activity.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+            <section class="notification-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon green">
+
+                        <i class="fas fa-calendar-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Attendance Notifications
+                        </h2>
+
+                        <p>
+                            Configure attendance-related alerts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="option-grid">
+
+
+                    <label class="notification-option">
+                        {{ form.attendance_notifications }}
+
+                        <span class="option-content">
+
+                            <strong>Attendance</strong>
+
+                            <small>
+                                Enable attendance notifications.
+                            </small>
+
+                        </span>
+                    </label>
+
+
+                    <label class="notification-option">
+                        {{ form.late_arrival_notifications }}
+
+                        <span class="option-content">
+
+                            <strong>Late Arrival</strong>
+
+                            <small>
+                                Notify about late arrivals.
+                            </small>
+
+                        </span>
+                    </label>
+
+
+                    <label class="notification-option">
+                        {{ form.absent_notifications }}
+
+                        <span class="option-content">
+
+                            <strong>Absence</strong>
+
+                            <small>
+                                Notify about employee absences.
+                            </small>
+
+                        </span>
+                    </label>
+
+
+                    <label class="notification-option">
+                        {{ form.overtime_notifications }}
+
+                        <span class="option-content">
+
+                            <strong>Overtime</strong>
+
+                            <small>
+                                Notify about overtime records.
+                            </small>
+
+                        </span>
+                    </label>
+
+                </div>
+
+            </section>
+
+            <section class="notification-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon orange">
+
+                        <i class="fas fa-calendar-minus"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Leave Notifications
+                        </h2>
+
+                        <p>
+                            Configure employee leave alerts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="option-grid">
+
+
+                    <label class="notification-option">
+                        {{ form.leave_notifications }}
+
+                        <span class="option-content">
+
+                            <strong>Leave Notifications</strong>
+
+                            <small>
+                                Enable leave notifications.
+                            </small>
+
+                        </span>
+                    </label>
+
+
+                    <label class="notification-option">
+                        {{ form.leave_request_notification }}
+
+                        <span class="option-content">
+
+                            <strong>Leave Requests</strong>
+
+                            <small>
+                                Notify when employees submit leave.
+                            </small>
+
+                        </span>
+                    </label>
+
+
+                    <label class="notification-option">
+                        {{ form.leave_approval_notification }}
+
+                        <span class="option-content">
+
+                            <strong>Leave Approval</strong>
+
+                            <small>
+                                Notify employees when leave is approved.
+                            </small>
+
+                        </span>
+                    </label>
+
+
+                    <label class="notification-option">
+                        {{ form.leave_rejection_notification }}
+
+                        <span class="option-content">
+
+                            <strong>Leave Rejection</strong>
+
+                            <small>
+                                Notify employees when leave is rejected.
+                            </small>
+
+                        </span>
+                    </label>
+
+                </div>
+
+            </section>
+
+            <section class="notification-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon teal">
+
+                        <i class="fas fa-money-check-dollar"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Payroll Notifications
+                        </h2>
+
+                        <p>
+                            Configure salary and payroll alerts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="option-grid">
+
+
+                    <label class="notification-option">
+                        {{ form.payroll_notifications }}
+
+                        <span class="option-content">
+
+                            <strong>Payroll Notifications</strong>
+
+                            <small>
+                                Enable payroll notifications.
+                            </small>
+
+                        </span>
+                    </label>
+
+
+                    <label class="notification-option">
+                        {{ form.salary_generated_notification }}
+
+                        <span class="option-content">
+
+                            <strong>Salary Generated</strong>
+
+                            <small>
+                                Notify when salary is generated.
+                            </small>
+
+                        </span>
+                    </label>
+
+
+                    <label class="notification-option">
+                        {{ form.salary_paid_notification }}
+
+                        <span class="option-content">
+
+                            <strong>Salary Paid</strong>
+
+                            <small>
+                                Notify when salary is paid.
+                            </small>
+
+                        </span>
+                    </label>
+
+
+                    <label class="notification-option">
+                        {{ form.salary_pending_notification }}
+
+                        <span class="option-content">
+
+                            <strong>Salary Pending</strong>
+
+                            <small>
+                                Notify about pending salary.
+                            </small>
+
+                        </span>
+                    </label>
+
+                </div>
+
+            </section>
+
+            <section class="notification-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon red">
+
+                        <i class="fas fa-folder-open"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Document Notifications
+                        </h2>
+
+                        <p>
+                            Configure employee document alerts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="option-grid">
+
+
+                    <label class="notification-option">
+                        {{ form.document_expiry_notification }}
+
+                        <span class="option-content">
+
+                            <strong>Document Expiry</strong>
+
+                            <small>
+                                Notify when employee documents expire.
+                            </small>
+
+                        </span>
+                    </label>
+
+
+                    <label class="notification-option">
+                        {{ form.document_upload_notification }}
+
+                        <span class="option-content">
+
+                            <strong>Document Upload</strong>
+
+                            <small>
+                                Notify when new documents are uploaded.
+                            </small>
+
+                        </span>
+                    </label>
+
+                </div>
+
+            </section>
+
+            <section class="notification-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon indigo">
+
+                        <i class="fas fa-paper-plane"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Notification Channels
+                        </h2>
+
+                        <p>
+                            Choose how notifications are delivered.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="option-grid">
+
+
+                    <label class="notification-option">
+
+                        {{ form.email_notifications }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                Email Notifications
+                            </strong>
+
+                            <small>
+                                Send notifications through email.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="notification-option">
+
+                        {{ form.in_app_notifications }}
+
+                        <span class="option-content">
+
+                            <strong>
+                                In-App Notifications
+                            </strong>
+
+                            <small>
+                                Display notifications inside FlowTenant.
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <section class="notification-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon yellow">
+
+                        <i class="fas fa-clock"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Reminder Settings
+                        </h2>
+
+                        <p>
+                            Configure how many days before an event
+                            a reminder should be sent.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="reminder-setting">
+
+                    <label for="{{ form.reminder_days.id_for_label }}">
+
+                        Reminder Days
+
+                    </label>
+
+                    {{ form.reminder_days }}
+
+                    <small>
+                        Number of days before an event to send a reminder.
+                    </small>
+
+                </div>
+
+            </section>
+            <div class="form-actions">
+
+                <a href="{% url 'employee_settings' %}"
+                   class="cancel-button">
+
+                    <i class="fas fa-arrow-left"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button type="submit"
+                        class="save-button">
+
+                    <i class="fas fa-check"></i>
+
+                    Save Notification Settings
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </main>
+
+</div>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const cards =
+            document.querySelectorAll(
+                ".notification-card"
+            );
+
+        cards.forEach(
+            function (card, index) {
+
+                card.style.opacity = "0";
+                card.style.transform =
+                    "translateY(15px)";
+
+                setTimeout(
+                    function () {
+
+                        card.style.transition =
+                            "opacity .35s ease, transform .35s ease";
+
+                        card.style.opacity = "1";
+                        card.style.transform =
+                            "translateY(0)";
+
+                    },
+                    index * 60
+                );
+
+            }
+        );
+
+
+        const form =
+            document.querySelector(
+                ".notification-form"
+            );
+
+        const button =
+            document.querySelector(
+                ".save-button"
+            );
+
+
+        if (form && button) {
+
+            form.addEventListener(
+                "submit",
+                function () {
+
+                    button.disabled = true;
+
+                    button.innerHTML =
+                        '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>

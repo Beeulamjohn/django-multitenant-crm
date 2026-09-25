@@ -1,0 +1,299 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+
+    background:#f4f7fb;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:100vh;
+
+}
+
+.container{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+.delete-card{
+
+    width:520px;
+
+    background:#fff;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+
+}
+
+.icon{
+
+    width:90px;
+
+    height:90px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    background:#ffe5e5;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#dc3545;
+
+    font-size:38px;
+
+}
+
+.delete-card h2{
+
+    margin-top:20px;
+
+    color:#333;
+
+}
+
+.delete-card p{
+
+    margin-top:12px;
+
+    color:#666;
+
+}
+
+.payment-details{
+
+    margin-top:25px;
+
+    text-align:left;
+
+    background:#f9fafc;
+
+    padding:20px;
+
+    border-radius:10px;
+
+}
+
+.payment-details p{
+
+    margin:10px 0;
+
+}
+
+.delete-btn{
+
+    width:100%;
+
+    margin-top:25px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#dc3545;
+
+    color:#fff;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+}
+
+.delete-btn:hover{
+
+    background:#bb2d3b;
+
+}
+
+.cancel-btn{
+
+    display:block;
+
+    margin-top:15px;
+
+    text-decoration:none;
+
+    padding:13px;
+
+    border-radius:8px;
+
+    background:#0d6efd;
+
+    color:#fff;
+
+}
+
+.cancel-btn:hover{
+
+    background:#0b5ed7;
+
+}
+
+@media screen and (max-width: 786px) {
+
+
+    html,
+    body {
+        width: 100%;
+        min-height: 100%;
+        overflow-x: hidden;
+    }
+
+    body {
+        padding: 25px 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .delete-card {
+        width: 100%;
+        max-width: 520px;
+        padding: 30px 22px;
+        border-radius: 14px;
+    }
+    .icon {
+        width: 75px;
+        height: 75px;
+        font-size: 32px;
+    }
+
+    .delete-card h2 {
+        margin-top: 17px;
+        font-size: 24px;
+        line-height: 1.3;
+    }
+
+
+    .delete-card p {
+        margin-top: 10px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .payment-details {
+        width: 100%;
+        margin-top: 22px;
+        padding: 17px;
+        border-radius: 9px;
+        box-sizing: border-box;
+    }
+
+    .payment-details p {
+        margin: 9px 0;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .delete-btn {
+        width: 100%;
+        margin-top: 22px;
+        padding: 13px;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    .cancel-btn {
+        width: 100%;
+        margin-top: 12px;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 14px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+}
+
+
+@media screen and (max-width: 480px) {
+
+
+    body {
+        padding: 18px 10px;
+    }
+
+
+    .delete-card {
+        padding: 25px 16px;
+        border-radius: 12px;
+    }
+
+    .icon {
+        width: 65px;
+        height: 65px;
+        font-size: 27px;
+    }
+
+
+    .delete-card h2 {
+        margin-top: 15px;
+        font-size: 21px;
+    }
+
+    .delete-card p {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .payment-details {
+        margin-top: 18px;
+        padding: 14px;
+        border-radius: 8px;
+    }
+
+    .payment-details p {
+        margin: 8px 0;
+        font-size: 13px;
+    }
+    .delete-btn {
+        margin-top: 18px;
+        padding: 12px;
+        font-size: 14px;
+        border-radius: 7px;
+    }
+
+    .cancel-btn {
+        margin-top: 10px;
+        padding: 11px;
+        font-size: 13px;
+        border-radius: 7px;
+    }
+
+}

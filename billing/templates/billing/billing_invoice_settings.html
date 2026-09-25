@@ -1,0 +1,1076 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      data-theme="{{ appearance_settings.theme|default:'light' }}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Invoice Settings | FlowTenant</title>
+
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance_settings.accent_color|default:"#2563eb" }};
+
+        }
+
+    </style>
+
+
+    <link rel="stylesheet"
+          href="{% static 'css/billing_invoice_settings.css' %}">
+
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="billing-settings-page">
+
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <ul>
+
+                <li>
+                    <a href="{% url 'billing_settings' %}">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'billing_general_settings' %}">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>General Billing</span>
+                    </a>
+                </li>
+                <li>
+    <a href="{% url 'billing_company_profile_settings' %}">
+        <i class="fas fa-building"></i>
+        <span>Company Profile</span>
+    </a>
+</li>
+
+
+                <li class="active">
+                    <a href="{% url 'billing_invoice_settings' %}">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Invoice Settings</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'billing_payment_settings' %}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment Settings</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'billing_tax_settings' %}">
+                        <i class="fas fa-percent"></i>
+                        <span>Tax &amp; GST Settings</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'billing_fee_settings' %}">
+                        <i class="fas fa-money-check-dollar"></i>
+                        <span>Fee &amp; Discount</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'billing_late_fee_settings' %}">
+                        <i class="fas fa-clock"></i>
+                        <span>Late Fee Settings</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'billing_reminder_settings' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Payment Reminders</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'billing_appearance_settings' %}">
+                        <i class="fas fa-palette"></i>
+                        <span>Invoice Appearance</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="{% url 'billing_bank_settings' %}">
+                        <i class="fas fa-building-columns"></i>
+                        <span>Bank &amp; Payment</span>
+                    </a>
+                </li>
+
+
+                
+            </ul>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="settings-content">
+
+        <header class="page-header">
+
+            <div class="header-content">
+
+                <div class="breadcrumb">
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Billing</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <strong>Invoice Settings</strong>
+
+                </div>
+
+
+                <h1>Invoice Settings</h1>
+
+                <p>
+                    Configure invoice numbering, dates, content and
+                    automatic invoice behavior for your company.
+                </p>
+
+            </div>
+
+
+            <div class="header-icon">
+
+                <i class="fas fa-file-invoice"></i>
+
+            </div>
+
+        </header>
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+
+                        {% if message.tags == "success" %}
+
+                            <i class="fas fa-circle-check"></i>
+
+                        {% elif message.tags == "error" %}
+
+                            <i class="fas fa-circle-exclamation"></i>
+
+                        {% else %}
+
+                            <i class="fas fa-circle-info"></i>
+
+                        {% endif %}
+
+                        <span>{{ message }}</span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+        <form method="POST"
+              class="invoice-settings-form">
+
+            {% csrf_token %}
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-hashtag"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Invoice Numbering</h2>
+
+                        <p>
+                            Configure how invoice numbers are generated.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="invoice_prefix">
+
+                                Invoice Prefix
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input type="text"
+                                   id="invoice_prefix"
+                                   name="invoice_prefix"
+                                   value="{{ settings.invoice_prefix|default:'INV' }}"
+                                   maxlength="20"
+                                   placeholder="INV"
+                                   required>
+
+                            <small>
+                                Example: INV-2026-00001
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="invoice_format">
+
+                                Number Format
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <select id="invoice_format"
+                                    name="invoice_format"
+                                    required>
+
+                                <option value="PREFIX-NUMBER"
+                                    {% if settings.invoice_format == "PREFIX-NUMBER" %}
+                                    selected
+                                    {% endif %}>
+                                    INV-00001
+                                </option>
+
+                                <option value="PREFIX-YEAR-NUMBER"
+                                    {% if settings.invoice_format == "PREFIX-YEAR-NUMBER" or not settings.invoice_format %}
+                                    selected
+                                    {% endif %}>
+                                    INV-2026-00001
+                                </option>
+
+                                <option value="YEAR-PREFIX-NUMBER"
+                                    {% if settings.invoice_format == "YEAR-PREFIX-NUMBER" %}
+                                    selected
+                                    {% endif %}>
+                                    2026-INV-00001
+                                </option>
+
+                            </select>
+
+                            <small>
+                                Format used when generating invoice numbers.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="starting_number">
+
+                                Starting Number
+
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input type="number"
+                                   id="starting_number"
+                                   name="starting_number"
+                                   value="{{ settings.starting_number|default:1 }}"
+                                   min="1"
+                                   required>
+
+                            <small>
+                                First invoice sequence number.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="number_digits">
+
+                                Number of Digits
+
+                            </label>
+
+                            <select id="number_digits"
+                                    name="number_digits">
+
+                                <option value="3"
+                                    {% if settings.number_digits == 3 %}
+                                    selected
+                                    {% endif %}>
+                                    3 Digits
+                                </option>
+
+                                <option value="4"
+                                    {% if settings.number_digits == 4 %}
+                                    selected
+                                    {% endif %}>
+                                    4 Digits
+                                </option>
+
+                                <option value="5"
+                                    {% if settings.number_digits == 5 or not settings.number_digits %}
+                                    selected
+                                    {% endif %}>
+                                    5 Digits
+                                </option>
+
+                                <option value="6"
+                                    {% if settings.number_digits == 6 %}
+                                    selected
+                                    {% endif %}>
+                                    6 Digits
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-arrows-rotate"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Invoice Generation</h2>
+
+                        <p>
+                            Configure automatic invoice generation behavior.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-hashtag"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Automatic Invoice Numbering</h3>
+
+                                <p>
+                                    Automatically assign the next available
+                                    invoice number when an invoice is created.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="automatic_numbering"
+                                   value="1"
+                                   {% if settings.automatic_numbering or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-calendar-days"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Invoice Dates</h2>
+
+                        <p>
+                            Configure the default invoice and due-date behavior.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="invoice_date_type">
+
+                                Invoice Date
+
+                            </label>
+
+                            <select id="invoice_date_type"
+                                    name="invoice_date_type">
+
+                                <option value="today"
+                                    {% if settings.invoice_date_type == "today" or not settings.invoice_date_type %}
+                                    selected
+                                    {% endif %}>
+                                    Current Date
+                                </option>
+
+                                <option value="creation"
+                                    {% if settings.invoice_date_type == "creation" %}
+                                    selected
+                                    {% endif %}>
+                                    Creation Date
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="due_date_mode">
+
+                                Due Date
+
+                            </label>
+
+                            <select id="due_date_mode"
+                                    name="due_date_mode">
+
+                                <option value="payment_terms"
+                                    {% if settings.due_date_mode == "payment_terms" or not settings.due_date_mode %}
+                                    selected
+                                    {% endif %}>
+                                    Based on Payment Terms
+                                </option>
+
+                                <option value="manual"
+                                    {% if settings.due_date_mode == "manual" %}
+                                    selected
+                                    {% endif %}>
+                                    Enter Manually
+                                </option>
+
+                            </select>
+
+                            <small>
+                                General Billing payment terms can be used
+                                automatically.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-list-check"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Invoice Content</h2>
+
+                        <p>
+                            Choose information displayed on generated invoices.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Show Student Details</h3>
+
+                                <p>
+                                    Display student name, admission number
+                                    and contact information.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="show_student_details"
+                                   value="1"
+                                   {% if settings.show_student_details or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Show Course Details</h3>
+
+                                <p>
+                                    Display course, department and academic
+                                    information on the invoice.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="show_course_details"
+                                   value="1"
+                                   {% if settings.show_course_details or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-money-bill"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Show Fee Breakdown</h3>
+
+                                <p>
+                                    Display course fee, registration fee
+                                    and other fee components separately.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="show_fee_breakdown"
+                                   value="1"
+                                   {% if settings.show_fee_breakdown or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-percent"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Show GST Breakdown</h3>
+
+                                <p>
+                                    Display applicable CGST, SGST and IGST
+                                    values on the invoice.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="show_gst_breakdown"
+                                   value="1"
+                                   {% if settings.show_gst_breakdown or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-circle-check"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Show Payment Status</h3>
+
+                                <p>
+                                    Display Pending, Partial, Paid or
+                                    Overdue status on the invoice.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="show_payment_status"
+                                   value="1"
+                                   {% if settings.show_payment_status or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Show Balance Due</h3>
+
+                                <p>
+                                    Display the remaining balance amount
+                                    on the invoice.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="show_balance_due"
+                                   value="1"
+                                   {% if settings.show_balance_due or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-gears"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Invoice Behavior</h2>
+
+                        <p>
+                            Control automatic calculations and invoice
+                            document generation.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Automatic Total Calculation</h3>
+
+                                <p>
+                                    Automatically calculate invoice total
+                                    from fee components and taxes.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="auto_total_calculation"
+                                   value="1"
+                                   {% if settings.auto_total_calculation or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-scale-balanced"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Automatic Balance Calculation</h3>
+
+                                <p>
+                                    Automatically calculate the remaining
+                                    balance after payment.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="auto_balance_calculation"
+                                   value="1"
+                                   {% if settings.auto_balance_calculation or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Automatic PDF Generation</h3>
+
+                                <p>
+                                    Generate the invoice PDF automatically
+                                    after invoice creation.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="auto_pdf_generation"
+                                   value="1"
+                                   {% if settings.auto_pdf_generation %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+                                <i class="fas fa-copy"></i>
+                            </div>
+
+                            <div>
+
+                                <h3>Allow Duplicate Invoice</h3>
+
+                                <p>
+                                    Allow authorized users to create
+                                    duplicate or replacement invoices.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="allow_duplicate_invoice"
+                                   value="1"
+                                   {% if settings.allow_duplicate_invoice %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Invoice Number Preview</h2>
+
+                        <p>
+                            Example of how newly generated invoice numbers
+                            will appear.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="invoice-preview">
+
+                        <div class="preview-icon">
+
+                            <i class="fas fa-file-invoice"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>Example Invoice Number</span>
+
+                            <strong>
+                                {{ settings.invoice_prefix|default:"INV" }}-2026-00001
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <div class="form-actions">
+
+                <button type="reset"
+                        class="btn btn-secondary">
+
+                    <i class="fas fa-rotate-left"></i>
+
+                    Reset
+
+                </button>
+
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Invoice Settings
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </main>
+
+</div>
+
+</body>
+</html>
+
+ 

@@ -1,0 +1,810 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      data-theme="{{ appearance_settings.theme|default:'light' }}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>General Billing Settings | FlowTenant</title>
+
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance_settings.accent_color|default:"#2563eb" }};
+
+        }
+
+    </style>
+
+
+    
+    <link rel="stylesheet"
+          href="{% static 'css/billing_general_settings.css' %}">
+
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+<div class="billing-settings-page">
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-cogs"></i>
+        <h2>Settings</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="{% url 'billing_settings' %}">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'billing_general_settings' %}">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>General Billing</span>
+                    </a>
+                </li>
+                <li>
+    <a href="{% url 'billing_company_profile_settings' %}">
+        <i class="fas fa-building"></i>
+        <span>Company Profile</span>
+    </a>
+</li>
+                <li>
+                    <a href="{% url 'billing_invoice_settings' %}">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Invoice Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'billing_payment_settings' %}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'billing_tax_settings' %}">
+                        <i class="fas fa-percent"></i>
+                        <span>Tax &amp; GST Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'billing_fee_settings' %}">
+                        <i class="fas fa-money-check-dollar"></i>
+                        <span>Fee &amp; Discount</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'billing_late_fee_settings' %}">
+                        <i class="fas fa-clock"></i>
+                        <span>Late Fee Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'billing_reminder_settings' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Payment Reminders</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'billing_appearance_settings' %}">
+                        <i class="fas fa-palette"></i>
+                        <span>Invoice Appearance</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'billing_bank_settings' %}">
+                        <i class="fas fa-building-columns"></i>
+                        <span>Bank &amp; Payment</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+    </aside>
+    <main class="settings-content">
+        <header class="page-header">
+            <div class="header-content">
+                <div class="breadcrumb">
+                    <span>Settings</span>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Billing</span>
+                    <i class="fas fa-chevron-right"></i>
+                    <strong>General Billing</strong>
+                </div>
+                <h1>General Billing Settings</h1>
+                <p>
+                    Configure the default billing rules and payment
+                    behavior used throughout your company.
+                </p>
+            </div>
+            <div class="header-icon">
+                <i class="fas fa-sliders-h"></i>
+            </div>
+        </header>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {% if message.tags == "success" %}
+                            <i class="fas fa-circle-check"></i>
+                        {% elif message.tags == "error" %}
+                            <i class="fas fa-circle-exclamation"></i>
+                        {% elif message.tags == "warning" %}
+                            <i class="fas fa-triangle-exclamation"></i>
+                        {% else %}
+                            <i class="fas fa-circle-info"></i>
+                        {% endif %}
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="POST"
+              class="billing-form">
+            {% csrf_token %}
+            <section class="settings-card">
+                <div class="card-header">
+                    <div class="section-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div>
+                        <h2>Billing Defaults</h2>
+                        <p>
+                            Set the basic billing information used
+                            throughout your billing system.
+                        </p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="currency">
+                                Currency
+                                <span class="required">*</span>
+                            </label>
+                            <select id="currency"
+                                    name="currency"
+                                    required>
+                                <option value="INR"
+                                    {% if settings.currency == "INR" or not settings.currency %}
+                                    selected
+                                    {% endif %}>
+                                    Indian Rupee (INR)
+                                </option>
+                                <option value="USD"
+                                    {% if settings.currency == "USD" %}
+                                    selected
+                                    {% endif %}>
+                                    US Dollar (USD)
+                                </option>
+                                <option value="EUR"
+                                    {% if settings.currency == "EUR" %}
+                                    selected
+                                    {% endif %}>
+                                    Euro (EUR)
+                                </option>
+                                <option value="GBP"
+                                    {% if settings.currency == "GBP" %}
+                                    selected
+                                    {% endif %}>
+                                    British Pound (GBP)
+                                </option>
+                            </select>
+                            <small>
+                                Currency used for billing calculations,
+                                invoices and payment records.
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="currency_symbol">
+                                Currency Symbol
+                                <span class="required">*</span>
+                            </label>
+                            <input type="text"
+                                   id="currency_symbol"
+                                   name="currency_symbol"
+                                   value="{{ settings.currency_symbol|default:'₹' }}"
+                                   maxlength="5"
+                                   placeholder="₹"
+                                   required>
+                            <small>
+                                Example: ₹, $, €, £
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="financial_year">
+                                Financial Year
+                                <span class="required">*</span>
+                            </label>
+                            <select id="financial_year"
+                                    name="financial_year"
+                                    required>
+                                <option value="april_march"
+                                    {% if settings.financial_year == "april_march" or not settings.financial_year %}
+                                    selected
+                                    {% endif %}>
+                                    April - March
+                                </option>
+                                <option value="january_december"
+                                    {% if settings.financial_year == "january_december" %}
+                                    selected
+                                    {% endif %}>
+                                    January - December
+                                </option>
+                            </select>
+                            <small>
+                                Financial year used for billing reports
+                                and annual calculations.
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="payment_terms">
+                                Default Payment Terms
+                                <span class="required">*</span>
+                            </label>
+                            <select id="payment_terms"
+                                    name="payment_terms"
+                                    required>
+                                <option value="0"
+                                    {% if settings.payment_terms == 0 %}
+                                    selected
+                                    {% endif %}>
+                                    Due Immediately
+                                </option>
+                                <option value="7"
+                                    {% if settings.payment_terms == 7 %}
+                                    selected
+                                    {% endif %}>
+                                    7 Days
+                                </option>
+                                <option value="15"
+                                    {% if settings.payment_terms == 15 %}
+                                    selected
+                                    {% endif %}>
+                                    15 Days
+                                </option>
+                                <option value="30"
+                                    {% if settings.payment_terms == 30 or settings.payment_terms is None %}
+                                    selected
+                                    {% endif %}>
+                                    30 Days
+                                </option>
+                                <option value="45"
+                                    {% if settings.payment_terms == 45 %}
+                                    selected
+                                    {% endif %}>
+                                    45 Days
+                                </option>
+                                <option value="60"
+                                    {% if settings.payment_terms == 60 %}
+                                    selected
+                                    {% endif %}>
+                                    60 Days
+                                </option>
+                            </select>
+                            <small>
+                                Default period before an invoice becomes due.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="settings-card">
+                <div class="card-header">
+                    <div class="section-icon">
+                        <i class="fas fa-power-off"></i>
+                    </div>
+                    <div>
+                        <h2>Billing System</h2>
+                        <p>
+                            Control whether billing functionality is
+                            enabled for your company.
+                        </p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="setting-option">
+                        <div class="option-info">
+                            <div class="option-icon">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div>
+                                <h3>Billing System Enabled</h3>
+                                <p>
+                                    Enable invoice creation, payment
+                                    management and billing operations.
+                                </p>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox"
+                                   name="billing_enabled"
+                                   value="1"
+                                   {% if settings.billing_enabled %}
+                                   checked
+                                   {% endif %}>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+            <section class="settings-card">
+                <div class="card-header">
+                    <div class="section-icon">
+                        <i class="fas fa-gears"></i>
+                    </div>
+                    <div>
+                        <h2>Billing Behavior</h2>
+                        <p>
+                            Control the default behavior of payments,
+                            receipts and invoices.
+                        </p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="setting-option">
+                        <div class="option-info">
+                            <div class="option-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div>
+                                <h3>Allow Partial Payment</h3>
+                                <p>
+                                    Allow students or customers to pay
+                                    an invoice in multiple installments.
+                                </p>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox"
+                                   name="allow_partial_payment"
+                                   value="1"
+                                   {% if settings.allow_partial_payment %}
+                                   checked
+                                   {% endif %}>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-option">
+                        <div class="option-info">
+                            <div class="option-icon">
+                                <i class="fas fa-check-double"></i>
+                            </div>
+                            <div>
+                                <h3>Automatic Payment Status</h3>
+                                <p>
+                                    Automatically mark the invoice as
+                                    paid when the complete amount is received.
+                                </p>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox"
+                                   name="auto_payment_status"
+                                   value="1"
+                                   {% if settings.auto_payment_status %}
+                                   checked
+                                   {% endif %}>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-option">
+                        <div class="option-info">
+                            <div class="option-icon">
+                                <i class="fas fa-receipt"></i>
+                            </div>
+                            <div>
+                                <h3>Generate Payment Receipt</h3>
+                                <p>
+                                    Automatically generate a receipt
+                                    when a payment is recorded.
+                                </p>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox"
+                                   name="payment_receipt"
+                                   value="1"
+                                   {% if settings.payment_receipt %}
+                                   checked
+                                   {% endif %}>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-option">
+                        <div class="option-info">
+                            <div class="option-icon">
+                                <i class="fas fa-file-invoice"></i>
+                            </div>
+                            <div>
+                                <h3>Automatic Invoice Generation</h3>
+                                <p>
+                                    Automatically create invoices for
+                                    recurring or scheduled billing.
+                                </p>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox"
+                                   name="auto_invoice_generation"
+                                   value="1"
+                                   {% if settings.auto_invoice_generation %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+            <section class="settings-card">
+                <div class="card-header">
+                    <div class="section-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+
+
+                    <div>
+
+                        <h2>Default Payment Method</h2>
+
+                        <p>
+                            Select the payment method that will be
+                            selected by default for new payments.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="card-body">
+
+
+                    <div class="payment-method-grid">
+                        <label class="payment-method">
+
+
+                            <input type="radio"
+                                   name="default_payment_method"
+                                   value="cash"
+                                   {% if settings.default_payment_method == "cash" or not settings.default_payment_method %}
+                                   checked
+                                   {% endif %}>
+
+
+                            <span class="payment-card">
+
+
+                                <i class="fas fa-money-bill"></i>
+
+
+                                <strong>Cash</strong>
+
+
+                                <small>
+                                    Cash Payment
+                                </small>
+
+
+                            </span>
+
+
+                        </label>
+
+                        <label class="payment-method">
+
+
+                            <input type="radio"
+                                   name="default_payment_method"
+                                   value="bank"
+                                   {% if settings.default_payment_method == "bank" %}
+                                   checked
+                                   {% endif %}>
+
+
+                            <span class="payment-card">
+
+
+                                <i class="fas fa-building-columns"></i>
+
+
+                                <strong>Bank Transfer</strong>
+
+
+                                <small>
+                                    Direct Bank Payment
+                                </small>
+
+
+                            </span>
+
+
+                        </label>
+
+
+                        <label class="payment-method">
+
+
+                            <input type="radio"
+                                   name="default_payment_method"
+                                   value="upi"
+                                   {% if settings.default_payment_method == "upi" %}
+                                   checked
+                                   {% endif %}>
+
+
+                            <span class="payment-card">
+
+
+                                <i class="fas fa-mobile-screen-button"></i>
+
+
+                                <strong>UPI</strong>
+
+
+                                <small>
+                                    UPI Payment
+                                </small>
+
+
+                            </span>
+
+
+                        </label>
+
+
+
+                        <!-- CARD -->
+
+                        <label class="payment-method">
+
+
+                            <input type="radio"
+                                   name="default_payment_method"
+                                   value="card"
+                                   {% if settings.default_payment_method == "card" %}
+                                   checked
+                                   {% endif %}>
+
+
+                            <span class="payment-card">
+
+
+                                <i class="fas fa-credit-card"></i>
+
+
+                                <strong>Card</strong>
+
+
+                                <small>
+                                    Debit / Credit Card
+                                </small>
+
+
+                            </span>
+
+
+                        </label>
+
+
+
+                        <!-- CHEQUE -->
+
+                        <label class="payment-method">
+
+
+                            <input type="radio"
+                                   name="default_payment_method"
+                                   value="cheque"
+                                   {% if settings.default_payment_method == "cheque" %}
+                                   checked
+                                   {% endif %}>
+
+
+                            <span class="payment-card">
+
+
+                                <i class="fas fa-money-check"></i>
+
+
+                                <strong>Cheque</strong>
+
+
+                                <small>
+                                    Cheque Payment
+                                </small>
+
+
+                            </span>
+
+
+                        </label>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+            <section class="settings-card summary-card">
+
+
+                <div class="card-header">
+
+
+                    <div class="section-icon">
+
+                        <i class="fas fa-circle-info"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>Current Billing Configuration</h2>
+
+                        <p>
+                            Review the main billing configuration
+                            before saving your changes.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="card-body">
+
+
+                    <div class="summary-grid">
+
+
+                        <div class="summary-item">
+
+                            <span>Currency</span>
+
+                            <strong>
+                                {{ settings.currency|default:"INR" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Currency Symbol</span>
+
+                            <strong>
+                                {{ settings.currency_symbol|default:"₹" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Financial Year</span>
+
+                            <strong>
+                                {% if settings.financial_year == "january_december" %}
+                                    January - December
+                                {% else %}
+                                    April - March
+                                {% endif %}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Payment Terms</span>
+
+                            <strong>
+                                {{ settings.payment_terms|default:"30" }} Days
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Default Payment</span>
+
+                            <strong>
+                                {{ settings.default_payment_method|default:"cash"|title }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Billing System</span>
+
+                            {% if settings.billing_enabled %}
+
+                                <strong class="status-enabled">
+                                    Enabled
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="status-disabled">
+                                    Disabled
+                                </strong>
+
+                            {% endif %}
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+            <div class="form-actions">
+
+
+                <button type="reset"
+                        class="btn btn-secondary">
+
+                    <i class="fas fa-rotate-left"></i>
+
+                    Reset
+
+                </button>
+
+
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Billing Settings
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

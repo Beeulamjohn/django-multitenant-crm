@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Edit Payment</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/edit_payment.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body class="lotter">
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+
+            <i class="fas fa-edit"></i>
+
+            Edit Payment
+
+        </h1>
+
+        <a href="{% url 'payment_list' %}"
+           class="back-btn">
+
+            Back
+
+        </a>
+
+    </div>
+
+    <div class="card">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="input-box">
+
+                    <label>Student</label>
+
+                    <input type="text"
+                           value="{{ payment.student.first_name }} {{ payment.student.last_name }}"
+                           readonly>
+
+                </div>
+
+                <div class="input-box">
+
+                    <label>Amount</label>
+
+                    <input type="number"
+                           name="amount"
+                           value="{{ payment.amount }}"
+                           autocomplete="off"
+                           required>
+
+                </div>
+
+                <div class="input-box">
+
+                    <label>Payment Method</label>
+
+                    <select name="payment_method">
+
+                        <option {% if payment.payment_method == "Cash" %}selected{% endif %}>Cash</option>
+
+                        <option {% if payment.payment_method == "UPI" %}selected{% endif %}>UPI</option>
+
+                        <option {% if payment.payment_method == "Card" %}selected{% endif %}>Card</option>
+
+                        <option {% if payment.payment_method == "Bank Transfer" %}selected{% endif %}>Bank Transfer</option>
+
+                    </select>
+
+                </div>
+
+                <div class="input-box">
+
+                    <label>Date</label>
+
+                    <input type="date"
+                           name="payment_date"
+                           value="{{ payment.payment_date|date:'Y-m-d' }}">
+
+                </div>
+
+            </div>
+
+            <button class="save-btn">
+
+                <i class="fas fa-save"></i>
+
+                Update Payment
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

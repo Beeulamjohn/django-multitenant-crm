@@ -1,0 +1,717 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ settings.language|default:'en' }}"
+    data-theme="{{ settings.theme|default:'light' }}"
+    data-font-size="{{ settings.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ settings.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ settings.sidebar_style|default:'expanded' }}"
+    style="--accent-color: {{ settings.accent_color|default:'#2563eb' }};"
+>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Appearance Settings | FlowTenant</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/appearance_settings.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<div class="settings-layout">
+    <aside class="settings-sidebar">
+
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="{% url 'company_settings' %}">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'company_profile' %}">
+                    <i class="fas fa-building"></i>
+                    <span>Company Profile</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'account_settings' %}">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Account</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'student_employee_settings' %}">
+                    <i class="fas fa-users"></i>
+                    <span>Employees</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'student_settings' %}">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Students</span>
+                </a>
+            </li>
+            
+
+            <li>
+                <a href="{% url 'notification_settings' %}">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="{% url 'appearance_settings' %}">
+                    <i class="fas fa-palette"></i>
+                    <span>Appearance</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'report_settings' %}">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
+           
+        
+        </ul>
+
+    </aside>
+    
+    <main class="settings-content">
+        <div class="page-header">
+
+            <div class="header-left">
+
+                <div class="header-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+
+                <div>
+
+                    <h1>Appearance Settings</h1>
+
+                    <p>
+                        Customize how FlowTenant looks and behaves
+                        on your screen.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- SUCCESS / ERROR MESSAGES -->
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        <span>{{ message }}</span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- FORM -->
+        <form method="POST"
+              action="{% url 'appearance_settings' %}"
+              class="appearance-form">
+
+            {% csrf_token %}
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-circle-half-stroke"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Theme</h2>
+
+                        <p>
+                            Choose the color theme used throughout
+                            the application.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="theme-options">
+
+                    <!-- LIGHT -->
+                    <label class="theme-option">
+
+                        <input type="radio"
+                               name="theme"
+                               value="light"
+                               {% if settings.theme == "light" %}
+                               checked
+                               {% endif %}>
+
+                        <div class="theme-preview light-preview">
+
+                            <div class="preview-top"></div>
+
+                            <div class="preview-body">
+
+                                <span></span>
+                                <span></span>
+                                <span></span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="theme-label">
+
+                            <i class="fas fa-sun"></i>
+
+                            <strong>Light</strong>
+
+                        </div>
+
+                    </label>
+
+
+                    <!-- DARK -->
+                    <label class="theme-option">
+
+                        <input type="radio"
+                               name="theme"
+                               value="dark"
+                               {% if settings.theme == "dark" %}
+                               checked
+                               {% endif %}>
+
+                        <div class="theme-preview dark-preview">
+
+                            <div class="preview-top"></div>
+
+                            <div class="preview-body">
+
+                                <span></span>
+                                <span></span>
+                                <span></span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="theme-label">
+
+                            <i class="fas fa-moon"></i>
+
+                            <strong>Dark</strong>
+
+                        </div>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- VISUAL PREFERENCES -->
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-sliders"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Visual Preferences</h2>
+
+                        <p>
+                            Customize the colors and typography
+                            of your application.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <!-- ACCENT COLOR -->
+                    <div class="form-group">
+
+                        <label for="accent_color">
+
+                            <i class="fas fa-droplet"></i>
+
+                            Accent Color
+
+                        </label>
+
+                        <div class="color-input">
+
+                            <input type="color"
+                                   id="accent_color"
+                                   name="accent_color"
+                                   value="{{ settings.accent_color }}">
+
+                            <span>
+                                Choose your primary interface color.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FONT SIZE -->
+                    <div class="form-group">
+
+                        <label for="font_size">
+
+                            <i class="fas fa-text-height"></i>
+
+                            Font Size
+
+                        </label>
+
+                        <select id="font_size"
+                                name="font_size">
+
+                            <option value="small"
+                                {% if settings.font_size == "small" %}
+                                selected
+                                {% endif %}>
+                                Small
+                            </option>
+
+                            <option value="medium"
+                                {% if settings.font_size == "medium" %}
+                                selected
+                                {% endif %}>
+                                Medium
+                            </option>
+
+                            <option value="large"
+                                {% if settings.font_size == "large" %}
+                                selected
+                                {% endif %}>
+                                Large
+                            </option>
+
+                        </select>
+
+                        <small>
+                            Controls the general text size throughout
+                            the application.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- DASHBOARD AND SIDEBAR -->
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-table-columns"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Dashboard &amp; Sidebar Layout</h2>
+
+                        <p>
+                            Choose how the dashboard and navigation
+                            sidebar should appear.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <!-- DASHBOARD -->
+                    <div class="form-group">
+
+                        <label for="dashboard_layout">
+
+                            <i class="fas fa-grip"></i>
+
+                            Dashboard Layout
+
+                        </label>
+
+                        <select id="dashboard_layout"
+                                name="dashboard_layout">
+
+                            <option value="grid"
+                                {% if settings.dashboard_layout == "grid" %}
+                                selected
+                                {% endif %}>
+                                Grid Layout
+                            </option>
+
+                            <option value="compact"
+                                {% if settings.dashboard_layout == "compact" %}
+                                selected
+                                {% endif %}>
+                                Compact Layout
+                            </option>
+
+                            <option value="wide"
+                                {% if settings.dashboard_layout == "wide" %}
+                                selected
+                                {% endif %}>
+                                Wide Layout
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SIDEBAR -->
+                    <div class="form-group">
+
+                        <label for="sidebar_style">
+
+                            <i class="fas fa-bars"></i>
+
+                            Sidebar Style
+
+                        </label>
+
+                        <select id="sidebar_style"
+                                name="sidebar_style">
+
+                            <option value="expanded"
+                                {% if settings.sidebar_style == "expanded" %}
+                                selected
+                                {% endif %}>
+                                Expanded
+                            </option>
+
+                            <option value="compact"
+                                {% if settings.sidebar_style == "compact" %}
+                                selected
+                                {% endif %}>
+                                Compact
+                            </option>
+
+                            <option value="collapsed"
+                                {% if settings.sidebar_style == "collapsed" %}
+                                selected
+                                {% endif %}>
+                                Collapsed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- REGIONAL PREFERENCES -->
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Regional Preferences</h2>
+
+                        <p>
+                            Select language, date, time and timezone
+                            preferences.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <!-- LANGUAGE -->
+                    <div class="form-group">
+
+                        <label for="language">
+
+                            <i class="fas fa-language"></i>
+
+                            Language
+
+                        </label>
+
+                        <select id="language"
+                                name="language">
+
+                            <option value="en"
+                                {% if settings.language == "en" %}
+                                selected
+                                {% endif %}>
+                                English
+                            </option>
+
+                            <option value="ml"
+                                {% if settings.language == "ml" %}
+                                selected
+                                {% endif %}>
+                                Malayalam
+                            </option>
+
+                            <option value="hi"
+                                {% if settings.language == "hi" %}
+                                selected
+                                {% endif %}>
+                                Hindi
+                            </option>
+
+                            <option value="ta"
+                                {% if settings.language == "ta" %}
+                                selected
+                                {% endif %}>
+                                Tamil
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DATE FORMAT -->
+                    <div class="form-group">
+
+                        <label for="date_format">
+
+                            <i class="fas fa-calendar-days"></i>
+
+                            Date Format
+
+                        </label>
+
+                        <select id="date_format"
+                                name="date_format">
+
+                            <option value="DD/MM/YYYY"
+                                {% if settings.date_format == "DD/MM/YYYY" %}
+                                selected
+                                {% endif %}>
+                                DD/MM/YYYY
+                            </option>
+
+                            <option value="MM/DD/YYYY"
+                                {% if settings.date_format == "MM/DD/YYYY" %}
+                                selected
+                                {% endif %}>
+                                MM/DD/YYYY
+                            </option>
+
+                            <option value="YYYY-MM-DD"
+                                {% if settings.date_format == "YYYY-MM-DD" %}
+                                selected
+                                {% endif %}>
+                                YYYY-MM-DD
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- TIME FORMAT -->
+                    <div class="form-group">
+
+                        <label for="time_format">
+
+                            <i class="fas fa-clock"></i>
+
+                            Time Format
+
+                        </label>
+
+                        <select id="time_format"
+                                name="time_format">
+
+                            <option value="12"
+                                {% if settings.time_format == "12" %}
+                                selected
+                                {% endif %}>
+                                12 Hour
+                            </option>
+
+                            <option value="24"
+                                {% if settings.time_format == "24" %}
+                                selected
+                                {% endif %}>
+                                24 Hour
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- TIMEZONE -->
+                    <div class="form-group">
+
+                        <label for="timezone">
+
+                            <i class="fas fa-earth-americas"></i>
+
+                            Time Zone
+
+                        </label>
+
+                        <select id="timezone"
+                                name="timezone">
+
+                            <option value="Asia/Kolkata"
+                                {% if settings.timezone == "Asia/Kolkata" %}
+                                selected
+                                {% endif %}>
+                                India Standard Time (IST)
+                            </option>
+
+                            <option value="UTC"
+                                {% if settings.timezone == "UTC" %}
+                                selected
+                                {% endif %}>
+                                UTC
+                            </option>
+
+                            <option value="America/New_York"
+                                {% if settings.timezone == "America/New_York" %}
+                                selected
+                                {% endif %}>
+                                Eastern Time
+                            </option>
+
+                            <option value="Europe/London"
+                                {% if settings.timezone == "Europe/London" %}
+                                selected
+                                {% endif %}>
+                                London Time
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- INFORMATION -->
+            <section class="info-card">
+
+                <div class="info-icon">
+
+                    <i class="fas fa-circle-info"></i>
+
+                </div>
+
+                <div>
+
+                    <h3>Appearance Preferences</h3>
+
+                    <p>
+                        These preferences control the visual appearance,
+                        layout, language, date and time presentation
+                        throughout your FlowTenant account.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- ACTIONS -->
+            <div class="form-actions">
+
+                <a href="{% url 'company_settings' %}"
+                   class="cancel-btn">
+
+                    <i class="fas fa-xmark"></i>
+
+                    Cancel
+
+                </a>
+
+                <button type="submit"
+                        class="save-btn">
+
+                    <i class="fas fa-floppy-disk"></i>
+
+                    Save Appearance
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+</body>
+</html>

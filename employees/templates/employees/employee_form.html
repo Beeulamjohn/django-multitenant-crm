@@ -1,0 +1,332 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% if employee %}
+            Edit Employee
+        {% else %}
+            Add Employee
+        {% endif %}
+        | FlowTenant CRM
+    </title>
+
+    <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link rel="stylesheet"
+          href="{% static 'css/employee_form.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="form-card">
+
+        <div class="header">
+
+            <h1>
+
+                {% if employee %}
+
+                    <i class="fas fa-user-edit"></i>
+                    Edit Employee
+
+                {% else %}
+
+                    <i class="fas fa-user-plus"></i>
+                    Add Employee
+
+                {% endif %}
+
+            </h1>
+
+            <p>
+                {% if employee %}
+                    Update the employee information below.
+                {% else %}
+                    Fill in the employee information below.
+                {% endif %}
+            </p>
+
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Employee ID</label>
+
+                    <input
+                        type="text"
+                        name="employee_id"
+                        placeholder="EMP001"
+                        value="{{ employee.employee_id|default:'' }}"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>First Name</label>
+
+                    <input
+                        type="text"
+                        name="first_name"
+                        value="{{ employee.first_name|default:'' }}"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Last Name</label>
+
+                    <input
+                        type="text"
+                        name="last_name"
+                        value="{{ employee.last_name|default:'' }}"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Email</label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        value="{{ employee.email|default:'' }}"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Phone</label>
+
+                    <input
+                        type="text"
+                        name="phone"
+                        value="{{ employee.phone|default:'' }}"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Gender</label>
+
+                    <select name="gender" required>
+
+                        <option value="">Select</option>
+
+                        <option value="Male"
+                            {% if employee.gender == "Male" %}selected{% endif %}>
+                            Male
+                        </option>
+
+                        <option value="Female"
+                            {% if employee.gender == "Female" %}selected{% endif %}>
+                            Female
+                        </option>
+
+                        <option value="Other"
+                            {% if employee.gender == "Other" %}selected{% endif %}>
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Date of Birth</label>
+
+                    <input
+                        type="date"
+                        name="dob"
+                        value="{{ employee.dob|date:'Y-m-d' }}"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Role</label>
+
+                    <input
+                        type="text"
+                        name="role"
+                        placeholder="Manager"
+                        value="{{ employee.role|default:'' }}"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Department</label>
+
+                    <input
+                        type="text"
+                        name="department"
+                        placeholder="HR"
+                        value="{{ employee.department|default:'' }}"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Designation</label>
+
+                    <input
+                        type="text"
+                        name="designation"
+                        value="{{ employee.designation|default:'' }}"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Joining Date</label>
+
+                    <input
+                        type="date"
+                        name="joining_date"
+                        value="{{ employee.joining_date|date:'Y-m-d' }}"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Salary</label>
+
+                    <input
+                        type="number"
+                        name="salary"
+                        value="{{ employee.salary|default:'0' }}"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Employment Status</label>
+
+                    <select name="employment_status">
+
+                        <option value="Active"
+                            {% if employee.employment_status == "Active" or not employee %}
+                                selected
+                            {% endif %}>
+                            Active
+                        </option>
+
+                        <option value="Inactive"
+                            {% if employee.employment_status == "Inactive" %}
+                                selected
+                            {% endif %}>
+                            Inactive
+                        </option>
+
+                        <option value="Resigned"
+                            {% if employee.employment_status == "Resigned" %}
+                                selected
+                            {% endif %}>
+                            Resigned
+                        </option>
+
+                        <option value="Terminated"
+                            {% if employee.employment_status == "Terminated" %}
+                                selected
+                            {% endif %}>
+                            Terminated
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group full">
+
+                    <label>Address</label>
+
+                    <textarea
+                        name="address"
+                        rows="4"
+                    >{{ employee.address|default:'' }}</textarea>
+
+                </div>
+
+            </div>
+
+            <div class="buttons">
+
+                <button type="submit" class="save-btn">
+
+                    <i class="fas fa-save"></i>
+
+                    {% if employee %}
+                        Update Employee
+                    {% else %}
+                        Save Employee
+                    {% endif %}
+
+                </button>
+
+                <a
+                    href="{% url 'employee_list' %}"
+                    class="cancel-btn"
+                >
+                    Back
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

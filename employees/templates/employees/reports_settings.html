@@ -1,0 +1,891 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Reports Settings | FlowTenant
+    </title>
+
+    <style>
+
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/reports_settings.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="employee-settings-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="employee-sidebar">
+
+
+        <div class="employee-sidebar-logo">
+
+            <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+        </div>
+
+
+        <nav class="employee-sidebar-nav">
+
+
+            <a href="{% url 'employee_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-home"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_general_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sliders"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    General
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_profile_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-id-card"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Employee Profile
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_departments_roles_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-sitemap"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Departments & Roles
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_attendance_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Attendance
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_leave_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-calendar-minus"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Leave
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_payroll_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-money-check-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Payroll
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_tax_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Tax & Statutory
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_notification_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_document_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-folder-open"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Documents
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_report_settings' %}"
+               class="employee-nav-link active">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-chart-column"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_security_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Security & Permissions
+                </span>
+
+            </a>
+
+
+            <a href="{% url 'employee_theme_settings' %}"
+               class="employee-nav-link">
+
+                <span class="employee-nav-icon">
+                    <i class="fas fa-palette"></i>
+                </span>
+
+                <span class="employee-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        
+
+
+    </aside>
+
+    <main class="employee-main-content">
+
+
+        <header class="employee-page-header">
+
+
+            <div>
+
+                <div class="employee-breadcrumb">
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Reports</span>
+
+                </div>
+
+
+                <h1>
+                    Reports Settings
+                </h1>
+
+
+                <p>
+                    Configure employee reports, access permissions,
+                    summaries and export options.
+                </p>
+
+            </div>
+
+
+            
+
+        </header>
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="alert success">
+
+                    <i class="fas fa-circle-check"></i>
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        {% if error %}
+
+            <div class="alert error">
+
+                <i class="fas fa-circle-exclamation"></i>
+
+                {{ error }}
+
+            </div>
+
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon blue">
+
+                        <i class="fas fa-chart-pie"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Available Reports
+                        </h2>
+
+                        <p>
+                            Choose which employee reports are
+                            available in your system.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="option-grid">
+
+
+                    <label class="option-card">
+
+                        {{ form.employee_report }}
+
+                        <div>
+
+                            <strong>
+                                Employee Report
+                            </strong>
+
+                            <span>
+                                Employee information and status.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.attendance_report }}
+
+                        <div>
+
+                            <strong>
+                                Attendance Report
+                            </strong>
+
+                            <span>
+                                Employee attendance and presence.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.leave_report }}
+
+                        <div>
+
+                            <strong>
+                                Leave Report
+                            </strong>
+
+                            <span>
+                                Employee leave information.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.payroll_report }}
+
+                        <div>
+
+                            <strong>
+                                Payroll Report
+                            </strong>
+
+                            <span>
+                                Payroll and payment information.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.salary_report }}
+
+                        <div>
+
+                            <strong>
+                                Salary Report
+                            </strong>
+
+                            <span>
+                                Employee salary information.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.department_report }}
+
+                        <div>
+
+                            <strong>
+                                Department Report
+                            </strong>
+
+                            <span>
+                                Employee department statistics.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.employee_performance_report }}
+
+                        <div>
+
+                            <strong>
+                                Performance Report
+                            </strong>
+
+                            <span>
+                                Employee performance information.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.employee_document_report }}
+
+                        <div>
+
+                            <strong>
+                                Document Report
+                            </strong>
+
+                            <span>
+                                Employee document status.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon green">
+
+                        <i class="fas fa-chart-column"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Report Dashboard
+                        </h2>
+
+                        <p>
+                            Select the summaries shown on the
+                            employee reports dashboard.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="option-grid">
+
+
+                    <label class="option-card">
+
+                        {{ form.show_employee_summary }}
+
+                        <div>
+
+                            <strong>
+                                Employee Summary
+                            </strong>
+
+                            <span>
+                                Show total and active employees.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.show_department_summary }}
+
+                        <div>
+
+                            <strong>
+                                Department Summary
+                            </strong>
+
+                            <span>
+                                Show department statistics.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.show_attendance_summary }}
+
+                        <div>
+
+                            <strong>
+                                Attendance Summary
+                            </strong>
+
+                            <span>
+                                Show attendance statistics.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.show_leave_summary }}
+
+                        <div>
+
+                            <strong>
+                                Leave Summary
+                            </strong>
+
+                            <span>
+                                Show leave statistics.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.show_payroll_summary }}
+
+                        <div>
+
+                            <strong>
+                                Payroll Summary
+                            </strong>
+
+                            <span>
+                                Show payroll statistics.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon orange">
+
+                        <i class="fas fa-user-shield"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Report Access
+                        </h2>
+
+                        <p>
+                            Control which users can access
+                            employee reports.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="option-grid">
+
+
+                    <label class="option-card">
+
+                        {{ form.allow_employee_reports }}
+
+                        <div>
+
+                            <strong>
+                                Employee Access
+                            </strong>
+
+                            <span>
+                                Allow employees to view reports.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.allow_manager_reports }}
+
+                        <div>
+
+                            <strong>
+                                Manager Access
+                            </strong>
+
+                            <span>
+                                Allow managers to view reports.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.allow_admin_reports }}
+
+                        <div>
+
+                            <strong>
+                                Administrator Access
+                            </strong>
+
+                            <span>
+                                Allow administrators to view reports.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon purple">
+
+                        <i class="fas fa-file-export"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Export Settings
+                        </h2>
+
+                        <p>
+                            Configure available report export formats.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="option-grid">
+
+
+                    <label class="option-card">
+
+                        {{ form.allow_pdf_export }}
+
+                        <div>
+
+                            <strong>
+                                PDF Export
+                            </strong>
+
+                            <span>
+                                Allow reports to be exported as PDF.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.allow_excel_export }}
+
+                        <div>
+
+                            <strong>
+                                Excel Export
+                            </strong>
+
+                            <span>
+                                Allow reports to be exported as Excel.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        {{ form.allow_csv_export }}
+
+                        <div>
+
+                            <strong>
+                                CSV Export
+                            </strong>
+
+                            <span>
+                                Allow reports to be exported as CSV.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon blue">
+
+                        <i class="fas fa-calendar"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Default Report Period
+                        </h2>
+
+                        <p>
+                            Choose the default date period for reports.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Default Period
+                    </label>
+
+                    {{ form.default_report_period }}
+
+                </div>
+
+            </section>
+            <div class="form-actions">
+
+                <a href="{% url 'employee_settings' %}"
+                   class="cancel-button">
+
+                    <i class="fas fa-arrow-left"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button type="submit"
+                        class="save-button">
+
+                    <i class="fas fa-check"></i>
+
+                    Save Report Settings
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </main>
+
+</div>
+
+
+</body>
+
+</html>

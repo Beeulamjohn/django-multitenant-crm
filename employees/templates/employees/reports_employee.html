@@ -1,0 +1,830 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Reports & Analytics | FlowTenant CRM</title>
+    <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>  
+<link rel="stylesheet"
+          href="{% static 'css/reports_employee.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+
+        <div class="header-left">
+
+            <div class="title-box">
+
+                <div class="page-icon">
+
+                    <i class="fas fa-chart-pie"></i>
+
+                </div>
+
+                <div>
+
+                    <h1>
+
+                        Employee Reports & Analytics
+
+                    </h1>
+
+                    <p>
+
+                        {{ company.company_name }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="breadcrumb">
+
+                <a href="{% url 'employee_dashboard' %}">
+
+                    <i class="fas fa-home"></i>
+
+                    Dashboard
+
+                </a>
+
+                <span>
+
+                    <i class="fas fa-angle-right"></i>
+
+                </span>
+
+                <span class="active">
+
+                    Employee Reports
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="header-right">
+
+            <div class="date-box">
+
+                <i class="fas fa-calendar-alt"></i>
+
+                {% now "F d, Y" %}
+
+            </div>
+
+            <a href="{% url 'employee_dashboard' %}"
+               class="back-btn">
+
+
+                Back
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <section class="toolbar">
+
+        <div class="search-box">
+
+            <i class="fas fa-search"></i>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search employee by name, ID, department or role">
+
+        </div>
+
+        <div class="toolbar-buttons">
+
+           
+        </div>
+
+    </section>
+    <section class="cards">
+
+        <div class="card blue">
+
+            <div class="card-content">
+
+                <h2>
+
+                    {{ total_employees }}
+
+                </h2>
+
+                <p>
+
+                    Total Employees
+
+                </p>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="fas fa-users"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card green">
+
+            <div class="card-content">
+
+                <h2>
+
+                    {{ active_employees }}
+
+                </h2>
+
+                <p>
+
+                    Active Employees
+
+                </p>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="fas fa-user-check"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card red">
+
+            <div class="card-content">
+
+                <h2>
+
+                    {{ inactive_employees }}
+
+                </h2>
+
+                <p>
+
+                    Inactive Employees
+
+                </p>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="fas fa-user-times"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card purple">
+
+            <div class="card-content">
+
+                <h2>
+
+                    {{ department_count }}
+
+                </h2>
+
+                <p>
+
+                    Departments
+
+                </p>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="fas fa-building"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card orange">
+
+            <div class="card-content">
+
+                <h2>
+
+                    {{ attendance_count }}
+
+                </h2>
+
+                <p>
+
+                    Attendance Records
+
+                </p>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="fas fa-user-clock"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card emerald">
+
+            <div class="card-content">
+
+                <h2>
+
+                    {{ present_count }}
+
+                </h2>
+
+                <p>
+
+                    Present Employees
+
+                </p>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="fas fa-check-circle"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card yellow">
+
+            <div class="card-content">
+
+                <h2>
+
+                    {{ leave_count }}
+
+                </h2>
+
+                <p>
+
+                    Leave Records
+
+                </p>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="fas fa-calendar-minus"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card indigo">
+
+            <div class="card-content">
+
+                <h2>
+
+                    {{ payroll_count }}
+
+                </h2>
+
+                <p>
+
+                    Payroll Records
+
+                </p>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="fas fa-wallet"></i>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="card dark">
+
+            <div class="card-content">
+
+                <h2>
+
+                    ₹{{ total_salary }}
+
+                </h2>
+
+                <p>
+
+                    Total Payroll
+
+                </p>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="fas fa-money-check-dollar"></i>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="stats">
+
+        <div class="stat-box">
+
+            <h3>
+
+                <i class="fas fa-users"></i>
+
+                Employee Statistics
+
+            </h3>
+
+            <div class="progress-row">
+
+                <span>Total Employees</span>
+
+                <strong>{{ total_employees }}</strong>
+
+            </div>
+
+            <div class="progress-row">
+
+                <span>Active Employees</span>
+
+                <strong>{{ active_employees }}</strong>
+
+            </div>
+
+            <div class="progress-row">
+
+                <span>Inactive Employees</span>
+
+                <strong>{{ inactive_employees }}</strong>
+
+            </div>
+
+            <div class="progress-row">
+
+                <span>Departments</span>
+
+                <strong>{{ department_count }}</strong>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stat-box">
+
+            <h3>
+
+                <i class="fas fa-user-clock"></i>
+
+                Attendance Summary
+
+            </h3>
+
+            <div class="progress-row">
+
+                <span>Total Attendance</span>
+
+                <strong>{{ attendance_count }}</strong>
+
+            </div>
+
+            <div class="progress-row">
+
+                <span>Present Employees</span>
+
+                <strong>{{ present_count }}</strong>
+
+            </div>
+
+            <div class="progress-row">
+
+                <span>Leave Records</span>
+
+                <strong>{{ leave_count }}</strong>
+
+            </div>
+
+            <div class="progress-row">
+
+                <span>Departments Covered</span>
+
+                <strong>{{ department_count }}</strong>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stat-box">
+
+            <h3>
+
+                <i class="fas fa-wallet"></i>
+
+                Payroll Summary
+
+            </h3>
+
+            <div class="progress-row">
+
+                <span>Total Payroll Records</span>
+
+                <strong>{{ payroll_count }}</strong>
+
+            </div>
+
+            <div class="progress-row">
+
+                <span>Total Salary Paid</span>
+
+                <strong>{{ total_salary }}</strong>
+
+            </div>
+
+            <div class="progress-row">
+
+                <span>Average Salary</span>
+
+                <strong>0{{ average_salary }}</strong>
+
+            </div>
+
+            <div class="progress-row">
+
+                <span>Generated Reports</span>
+
+                <strong>{{ payroll_count }}</strong>
+
+            </div>
+
+        </div>
+
+    </section>
+    <section class="table-card">
+
+        
+    <div class="table-header">
+
+        <h2>
+            <i class="fas fa-users"></i>
+            Employee Report
+        </h2>
+
+        <button
+            type="button"
+            class="print-btn"
+            onclick="printEmployeeReport()">
+
+            <i class="fas fa-print"></i>
+
+            Print
+
+        </button>
+
+    </div>
+
+        <div class="table-responsive">
+
+            <table id="employeeTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Employee ID</th>
+
+                        <th>Employee</th>
+
+                        <th>Department</th>
+
+                        <th>Role</th>
+
+                        <th>Phone</th>
+
+                        <th>Email</th>
+
+                        <th>Status</th>
+
+                        <th>Joining Date</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for employee in recent_employees %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ employee.employee_id }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            <div class="employee-info">
+
+                                <div class="employee-avatar">
+
+                                    <i class="fas fa-user"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+
+                                        {{ employee.first_name }}
+                                        {{ employee.last_name }}
+
+                                    </strong>
+
+                                    <br>
+
+                                    <small>
+
+                                        {{ employee.role }}
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            {{ employee.department }}
+
+                        </td>
+
+                        <td>
+
+                            {{ employee.role }}
+
+                        </td>
+
+                        <td>
+
+                            {{ employee.phone }}
+
+                        </td>
+
+                        <td>
+
+                            {{ employee.email }}
+
+                        </td>
+
+                        <td>
+
+                            {% if employee.employment_status == "Active" %}
+
+                                <span class="status active">
+
+                                    <i class="fas fa-check-circle"></i>
+
+                                    Active
+
+                                </span>
+
+                            {% elif employee.employment_status == "Inactive" %}
+
+                                <span class="status pending">
+
+                                    <i class="fas fa-clock"></i>
+
+                                    Inactive
+
+                                </span>
+
+                            {% elif employee.employment_status == "Resigned" %}
+
+                                <span class="status warning">
+
+                                    <i class="fas fa-user-minus"></i>
+
+                                    Resigned
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="status inactive">
+
+                                    <i class="fas fa-times-circle"></i>
+
+                                    Terminated
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ employee.joining_date|date:"d M Y" }}
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="8" class="empty-table">
+
+                            <div class="empty-state">
+
+                                <i class="fas fa-users-slash"></i>
+
+                                <h3>
+
+                                    No Employees Found
+
+                                </h3>
+
+                                <p>
+
+                                    Employee records are not available.
+
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</div>
+<script>
+
+const searchInput = document.getElementById("searchInput");
+
+if(searchInput){
+
+    searchInput.addEventListener("keyup", function(){
+
+        let value = this.value.toLowerCase();
+
+        let rows = document.querySelectorAll("#employeeTable tbody tr");
+
+        rows.forEach(function(row){
+
+            row.style.display = row.innerText.toLowerCase().includes(value)
+
+                ? ""
+
+                : "none";
+
+        });
+
+    });
+
+}
+
+</script>
+<script>
+function printEmployeeReport() {
+
+    var report = document.getElementById("employeeTable");
+
+    var printWindow = window.open("", "", "width=1000,height=700");
+
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Employee Report</title>
+            <style>
+
+                body{
+                    font-family:Arial,sans-serif;
+                    padding:20px;
+                }
+
+                h2{
+                    text-align:center;
+                }
+
+                table{
+                    width:100%;
+                    border-collapse:collapse;
+                    margin-top:20px;
+                }
+
+                th,td{
+                    border:1px solid #000;
+                    padding:10px;
+                    text-align:left;
+                }
+
+                th{
+                    background:#f2f2f2;
+                }
+
+            </style>
+        </head>
+
+        <body>
+
+            <h2>Employee Report</h2>
+
+            ${report.outerHTML}
+
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+}
+</script>
+</body>
+
+</html>

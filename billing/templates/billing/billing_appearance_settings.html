@@ -1,0 +1,1001 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html
+    lang="en"
+    data-theme="{{ billing_appearance.theme|default:'light' }}"
+    data-font-size="{{ billing_appearance.font_size|default:'medium' }}"
+
+    style="
+        --primary-color: {{ billing_appearance.primary_color|default:'#2563EB' }};
+        --accent-color: {{ billing_appearance.accent_color|default:'#3B1C35' }};
+        --table-header-bg: {{ billing_appearance.table_header_background|default:'#3B1C35' }};
+        --table-header-text: {{ billing_appearance.table_header_text_color|default:'#FFFFFF' }};
+        --invoice-font-family: {{ billing_appearance.font_family|default:'Arial' }};
+    "
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Billing Appearance | FlowTenant</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/billing_appearance_settings.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<div class="billing-settings-page">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <ul>
+
+                <li>
+                    <a href="{% url 'billing_settings' %}">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_general_settings' %}">
+                        <i class="fas fa-sliders"></i>
+                        <span>General Billing</span>
+                    </a>
+                </li>
+                <li>
+    <a href="{% url 'billing_company_profile_settings' %}">
+        <i class="fas fa-building"></i>
+        <span>Company Profile</span>
+    </a>
+</li>
+
+                <li>
+                    <a href="{% url 'billing_invoice_settings' %}">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Invoice Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_payment_settings' %}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_tax_settings' %}">
+                        <i class="fas fa-percent"></i>
+                        <span>Tax & GST Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_fee_settings' %}">
+                        <i class="fas fa-money-check-dollar"></i>
+                        <span>Fee & Discount</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_late_fee_settings' %}">
+                        <i class="fas fa-clock"></i>
+                        <span>Late Fee Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_reminder_settings' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Payment Reminders</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="{% url 'billing_appearance_settings' %}">
+                        <i class="fas fa-palette"></i>
+                        <span>Invoice Appearance</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_bank_settings' %}">
+                        <i class="fas fa-building-columns"></i>
+                        <span>Bank & Payment</span>
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <main class="settings-content">
+
+        <div class="page-header">
+
+            <div class="header-left">
+
+                <div class="header-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+
+                <div>
+
+                    <h1>
+                        Invoice Appearance Settings
+                    </h1>
+
+                    <p>
+                        Customize the appearance of your invoices.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= MESSAGES ================= -->
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        <span>
+                            {{ message }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- ================= FORM ================= -->
+
+        <form
+            method="POST"
+            action="{% url 'billing_appearance_settings' %}"
+            class="appearance-form"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- ================= THEME ================= -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-circle-half-stroke"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Theme</h2>
+
+                        <p>
+                            Select the invoice appearance theme.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="theme-options">
+
+                    <label class="theme-option">
+
+                        <input
+                            type="radio"
+                            name="theme"
+                            value="light"
+                            {% if billing_appearance.theme == "light" %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <span>
+                            <i class="fas fa-sun"></i>
+                            Light
+                        </span>
+
+                    </label>
+
+
+                    <label class="theme-option">
+
+                        <input
+                            type="radio"
+                            name="theme"
+                            value="dark"
+                            {% if billing_appearance.theme == "dark" %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <span>
+                            <i class="fas fa-moon"></i>
+                            Dark
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= COLORS ================= -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Colors</h2>
+
+                        <p>
+                            Customize invoice colors.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="primary_color">
+                            Primary Color
+                        </label>
+
+                        <input
+                            type="color"
+                            id="primary_color"
+                            name="primary_color"
+                            value="{{ billing_appearance.primary_color|default:'#2563EB' }}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="accent_color">
+                            Accent Color
+                        </label>
+
+                        <input
+                            type="color"
+                            id="accent_color"
+                            name="accent_color"
+                            value="{{ billing_appearance.accent_color|default:'#3B1C35' }}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="table_header_background">
+                            Table Header Background
+                        </label>
+
+                        <input
+                            type="color"
+                            id="table_header_background"
+                            name="table_header_background"
+                            value="{{ billing_appearance.table_header_background|default:'#3B1C35' }}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="table_header_text_color">
+                            Table Header Text Color
+                        </label>
+
+                        <input
+                            type="color"
+                            id="table_header_text_color"
+                            name="table_header_text_color"
+                            value="{{ billing_appearance.table_header_text_color|default:'#FFFFFF' }}"
+                        >
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= TYPOGRAPHY ================= -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-font"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Typography</h2>
+
+                        <p>
+                            Customize invoice fonts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="font_family">
+                            Font Family
+                        </label>
+
+                        <select
+                            id="font_family"
+                            name="font_family"
+                        >
+
+                            <option
+                                value="Arial"
+                                {% if billing_appearance.font_family == "Arial" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Arial
+                            </option>
+
+                            <option
+                                value="Inter"
+                                {% if billing_appearance.font_family == "Inter" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Inter
+                            </option>
+
+                            <option
+                                value="Poppins"
+                                {% if billing_appearance.font_family == "Poppins" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Poppins
+                            </option>
+
+                            <option
+                                value="Georgia"
+                                {% if billing_appearance.font_family == "Georgia" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Georgia
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="font_size">
+                            Font Size
+                        </label>
+
+                        <select
+                            id="font_size"
+                            name="font_size"
+                        >
+
+                            <option
+                                value="small"
+                                {% if billing_appearance.font_size == "small" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Small
+                            </option>
+
+                            <option
+                                value="medium"
+                                {% if billing_appearance.font_size == "medium" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Medium
+                            </option>
+
+                            <option
+                                value="large"
+                                {% if billing_appearance.font_size == "large" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Large
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= INVOICE LAYOUT ================= -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Invoice Layout</h2>
+
+                        <p>
+                            Customize the structure of your invoice.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="invoice_layout">
+                            Invoice Layout
+                        </label>
+
+                        <select
+                            id="invoice_layout"
+                            name="invoice_layout"
+                        >
+
+                            <option
+                                value="standard"
+                                {% if billing_appearance.invoice_layout == "standard" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Standard
+                            </option>
+
+                            <option
+                                value="modern"
+                                {% if billing_appearance.invoice_layout == "modern" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Modern
+                            </option>
+
+                            <option
+                                value="compact"
+                                {% if billing_appearance.invoice_layout == "compact" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Compact
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="logo_position">
+                            Logo Position
+                        </label>
+
+                        <select
+                            id="logo_position"
+                            name="logo_position"
+                        >
+
+                            <option
+                                value="left"
+                                {% if billing_appearance.logo_position == "left" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Left
+                            </option>
+
+                            <option
+                                value="center"
+                                {% if billing_appearance.logo_position == "center" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Center
+                            </option>
+
+                            <option
+                                value="right"
+                                {% if billing_appearance.logo_position == "right" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Right
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="invoice_title">
+                            Invoice Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="invoice_title"
+                            name="invoice_title"
+                            value="{{ billing_appearance.invoice_title|default:'INVOICE' }}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="date_format">
+                            Date Format
+                        </label>
+
+                        <select
+                            id="date_format"
+                            name="date_format"
+                        >
+
+                            <option
+                                value="DD/MM/YYYY"
+                                {% if billing_appearance.date_format == "DD/MM/YYYY" %}
+                                    selected
+                                {% endif %}
+                            >
+                                DD/MM/YYYY
+                            </option>
+
+                            <option
+                                value="MM/DD/YYYY"
+                                {% if billing_appearance.date_format == "MM/DD/YYYY" %}
+                                    selected
+                                {% endif %}
+                            >
+                                MM/DD/YYYY
+                            </option>
+
+                            <option
+                                value="YYYY-MM-DD"
+                                {% if billing_appearance.date_format == "YYYY-MM-DD" %}
+                                    selected
+                                {% endif %}
+                            >
+                                YYYY-MM-DD
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= DISPLAY OPTIONS ================= -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Display Options</h2>
+
+                        <p>
+                            Choose which sections appear on invoices.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="checkbox-grid">
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="show_company_logo"
+                            {% if billing_appearance.show_company_logo %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Show Company Logo
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="show_company_details"
+                            {% if billing_appearance.show_company_details %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Show Company Details
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="show_customer_details"
+                            {% if billing_appearance.show_customer_details %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Show Customer Details
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="show_payment_details"
+                            {% if billing_appearance.show_payment_details %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Show Payment Details
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="show_tax_details"
+                            {% if billing_appearance.show_tax_details %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Show Tax Details
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="show_signature"
+                            {% if billing_appearance.show_signature %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Show Signature
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="show_qr_code"
+                            {% if billing_appearance.show_qr_code %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Show QR Code
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="show_invoice_footer"
+                            {% if billing_appearance.show_invoice_footer %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Show Invoice Footer
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= WATERMARK ================= -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-stamp"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Watermark</h2>
+
+                        <p>
+                            Add a watermark to your invoices.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="watermark_text">
+                            Watermark Text
+                        </label>
+
+                        <input
+                            type="text"
+                            id="watermark_text"
+                            name="watermark_text"
+                            value="{{ billing_appearance.watermark_text }}"
+                            placeholder="PAID"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="watermark_opacity">
+                            Watermark Opacity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="watermark_opacity"
+                            name="watermark_opacity"
+                            min="0"
+                            max="100"
+                            value="{{ billing_appearance.watermark_opacity|default:'10' }}"
+                        >
+
+                    </div>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="show_watermark"
+                            {% if billing_appearance.show_watermark %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Enable Watermark
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= FOOTER ================= -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+                        <i class="fas fa-align-center"></i>
+                    </div>
+
+                    <div>
+                        <h2>Invoice Footer</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="custom_footer_text">
+                        Footer Text
+                    </label>
+
+                    <textarea
+                        id="custom_footer_text"
+                        name="custom_footer_text"
+                        rows="4"
+                    >{{ billing_appearance.custom_footer_text }}</textarea>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= ACTIONS ================= -->
+
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'billing_dashboard' %}"
+                    class="cancel-btn"
+                >
+
+                    <i class="fas fa-xmark"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+
+                    <i class="fas fa-floppy-disk"></i>
+
+                    Save Appearance
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const themeInputs = document.querySelectorAll(
+            'input[name="theme"]'
+        );
+
+        themeInputs.forEach(
+            function (input) {
+
+                input.addEventListener(
+                    "change",
+                    function () {
+
+                        document.documentElement.setAttribute(
+                            "data-theme",
+                            this.value
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

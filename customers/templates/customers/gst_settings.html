@@ -1,0 +1,388 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme|default:'light' }}"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Customer GST Settings | FlowTenant CRM</title>
+    <style>
+        :root {
+            --accent-color: {{ accent_color|default:'#2563eb' }};
+        }
+    </style>
+    <link
+        rel="stylesheet"
+        href="{% static 'css/customer_gst.css' %}"
+    >
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+</head>
+<body>
+
+<div class="page">
+
+    <!-- Header -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                <i class="fas fa-file-invoice-dollar"></i>
+                Customer GST Settings
+            </h1>
+
+            <p>
+                Configure GST details for customer billing and taxation.
+            </p>
+
+        </div>
+
+        <a href="{% url 'product_dashboard' %}" class="btn-back">
+
+
+            Back
+
+        </a>
+
+    </div>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <!-- GST Status -->
+
+        <div class="card">
+
+            <div class="card-title">
+
+                <i class="fas fa-toggle-on"></i>
+
+                GST Status
+
+            </div>
+
+            <div class="toggle-row">
+
+                <div>
+
+                    <h3>Enable GST</h3>
+
+                    <p>
+                        Enable GST calculation for customer invoices.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input type="checkbox"
+                           name="is_active"
+                           {% if gst.is_active %}checked{% endif %}>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+        <!-- Business Information -->
+
+        <div class="card">
+
+            <div class="card-title">
+
+                <i class="fas fa-building"></i>
+
+                Business Information
+
+            </div>
+
+            <div class="grid">
+
+                <div class="form-group">
+
+                    <label>Company Name</label>
+
+                    <input
+    type="text"
+    name="company_name"
+    value="{{ gst.company_name|default:'' }}"
+    placeholder="Enter company name"
+    required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>GST Number</label>
+
+                    <input type="text"
+                           name="gst_number"
+                           value="{{ gst.gst_number|default:'' }}"
+                           placeholder="29ABCDE1234F1Z5">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>PAN Number</label>
+
+                    <input type="text"
+                           name="pan_number"
+                           value="{{ gst.pan_number|default:'' }}"
+                           placeholder="ABCDE1234F">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Business Type</label>
+
+                   <select name="business_type">
+
+    <option value="">Select Business Type</option>
+
+    <option value="Private Limited"
+        {% if gst and gst.business_type == "Private Limited" %}selected{% endif %}>
+        Private Limited
+    </option>
+
+    <option value="Proprietorship"
+        {% if gst and gst.business_type == "Proprietorship" %}selected{% endif %}>
+        Proprietorship
+    </option>
+
+    <option value="Partnership"
+        {% if gst and gst.business_type == "Partnership" %}selected{% endif %}>
+        Partnership
+    </option>
+
+    <option value="LLP"
+        {% if gst and gst.business_type == "LLP" %}selected{% endif %}>
+        LLP
+    </option>
+
+</select>
+                </div>
+
+                <div class="form-group">
+
+                    <label>State</label>
+
+                    <input type="text"
+                           name="state"
+                           value="{{ gst.state|default:'' }}"
+                           placeholder="Kerala">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>State Code</label>
+
+                    <input type="text"
+                           name="state_code"
+                           value="{{ gst.state_code|default:'' }}"
+                           placeholder="32">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- GST Configuration -->
+
+        <div class="card">
+
+            <div class="card-title">
+
+                <i class="fas fa-calculator"></i>
+
+                GST Configuration
+
+            </div>
+
+            <div class="grid">
+
+                <div class="form-group">
+
+                    <label>CGST (%)</label>
+
+                    <input type="number"
+                           name="cgst"
+                           step="0.01"
+                           value="{{ gst.cgst|default:9 }}">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>SGST (%)</label>
+
+                    <input type="number"
+                           name="sgst"
+                           step="0.01"
+                           value="{{ gst.sgst|default:9 }}">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>IGST (%)</label>
+
+                    <input type="number"
+                           name="igst"
+                           step="0.01"
+                           value="{{ gst.igst|default:18 }}">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Default Tax Type</label>
+
+                    <select name="default_tax_type">
+
+    <option value="Intrastate"
+        {% if gst and gst.default_tax_type == "Intrastate" %}selected{% endif %}>
+        Intrastate (CGST + SGST)
+    </option>
+
+    <option value="Interstate"
+        {% if gst and gst.default_tax_type == "Interstate" %}selected{% endif %}>
+        Interstate (IGST)
+    </option>
+
+</select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Contact Details -->
+
+        <div class="card">
+
+            <div class="card-title">
+
+                <i class="fas fa-address-book"></i>
+
+                Contact Information
+
+            </div>
+
+            <div class="grid">
+
+                <div class="form-group">
+
+                    <label>Contact Person</label>
+
+                    <input type="text"
+                           name="contact_person"
+                           value="{{ gst.contact_person|default:'' }}"
+                           placeholder="Enter contact person">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Email</label>
+
+                    <input type="email"
+                           name="email"
+                           value="{{ gst.email|default:'' }}"
+                           placeholder="company@email.com">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Phone Number</label>
+
+                    <input type="text"
+                           name="phone"
+                           value="{{ gst.phone|default:'' }}"
+                           placeholder="+91 9876543210">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>City</label>
+
+                    <input type="text"
+                           name="city"
+                           value="{{ gst.city|default:'' }}"
+                           placeholder="Kochi">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Pincode</label>
+
+                    <input type="text"
+                           name="pincode"
+                           value="{{ gst.pincode|default:'' }}"
+                           placeholder="682001">
+
+                </div>
+
+                <div class="form-group full-width">
+
+                    <label>Address</label>
+
+                    <textarea name="address"
+                              rows="4"
+                              placeholder="Enter complete address">{{ gst.address|default:'' }}</textarea>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Buttons -->
+
+        <div class="button-group">
+
+            <a href="{% url 'product_dashboard' %}" class="btn-cancel">
+
+                <i class="fas fa-times-circle"></i>
+
+                Cancel
+
+            </a>
+
+            <button type="submit" class="btn-save">
+
+                <i class="fas fa-save"></i>
+
+                Save Customer GST Settings
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

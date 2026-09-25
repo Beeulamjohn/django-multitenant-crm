@@ -1,0 +1,471 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      class="{% if appearance.theme == 'dark' %}dark-theme{% else %}light-theme{% endif %}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+<title>Payment Management</title>
+    <link rel="stylesheet"
+          href="{% static 'css/billing_payment_list.css' %}">
+          
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+    
+<div class="container">
+    <header class="header">
+        <div class="header-left">
+            <div class="header-icon">
+                <i class="fas fa-credit-card"></i>
+            </div>
+            <div class="header-text">
+                <h1>
+                    Payment Management
+                </h1>
+                <p>
+                    Manage student fee payments and receipts efficiently.
+                </p>
+            </div>
+        </div>
+        <div class="header-right">
+            <a href="{% url 'billing_dashboard' %}"
+               class="btn dashboard-btn">
+                Back
+            </a>
+            <a href="{% url 'billing_payment_form' %}"
+               class="btn add-btn">
+                <i class="fas fa-plus"></i>
+                Add Payment
+            </a>
+        </div>
+    </header>
+<section class="summary-section">
+    <div class="summary-card">
+        <div class="summary-icon collection">
+            <i class="fas fa-wallet"></i>
+        </div>
+        <div class="summary-content">
+            <span class="summary-title">
+                Total Collection
+            </span>
+            <h2>
+                ₹{{ total_collection|default:"0.00" }}
+            </h2>
+            <small>
+                Total amount received
+            </small>
+        </div>
+    </div>
+    <div class="summary-card">
+        <div class="summary-icon payments">
+            <i class="fas fa-file-invoice-dollar"></i>
+        </div>
+        <div class="summary-content">
+            <span class="summary-title">
+                Total Payments
+            </span>
+            <h2>
+                {{ total_payments|default:"0" }}
+            </h2>
+            <small>
+                Successful transactions
+            </small>
+        </div>
+    </div>
+    <div class="summary-card">
+        <div class="summary-icon today">
+            <i class="fas fa-calendar-day"></i>
+        </div>
+        <div class="summary-content">
+            <span class="summary-title">
+                Today's Collection
+            </span>
+            <h2>
+                ₹{{ today_collection|default:"0.00" }}
+            </h2>
+            <small>
+                Today's received amount
+            </small>
+        </div>
+    </div>
+    <div class="summary-card">
+        <div class="summary-icon pending">
+            <i class="fas fa-hourglass-half"></i>
+        </div>
+        <div class="summary-content">
+            <span class="summary-title">
+                Pending Payments
+            </span>
+            <h2>
+                {{ pending_payments|default:"0" }}
+            </h2>
+            <small>
+                Awaiting payment
+            </small>
+        </div>
+    </div>
+</section>
+<section class="toolbar">
+    <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text"
+               id="searchInput"
+               placeholder="Search by Receipt No, Student Name or Course..."
+               onkeyup="searchPayment()">
+    </div>
+    <div class="filter-box">
+        <i class="fas fa-filter"></i>
+        <select id="paymentFilter">
+            <option value="">All Payment Methods</option>
+            <option value="Cash">Cash</option>
+            <option value="UPI">UPI</option>
+            <option value="Card">Card</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+            <option value="Cheque">Cheque</option>
+        </select>
+    </div>
+    <div class="toolbar-buttons">
+        <button type="button"
+                class="export-btn">
+            <i class="fas fa-file-export"></i>
+            Export
+        </button>
+    </div>
+</section>
+<section class="table-section">
+    <h2 class="table-title">
+        <i class="fas fa-credit-card"></i>
+        Payment Records
+    </h2>
+    <div class="table-responsive">
+        <table id="paymentTable" class="payment-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Receipt No</th>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Amount</th>
+                    <th>Method</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payment in payments %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ payment.receipt_number }}</td>
+                    <td>
+                        {{ payment.student.first_name }}
+                        {{ payment.student.last_name }}
+                    </td>
+                    <td>{{ payment.student.course }}</td>
+                    <td>₹{{ payment.amount }}</td>
+                    <td>{{ payment.payment_method }}</td>
+                    <td>{{ payment.payment_date }}</td>
+                    <td>
+                        <span class="paid-status">
+                            Paid
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'edit_payment' payment.id %}" class="edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{% url 'delete_payment' payment.id %}"
+                           class="delete-btn"
+                           onclick="return confirm('Delete this payment?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        <button
+                            class="print-btn"
+                            onclick="openReceipt(
+                            '{{ payment.receipt_number }}',
+                            '{{ payment.student.first_name }} {{ payment.student.last_name }}',
+                            '{{ payment.student.course }}',
+                            '{{ payment.amount }}',
+                            '{{ payment.payment_method }}',
+                            '{{ payment.payment_date }}'
+                            )">
+                            <i class="fas fa-print"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="no-data">
+                        No Payment Records Found
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+<div id="receiptModal" class="receipt-modal">
+    <div class="receipt-content">
+        <div class="receipt-header">
+
+    <div class="company-details">
+
+        <h2>{{ company.company_name }}</h2>
+
+        <p>Education Billing Management System</p>
+
+        <p>Payment Receipt</p>
+
+    </div>
+
+</div>
+        <hr>
+        <div class="receipt-info">
+            <div>
+                <strong>Receipt No :</strong>
+                <span id="receiptNumber"></span>
+            </div>
+            <div>
+                <strong>Date :</strong>
+                <span id="receiptDate"></span>
+            </div>
+        </div>
+        <div class="receipt-section">
+            <h3>Student Details</h3>
+            <p>
+                <strong>Name :</strong>
+                <span id="studentName"></span>
+            </p>
+            <p>
+                <strong>Course :</strong>
+                <span id="studentCourse"></span>
+            </p>
+        </div>
+        <div class="receipt-section">
+            <h3>Payment Details</h3>
+            <table class="receipt-table">
+                <tr>
+                    <th>Description</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+    <td>Payment Method</td>
+    <td id="paymentMethod"></td>
+</tr>
+                <tr>
+    <td>Amount Paid</td>
+    <td>₹<span id="paymentAmount"></span></td>
+</tr>
+
+                <tr>
+    <td>Status</td>
+    <td><span class="receipt-status">PAID</span></td>
+</tr>
+
+            </table>
+
+        </div>
+        <div class="receipt-footer">
+
+            <div>
+
+                ______________________
+
+                <br>
+
+                Cashier Signature
+
+            </div>
+
+            <div>
+
+                ______________________
+
+                <br>
+
+                Authorized Signature
+
+            </div>
+
+        </div>
+
+ 
+
+        <div class="receipt-buttons">
+
+            <button onclick="printReceipt()"
+                    class="print-button">
+
+                <i class="fas fa-print"></i>
+
+                Print
+
+            </button>
+
+            <button onclick="closeReceipt()"
+                    class="close-button">
+
+                <i class="fas fa-times"></i>
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+function searchPayment() {
+
+    let input = document.getElementById("searchInput");
+    let filter = input.value.toUpperCase();
+
+    let table = document.getElementById("paymentTable");
+
+    let tr = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < tr.length; i++) {
+
+        let td = tr[i].getElementsByTagName("td");
+
+        let found = false;
+
+        for (let j = 0; j < td.length; j++) {
+
+            if (td[j]) {
+
+                let txt = td[j].textContent || td[j].innerText;
+
+                if (txt.toUpperCase().indexOf(filter) > -1) {
+
+                    found = true;
+                    break;
+
+                }
+
+            }
+
+        }
+
+        tr[i].style.display = found ? "" : "none";
+
+    }
+
+}
+
+
+document.getElementById("paymentFilter").addEventListener("change", function () {
+
+    let filter = this.value.toUpperCase();
+
+    let table = document.getElementById("paymentTable");
+
+    let tr = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < tr.length; i++) {
+
+        let method = tr[i].getElementsByTagName("td")[5];
+
+        if (!method) continue;
+
+        let text = method.textContent || method.innerText;
+
+        if (filter === "" || text.toUpperCase() === filter) {
+
+            tr[i].style.display = "";
+
+        } else {
+
+            tr[i].style.display = "none";
+
+        }
+
+    }
+
+});
+
+function openReceipt(
+    receipt,
+    student,
+    course,
+    amount,
+    method,
+    date
+) {
+
+    document.getElementById("receiptNumber").textContent = receipt;
+
+    document.getElementById("studentName").textContent = student;
+
+    document.getElementById("studentCourse").textContent = course;
+
+    document.getElementById("paymentMethod").textContent = method;
+
+    document.getElementById("paymentAmount").textContent = amount;
+
+    document.getElementById("receiptDate").textContent = date;
+
+    document.getElementById("receiptModal").style.display = "flex";
+
+}
+
+function closeReceipt() {
+
+    document.getElementById("receiptModal").style.display = "none";
+
+}
+
+function printReceipt() {
+
+    let receipt = document.querySelector(".receipt-content").innerHTML;
+
+    let original = document.body.innerHTML;
+
+    document.body.innerHTML = receipt;
+
+    window.print();
+
+    document.body.innerHTML = original;
+
+    location.reload();
+
+}
+
+window.onclick = function (event) {
+
+    let modal = document.getElementById("receiptModal");
+
+    if (event.target === modal) {
+
+        closeReceipt();
+
+    }
+
+};
+</script>
+</body>
+</html>

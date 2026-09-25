@@ -1,0 +1,654 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Payroll Settings | FlowTenant</title>
+     <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/salary_payroll_settings.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<div class="payroll-settings-layout">
+
+
+    <aside class="payroll-sidebar">
+
+        <div class="sidebar-brand">
+
+           
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+             
+
+            <a href="{% url 'salary_settings_page' %}">
+                <i class="fas fa-home"></i>
+                <span>Salary Settings</span>
+            </a>
+
+            <a
+                href="{% url 'salary_payroll_settings' %}"
+                class="active"
+            >
+                <i class="fas fa-money-check-dollar"></i>
+                <span>Payroll Settings</span>
+            </a>
+
+            <a
+                href="{% url 'salary_attendance_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Attendance Settings
+                </span>
+
+            </a>
+
+            <a
+                href="{% url 'salary_payslip_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Payslip Settings
+                </span>
+
+            </a>
+
+
+            <!-- Tax & Deductions -->
+
+            <a
+                href="{% url 'salary_tax_deductions_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Tax & Deductions
+                </span>
+
+            </a>
+
+
+            <!-- Bonus -->
+
+            <a
+                href="{% url 'salary_bonus_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-gift"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Bonus Settings
+                </span>
+
+            </a>
+            <a
+                href="{% url 'employee_salary_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-user-tie"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Employee Salary
+                </span>
+
+            </a>
+
+            <a
+                href="{% url 'salary_notification_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Notifications
+                </span>
+
+            </a>
+
+            <a
+                href="{% url 'salary_theme_settings' %}"
+                class="salary-nav-link"
+            >
+
+                <span class="salary-nav-icon">
+                    <i class="fas fa-palette"></i>
+                </span>
+
+                <span class="salary-nav-text">
+                    Theme & Appearance
+                </span>
+
+            </a>
+
+
+        </nav>
+
+        
+    </aside>
+
+
+    <main class="payroll-main">
+
+        <header class="page-header">
+
+            <div>
+
+                <div class="breadcrumb">
+
+                    <span>Salary</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Payroll</span>
+
+                </div>
+
+                <h1>Payroll Settings</h1>
+
+                <p>
+                    Configure payroll processing,
+                    salary periods, payment cycles,
+                    attendance and salary calculations.
+                </p>
+
+            </div>
+
+
+           
+
+        </header>
+
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="message success">
+                    <i class="fas fa-circle-check"></i>
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            class="settings-form"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- GENERAL -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon blue">
+                        <i class="fas fa-calendar-days"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Payroll Cycle</h2>
+
+                        <p>
+                            Configure your payroll period
+                            and salary payment schedule.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Payroll Cycle
+                        </label>
+
+                        {{ form.payroll_cycle }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Salary Period
+                        </label>
+
+                        {{ form.salary_period }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Salary Payment Day
+                        </label>
+
+                        {{ form.payment_day }}
+
+                        <small>
+                            Day of the month on which
+                            salary is normally paid.
+                        </small>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Working Days
+                        </label>
+
+                        {{ form.working_days }}
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon orange">
+                        <i class="fas fa-clock"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Overtime</h2>
+
+                        <p>
+                            Configure overtime calculation.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Enable Overtime
+                        </strong>
+
+                        <p>
+                            Allow overtime amounts
+                            to be included in payroll.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+
+                        {{ form.overtime_enabled }}
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Overtime Rate Multiplier
+                    </label>
+
+                    {{ form.overtime_rate }}
+
+                    <small>
+                        Example: 1.5 means 150% of
+                        the normal hourly rate.
+                    </small>
+
+                </div>
+
+            </section>
+
+
+            <!-- AUTOMATION -->
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon green">
+                        <i class="fas fa-gears"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Payroll Automation</h2>
+
+                        <p>
+                            Control automatic payroll
+                            calculations and processing.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Automatic Salary Calculation
+                        </strong>
+
+                        <p>
+                            Automatically calculate
+                            employee net salary.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+                        {{ form.automatic_salary_calculation }}
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Attendance Based Salary
+                        </strong>
+
+                        <p>
+                            Calculate salary according
+                            to attendance.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+                        {{ form.attendance_based_salary }}
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Automatic Allowances
+                        </strong>
+
+                        <p>
+                            Automatically include configured
+                            employee allowances.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+                        {{ form.automatic_allowances }}
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Automatic Deductions
+                        </strong>
+
+                        <p>
+                            Automatically apply configured
+                            deductions.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+                        {{ form.automatic_deductions }}
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="card-icon purple">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>Payroll Control</h2>
+
+                        <p>
+                            Configure payroll approval
+                            and payslip options.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Payroll Approval Required
+                        </strong>
+
+                        <p>
+                            Require approval before
+                            payroll is finalized.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+                        {{ form.payroll_approval_required }}
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Generate Payslip
+                        </strong>
+
+                        <p>
+                            Enable automatic payslip generation.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+                        {{ form.payslip_generation }}
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Payroll Notifications
+                        </strong>
+
+                        <p>
+                            Send payroll notifications
+                            to employees.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+                        {{ form.payroll_notification }}
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Allow Negative Salary
+                        </strong>
+
+                        <p>
+                            Allow deductions to exceed
+                            salary amount.
+                        </p>
+
+                    </div>
+
+                    <label class="switch">
+                        {{ form.allow_negative_salary }}
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'salary_settings_page' %}"
+                    class="cancel-btn"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    <i class="fas fa-save"></i>
+                    Save Payroll Settings
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

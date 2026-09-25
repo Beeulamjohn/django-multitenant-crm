@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      class="{% if appearance.theme == 'dark' %}dark-theme{% else %}light-theme{% endif %}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    
+<title>Delete Fee Configuration</title>
+    <link rel="stylesheet"
+          href="{% static 'css/delete_fee.css' %}">
+          
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="delete-card">
+        <div class="icon-box">
+            <i class="fas fa-trash-alt"></i>
+        </div>
+        <h2>Delete Fee Configuration</h2>
+        <p>
+            Are you sure you want to delete this fee configuration?
+        </p>
+        <div class="fee-info">
+            {% if fee.student %}
+            <p>
+                <strong>Student :</strong>
+                {{ fee.student.first_name }}
+                {{ fee.student.last_name }}
+            </p>
+            {% endif %}
+            <p>
+                <strong>Course :</strong>
+                {{ fee.course }}
+            </p>
+            <p>
+                <strong>Department :</strong>
+                {{ fee.department }}
+            </p>
+            <p>
+                <strong>Fee Type :</strong>
+                {{ fee.fee_type }}
+            </p>
+            <p>
+                <strong>Amount :</strong>
+                ₹{{ fee.amount }}
+            </p>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="btn-group">
+                <button type="submit"
+                        class="delete-btn">
+                    <i class="fas fa-trash"></i>
+                    Delete
+                </button>
+                <a href="{% url 'fee_configuration' %}"
+                   class="cancel-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

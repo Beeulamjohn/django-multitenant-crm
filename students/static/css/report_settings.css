@@ -1,0 +1,2309 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   ROOT VARIABLES - LIGHT MODE
+========================================================= */
+
+:root {
+
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #eff6ff;
+
+    --text-dark: #172033;
+    --text: #374151;
+    --text-light: #6b7280;
+
+    --border: #e5e7eb;
+
+    --background: #f8f4f2;
+
+    --card-background: #ffffff;
+
+    --input-background: #ffffff;
+
+    --sidebar-background: #3b1c35;
+
+    --sidebar-hover: #0f4c81;
+
+    --sidebar-text: #ffffff;
+
+    --white: #ffffff;
+
+    --success: #16a34a;
+    --warning: #f59e0b;
+    --danger: #dc2626;
+
+    --info-background: #eff6ff;
+    --info-text: #1e3a8a;
+
+    --shadow:
+        0 10px 30px rgba(15, 23, 42, 0.07);
+
+    --sidebar-width: 270px;
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+html[data-theme="dark"],
+body.dark-theme {
+
+    --primary: #60a5fa;
+    --primary-dark: #3b82f6;
+    --primary-light: #1e3a5f;
+
+    --text-dark: #f8fafc;
+    --text: #e2e8f0;
+    --text-light: #94a3b8;
+
+    --border: #334155;
+
+    --background: #0f172a;
+
+    --card-background: #1e293b;
+
+    --input-background: #0f172a;
+
+    --sidebar-background: #171125;
+
+    --sidebar-hover: #0f4c81;
+
+    --sidebar-text: #f8fafc;
+
+    --white: #ffffff;
+
+    --info-background: #172554;
+    --info-text: #bfdbfe;
+
+    --shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   DARK MODE - PAGE
+========================================================= */
+
+html[data-theme="dark"],
+html[data-theme="dark"] body,
+body.dark-theme {
+
+    background: var(--background);
+    color: var(--text-dark);
+}
+
+
+/* =========================================================
+   HTML / BODY
+========================================================= */
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background: var(--background);
+
+    color: var(--text-dark);
+
+    overflow-x: hidden;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+
+    width: var(--sidebar-width);
+
+    background: var(--sidebar-background);
+
+    color: var(--sidebar-text);
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    overflow-y: auto;
+
+    padding: 30px 0;
+
+    box-shadow:
+        4px 0 18px rgba(0, 0, 0, 0.15);
+
+    z-index: 1000;
+
+    transition:
+        background-color 0.25s ease,
+        width 0.25s ease;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo {
+
+    text-align: center;
+
+    margin-bottom: 35px;
+
+    padding: 0 15px;
+}
+
+.logo i {
+
+    display: block;
+
+    font-size: 42px;
+
+    margin-bottom: 10px;
+
+   color: #2563eb;
+}
+
+.logo h2 {
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   SIDEBAR MENU
+========================================================= */
+
+.sidebar ul {
+
+    list-style: none;
+
+    padding: 0;
+
+    margin: 0;
+}
+
+.sidebar ul li {
+
+    margin: 6px 15px;
+}
+
+.sidebar ul li a {
+
+    text-decoration: none;
+
+    color: var(--sidebar-text);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 14px 18px;
+
+    border-radius: 12px;
+
+    transition: 0.25s ease;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.sidebar ul li a i {
+
+    width: 20px;
+
+    text-align: center;
+
+    flex-shrink: 0;
+}
+
+.sidebar ul li a:hover {
+
+    background: var(--sidebar-hover);
+
+    color: #ffffff;
+}
+
+.sidebar ul li.active a {
+
+    background: var(--sidebar-hover);
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.main-content {
+
+    width: calc(100% - var(--sidebar-width));
+
+    min-height: 100vh;
+
+    margin-left: var(--sidebar-width);
+
+    padding: 35px 45px 50px;
+
+    background: var(--background);
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 28px;
+}
+
+.header-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    min-width: 0;
+}
+
+.header-icon {
+
+    width: 62px;
+
+    height: 62px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #60a5fa
+        );
+
+    color: #ffffff;
+
+    font-size: 25px;
+
+    flex-shrink: 0;
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.20);
+}
+
+.page-header h1 {
+
+    font-size: 32px;
+
+    font-weight: 750;
+
+    margin-bottom: 8px;
+
+    color: var(--text-dark);
+}
+
+.page-header p {
+
+    color: var(--text-light);
+
+    max-width: 650px;
+
+    line-height: 1.7;
+
+    font-size: 17px;
+
+    margin-top: 8px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    text-decoration: none;
+
+    background: var(--sidebar-background);
+
+    color: #ffffff;
+
+    padding: 15px 40px;
+
+    border-radius: 50px;
+
+    font-weight: 600;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.15);
+
+    margin-top: 15px;
+
+    transition: 0.25s ease;
+
+    white-space: nowrap;
+}
+
+.back-btn:hover {
+
+    background: var(--sidebar-hover);
+
+    color: #ffffff;
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   SETTINGS CARD
+========================================================= */
+
+.settings-card {
+
+    width: 100%;
+
+    margin-bottom: 24px;
+
+    padding: 28px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    background: var(--card-background);
+
+    box-shadow: var(--shadow);
+
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.card-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding-bottom: 22px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.section-icon {
+
+    width: 46px;
+
+    height: 46px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    font-size: 19px;
+}
+
+.card-header h2 {
+
+    margin-bottom: 5px;
+
+    color: var(--text-dark);
+
+    font-size: 19px;
+
+    font-weight: 700;
+}
+
+.card-header p {
+
+    color: var(--text-light);
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 22px;
+
+    margin-top: 24px;
+}
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+.form-group.full-width {
+
+    width: 100%;
+
+    margin-top: 24px;
+
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.form-group label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 9px;
+
+    color: var(--text-dark);
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.form-group label i {
+
+    color: var(--primary);
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   INPUT / SELECT
+========================================================= */
+
+.form-group select,
+.form-group input[type="text"],
+.form-group input[type="time"] {
+
+    width: 100%;
+
+    height: 46px;
+
+    padding: 0 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: var(--input-background);
+
+    color: var(--text-dark);
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.form-group select {
+
+    cursor: pointer;
+}
+
+.form-group input::placeholder {
+
+    color: var(--text-light);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.form-group small {
+
+    margin-top: 7px;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   TOGGLE LIST
+========================================================= */
+
+.toggle-list {
+
+    width: 100%;
+
+    margin-top: 5px;
+}
+
+.toggle-item {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 18px 4px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.toggle-item:last-child {
+
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   TOGGLE INFORMATION
+========================================================= */
+
+.toggle-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    min-width: 0;
+}
+
+.toggle-icon {
+
+    width: 43px;
+
+    height: 43px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    font-size: 17px;
+}
+
+.toggle-info h3 {
+
+    margin-bottom: 4px;
+
+    color: var(--text-dark);
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+.toggle-info p {
+
+    color: var(--text-light);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   SWITCH
+========================================================= */
+
+.switch {
+
+    position: relative;
+
+    width: 48px;
+
+    height: 26px;
+
+    flex-shrink: 0;
+
+    display: inline-block;
+}
+
+.switch input {
+
+    width: 0;
+
+    height: 0;
+
+    opacity: 0;
+}
+
+.slider {
+
+    position: absolute;
+
+    inset: 0;
+
+    cursor: pointer;
+
+    background: #d1d5db;
+
+    border-radius: 30px;
+
+    transition: 0.25s ease;
+}
+
+.slider::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 20px;
+
+    height: 20px;
+
+    top: 3px;
+
+    left: 3px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.20);
+
+    transition: 0.25s ease;
+}
+
+.switch input:checked + .slider {
+
+    background: var(--primary);
+}
+
+.switch input:checked + .slider::before {
+
+    transform: translateX(22px);
+}
+
+
+/* =========================================================
+   WATERMARK OPTIONS
+========================================================= */
+
+.watermark-options {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 22px;
+
+    margin-top: 24px;
+}
+
+.checkbox-card {
+
+    min-height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 14px 16px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    background: var(--card-background);
+
+    transition: 0.25s ease;
+}
+
+.checkbox-card:hover {
+
+    border-color: var(--primary);
+
+    background: var(--primary-light);
+}
+
+.checkbox-card input {
+
+    position: absolute;
+
+    opacity: 0;
+}
+
+.check-box {
+
+    width: 21px;
+
+    height: 21px;
+
+    flex-shrink: 0;
+
+    border: 2px solid #cbd5e1;
+
+    border-radius: 6px;
+
+    position: relative;
+
+    transition: 0.2s ease;
+}
+
+.checkbox-card input:checked + .check-box {
+
+    background: var(--primary);
+
+    border-color: var(--primary);
+}
+
+.checkbox-card input:checked + .check-box::after {
+
+    content: "\f00c";
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    color: #ffffff;
+
+    font-family:
+        "Font Awesome 6 Free";
+
+    font-weight: 900;
+
+    font-size: 11px;
+}
+
+.checkbox-card strong {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--text-dark);
+
+    font-size: 13px;
+}
+
+.checkbox-card small {
+
+    display: block;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   SCHEDULE
+========================================================= */
+
+.schedule-grid {
+
+    margin-top: 20px;
+}
+
+.schedule-grid input[type="time"] {
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   INFO CARD
+========================================================= */
+
+.info-card {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+
+    padding: 20px 22px;
+
+    border: 1px solid #bfdbfe;
+
+    border-radius: 14px;
+
+    background: var(--info-background);
+}
+
+.info-icon {
+
+    width: 38px;
+
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: var(--primary);
+
+    font-size: 18px;
+}
+
+.info-card h3 {
+
+    margin-bottom: 5px;
+
+    color: var(--info-text);
+
+    font-size: 14px;
+}
+
+.info-card p {
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.form-actions {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    padding-top: 5px;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.cancel-btn,
+.save-btn {
+
+    min-height: 46px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    padding: 16px 60px;
+
+    border-radius: 50px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    border: none;
+
+    transition: 0.25s ease;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.cancel-btn {
+
+    background: grey;
+
+    color: #ffffff;
+}
+
+.cancel-btn:hover {
+
+    background: var(--sidebar-hover);
+
+    color: #ffffff;
+
+    transform: translateY(-3px);
+}
+
+.save-btn {
+
+    background-color: #2563eb;
+
+    color: #ffffff;
+}
+
+.save-btn:hover {
+
+   background-color: #0f4c81;
+
+    color: #ffffff;
+
+    transform: translateY(-3px);
+}
+
+.save-btn:active,
+.cancel-btn:active {
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   DARK MODE - SIDEBAR
+========================================================= */
+
+html[data-theme="dark"] .sidebar,
+body.dark-theme .sidebar {
+
+    background: #171125;
+
+    color: #f8fafc;
+
+    border-right: 1px solid #334155;
+}
+
+html[data-theme="dark"] .sidebar ul li a,
+body.dark-theme .sidebar ul li a {
+
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .sidebar ul li a:hover,
+body.dark-theme .sidebar ul li a:hover {
+
+    background: #164f83;
+
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .sidebar ul li.active a,
+body.dark-theme .sidebar ul li.active a {
+
+    background: #164f83;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   DARK MODE - MAIN CONTENT
+========================================================= */
+
+html[data-theme="dark"] .main-content,
+body.dark-theme .main-content {
+
+    background: #0f172a;
+
+    color: #f8fafc;
+}
+
+
+/* =========================================================
+   DARK MODE - PAGE HEADER
+========================================================= */
+
+html[data-theme="dark"] .page-header h1,
+body.dark-theme .page-header h1 {
+
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .page-header p,
+body.dark-theme .page-header p {
+
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   DARK MODE - CARDS
+========================================================= */
+
+html[data-theme="dark"] .settings-card,
+body.dark-theme .settings-card {
+
+    background: #1e293b;
+
+    border-color: #334155;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   DARK MODE - CARD HEADER
+========================================================= */
+
+html[data-theme="dark"] .card-header,
+body.dark-theme .card-header {
+
+    border-bottom-color: #334155;
+}
+
+html[data-theme="dark"] .card-header h2,
+body.dark-theme .card-header h2 {
+
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .card-header p,
+body.dark-theme .card-header p {
+
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   DARK MODE - ICONS
+========================================================= */
+
+html[data-theme="dark"] .section-icon,
+body.dark-theme .section-icon {
+
+    background: #1e3a5f;
+
+    color: #60a5fa;
+}
+
+html[data-theme="dark"] .toggle-icon,
+body.dark-theme .toggle-icon {
+
+    background: #1e3a5f;
+
+    color: #60a5fa;
+}
+
+
+/* =========================================================
+   DARK MODE - LABELS
+========================================================= */
+
+html[data-theme="dark"] .form-group label,
+body.dark-theme .form-group label {
+
+    color: #f8fafc;
+}
+
+
+/* =========================================================
+   DARK MODE - INPUTS
+========================================================= */
+
+html[data-theme="dark"] .form-group select,
+html[data-theme="dark"] .form-group input[type="text"],
+html[data-theme="dark"] .form-group input[type="time"],
+body.dark-theme .form-group select,
+body.dark-theme .form-group input[type="text"],
+body.dark-theme .form-group input[type="time"] {
+
+    background: #0f172a;
+
+    color: #f8fafc;
+
+    border-color: #475569;
+
+    color-scheme: dark;
+}
+
+html[data-theme="dark"] .form-group input::placeholder,
+body.dark-theme .form-group input::placeholder {
+
+    color: #64748b;
+}
+
+html[data-theme="dark"] .form-group select:focus,
+html[data-theme="dark"] .form-group input:focus,
+body.dark-theme .form-group select:focus,
+body.dark-theme .form-group input:focus {
+
+    border-color: #60a5fa;
+
+    box-shadow:
+        0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+
+
+/* =========================================================
+   DARK MODE - SELECT OPTIONS
+========================================================= */
+
+html[data-theme="dark"] .form-group select option,
+body.dark-theme .form-group select option {
+
+    background: #0f172a;
+
+    color: #f8fafc;
+}
+
+
+/* =========================================================
+   DARK MODE - HELP TEXT
+========================================================= */
+
+html[data-theme="dark"] .form-group small,
+body.dark-theme .form-group small {
+
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   DARK MODE - TOGGLE
+========================================================= */
+
+html[data-theme="dark"] .toggle-item,
+body.dark-theme .toggle-item {
+
+    border-bottom-color: #334155;
+}
+
+html[data-theme="dark"] .toggle-info h3,
+body.dark-theme .toggle-info h3 {
+
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .toggle-info p,
+body.dark-theme .toggle-info p {
+
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .slider,
+body.dark-theme .slider {
+
+    background: #475569;
+}
+
+html[data-theme="dark"] .switch input:checked + .slider,
+body.dark-theme .switch input:checked + .slider {
+
+    background: #3b82f6;
+}
+
+
+/* =========================================================
+   DARK MODE - WATERMARK CHECKBOX
+========================================================= */
+
+html[data-theme="dark"] .checkbox-card,
+body.dark-theme .checkbox-card {
+
+    background: #1e293b;
+
+    border-color: #334155;
+}
+
+html[data-theme="dark"] .checkbox-card:hover,
+body.dark-theme .checkbox-card:hover {
+
+    background: #172554;
+
+    border-color: #60a5fa;
+}
+
+html[data-theme="dark"] .checkbox-card strong,
+body.dark-theme .checkbox-card strong {
+
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .checkbox-card small,
+body.dark-theme .checkbox-card small {
+
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .check-box,
+body.dark-theme .check-box {
+
+    border-color: #64748b;
+}
+
+
+
+html[data-theme="dark"] .info-card,
+body.dark-theme .info-card {
+
+    background: #172554;
+
+    border-color: #1e40af;
+}
+
+html[data-theme="dark"] .info-card h3,
+body.dark-theme .info-card h3 {
+
+    color: #bfdbfe;
+}
+
+html[data-theme="dark"] .info-card p,
+body.dark-theme .info-card p {
+
+    color: #cbd5e1;
+}
+
+
+/* =========================================================
+   DARK MODE - BACK BUTTON
+========================================================= */
+
+html[data-theme="dark"] .back-btn,
+body.dark-theme .back-btn {
+
+    background: #171125;
+
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .back-btn:hover,
+body.dark-theme .back-btn:hover {
+
+    background: #164f83;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   DARK MODE - CANCEL BUTTON
+========================================================= */
+
+html[data-theme="dark"] .cancel-btn,
+body.dark-theme .cancel-btn {
+background-color: grey;
+
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .cancel-btn:hover,
+body.dark-theme .cancel-btn:hover {
+
+    background-color: #0f4c81;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   DARK MODE - SCROLLBAR
+========================================================= */
+
+.sidebar::-webkit-scrollbar {
+
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(255, 255, 255, 0.20);
+
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+
+    background:
+        rgba(255, 255, 255, 0.35);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media screen and (max-width: 786px) {
+
+    html,
+    body {
+
+        width: 100%;
+
+        min-height: 100%;
+
+        overflow-x: hidden;
+    }
+
+    body {
+
+        font-size: 14px;
+    }
+
+    .sidebar {
+
+        width: 100%;
+
+        height: auto;
+
+        min-height: auto;
+
+        position: relative;
+
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+
+        padding: 20px 15px;
+
+        overflow: visible;
+
+        box-shadow:
+            0 4px 18px rgba(0, 0, 0, 0.15);
+
+        z-index: 1000;
+    }
+
+    .logo {
+
+        margin-bottom: 20px;
+
+        padding: 0 10px;
+    }
+
+    .logo i {
+
+        font-size: 35px;
+
+        margin-bottom: 8px;
+    }
+
+    .logo h2 {
+
+        font-size: 21px;
+    }
+
+    .sidebar ul {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 6px;
+
+        width: 100%;
+    }
+
+    .sidebar ul li {
+
+        margin: 0;
+
+        flex: 0 1 auto;
+    }
+
+    .sidebar ul li a {
+
+        justify-content: center;
+
+        gap: 8px;
+
+        padding: 11px 14px;
+
+        border-radius: 10px;
+
+        font-size: 13px;
+
+        white-space: nowrap;
+    }
+
+    .sidebar ul li a i {
+
+        width: auto;
+
+        font-size: 14px;
+    }
+
+    .main-content {
+
+        width: 100%;
+
+        min-height: auto;
+
+        margin-left: 0;
+
+        padding: 20px 15px 35px;
+    }
+
+    .page-header {
+
+        width: 100%;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 18px;
+
+        margin-bottom: 22px;
+    }
+
+    .header-left {
+
+        width: 100%;
+
+        display: flex;
+
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+    .header-icon {
+
+        width: 48px;
+
+        height: 48px;
+
+        border-radius: 12px;
+
+        font-size: 20px;
+
+        flex-shrink: 0;
+    }
+
+    .page-header h1 {
+
+        font-size: 25px;
+
+        line-height: 1.3;
+
+        margin-bottom: 6px;
+    }
+
+    .page-header p {
+
+        font-size: 14px;
+
+        line-height: 1.6;
+
+        max-width: 100%;
+
+        margin-top: 5px;
+    }
+
+    .back-btn {
+
+        width: 100%;
+
+        padding: 13px 20px;
+
+        margin-top: 0;
+
+        font-size: 14px;
+
+        border-radius: 50px;
+    }
+
+    .settings-card {
+
+        width: 100%;
+
+        padding: 20px;
+
+        margin-bottom: 20px;
+
+        border-radius: 14px;
+    }
+
+    .card-header {
+
+        width: 100%;
+
+        align-items: flex-start;
+
+        gap: 12px;
+
+        padding-bottom: 18px;
+    }
+
+    .section-icon {
+
+        width: 42px;
+
+        height: 42px;
+
+        border-radius: 10px;
+
+        font-size: 17px;
+
+        flex-shrink: 0;
+    }
+
+    .card-header h2 {
+
+        font-size: 17px;
+
+        line-height: 1.4;
+    }
+
+    .card-header p {
+
+        font-size: 12px;
+
+        line-height: 1.5;
+    }
+
+    .form-grid {
+
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+
+        margin-top: 20px;
+    }
+
+    .form-group {
+
+        width: 100%;
+
+        min-width: 0;
+    }
+
+    .form-group.full-width {
+
+        width: 100%;
+
+        grid-column: 1 / -1;
+
+        margin-top: 0;
+    }
+
+    .form-group label {
+
+        font-size: 13px;
+
+        margin-bottom: 8px;
+    }
+
+    .form-group select,
+    .form-group input[type="text"],
+    .form-group input[type="time"] {
+
+        width: 100%;
+
+        height: 45px;
+
+        padding: 0 12px;
+
+        font-size: 13px;
+    }
+
+    .form-group small {
+
+        font-size: 10px;
+
+        line-height: 1.5;
+    }
+
+    .toggle-list {
+
+        width: 100%;
+
+        margin-top: 3px;
+    }
+
+    .toggle-item {
+
+        width: 100%;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 12px;
+
+        padding: 16px 0;
+    }
+
+    .toggle-info {
+
+        gap: 10px;
+
+        min-width: 0;
+
+        flex: 1;
+    }
+
+    .toggle-icon {
+
+        width: 38px;
+
+        height: 38px;
+
+        border-radius: 9px;
+
+        font-size: 15px;
+
+        flex-shrink: 0;
+    }
+
+    .toggle-info h3 {
+
+        font-size: 13px;
+
+        margin-bottom: 3px;
+    }
+
+    .toggle-info p {
+
+        font-size: 11px;
+
+        line-height: 1.45;
+    }
+
+    .switch {
+
+        width: 45px;
+
+        height: 24px;
+
+        flex-shrink: 0;
+    }
+
+    .slider::before {
+
+        width: 18px;
+
+        height: 18px;
+
+        top: 3px;
+
+        left: 3px;
+    }
+
+    .switch input:checked + .slider::before {
+
+        transform: translateX(21px);
+    }
+
+    .watermark-options {
+
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+
+        margin-top: 20px;
+    }
+
+    .checkbox-card {
+
+        width: 100%;
+
+        min-height: 62px;
+
+        padding: 12px 14px;
+
+        border-radius: 9px;
+
+        gap: 10px;
+    }
+
+    .check-box {
+
+        width: 20px;
+
+        height: 20px;
+
+        flex-shrink: 0;
+    }
+
+    .checkbox-card strong {
+
+        font-size: 12px;
+
+        margin-bottom: 2px;
+    }
+
+    .checkbox-card small {
+
+        font-size: 10px;
+
+        line-height: 1.4;
+    }
+
+    .schedule-grid {
+
+        width: 100%;
+
+        margin-top: 18px;
+    }
+
+    .schedule-grid input[type="time"] {
+
+        width: 100%;
+    }
+
+    .info-card {
+
+        width: 100%;
+
+        display: flex;
+
+        align-items: flex-start;
+
+        gap: 10px;
+
+        padding: 16px;
+
+        margin-bottom: 20px;
+
+        border-radius: 12px;
+    }
+
+    .info-icon {
+
+        width: 34px;
+
+        height: 34px;
+
+        font-size: 16px;
+
+        flex-shrink: 0;
+    }
+
+    .info-card h3 {
+
+        font-size: 13px;
+
+        margin-bottom: 4px;
+    }
+
+    .info-card p {
+
+        font-size: 11px;
+
+        line-height: 1.55;
+    }
+
+    .form-actions {
+
+        width: 100%;
+
+        display: flex;
+
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+
+        justify-content: center;
+
+        gap: 10px;
+
+        padding-top: 15px;
+    }
+
+    .cancel-btn,
+    .save-btn {
+
+        width: 100%;
+
+        min-height: 45px;
+
+        padding: 13px 20px;
+
+        font-size: 13px;
+
+        border-radius: 50px;
+    }
+
+    html[data-theme="dark"] .sidebar,
+    body.dark-theme .sidebar {
+
+        border-right: none;
+
+        border-bottom: 1px solid #334155;
+    }
+
+    html[data-theme="dark"] .settings-card,
+    body.dark-theme .settings-card {
+
+        box-shadow:
+            0 8px 25px rgba(0, 0, 0, 0.30);
+    }
+
+    .sidebar::-webkit-scrollbar {
+
+        width: 4px;
+    }
+
+
+    /* =====================================================
+       COMPACT SIDEBAR
+    ===================================================== */
+
+    html[data-sidebar-style="compact"] {
+
+        --sidebar-width: 100%;
+    }
+
+    html[data-sidebar-style="compact"] .sidebar {
+
+        width: 100%;
+
+        height: auto;
+
+        position: relative;
+
+        padding: 20px 15px;
+    }
+
+    html[data-sidebar-style="compact"] .main-content {
+
+        width: 100%;
+
+        margin-left: 0;
+
+        padding: 20px 15px 35px;
+    }
+
+    html[data-sidebar-style="compact"] .sidebar .logo h2,
+    html[data-sidebar-style="compact"] .sidebar ul li a span {
+
+        display: inline;
+    }
+
+    html[data-sidebar-style="compact"] .sidebar .logo {
+
+        padding: 0 10px;
+    }
+
+    html[data-sidebar-style="compact"] .sidebar ul {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 6px;
+    }
+
+    html[data-sidebar-style="compact"] .sidebar ul li a {
+
+        justify-content: center;
+
+        padding: 11px 14px;
+
+        gap: 8px;
+    }
+
+    html[data-sidebar-style="compact"] .sidebar ul li a i {
+
+        width: auto;
+
+        margin: 0;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media screen and (max-width: 480px) {
+
+    .main-content {
+
+        padding: 15px 10px 30px;
+    }
+
+    .sidebar {
+
+        padding: 18px 10px;
+    }
+
+    .logo {
+
+        margin-bottom: 17px;
+    }
+
+    .logo i {
+
+        font-size: 32px;
+    }
+
+    .logo h2 {
+
+        font-size: 19px;
+    }
+
+    .sidebar ul {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 6px;
+    }
+
+    .sidebar ul li {
+
+        width: 100%;
+    }
+
+    .sidebar ul li a {
+
+        width: 100%;
+
+        padding: 10px 8px;
+
+        font-size: 12px;
+
+        gap: 6px;
+    }
+
+    .header-left {
+
+        gap: 10px;
+    }
+
+    .header-icon {
+
+        width: 43px;
+
+        height: 43px;
+
+        border-radius: 10px;
+
+        font-size: 18px;
+    }
+
+    .page-header h1 {
+
+        font-size: 21px;
+    }
+
+    .page-header p {
+
+        font-size: 12px;
+
+        line-height: 1.5;
+    }
+
+    .settings-card {
+
+        padding: 15px;
+
+        border-radius: 12px;
+    }
+
+    .card-header {
+
+        gap: 10px;
+
+        padding-bottom: 15px;
+    }
+
+    .section-icon {
+
+        width: 38px;
+
+        height: 38px;
+
+        font-size: 15px;
+    }
+
+    .card-header h2 {
+
+        font-size: 15px;
+    }
+
+    .card-header p {
+
+        font-size: 11px;
+    }
+
+    .form-grid {
+
+        gap: 15px;
+
+        margin-top: 17px;
+    }
+
+    .form-group label {
+
+        font-size: 12px;
+    }
+
+    .form-group select,
+    .form-group input[type="text"],
+    .form-group input[type="time"] {
+
+        height: 43px;
+
+        font-size: 12px;
+
+        padding: 0 11px;
+    }
+
+    .toggle-item {
+
+        gap: 8px;
+
+        padding: 14px 0;
+    }
+
+    .toggle-icon {
+
+        width: 34px;
+
+        height: 34px;
+
+        font-size: 14px;
+    }
+
+    .toggle-info h3 {
+
+        font-size: 12px;
+    }
+
+    .toggle-info p {
+
+        font-size: 10px;
+    }
+
+    .switch {
+
+        width: 42px;
+
+        height: 23px;
+    }
+
+    .slider::before {
+
+        width: 17px;
+
+        height: 17px;
+    }
+
+    .switch input:checked + .slider::before {
+
+        transform: translateX(19px);
+    }
+
+    .watermark-options {
+
+        gap: 10px;
+    }
+
+    .checkbox-card {
+
+        min-height: 58px;
+
+        padding: 10px 11px;
+    }
+
+    .checkbox-card strong {
+
+        font-size: 11px;
+    }
+
+    .checkbox-card small {
+
+        font-size: 9px;
+    }
+
+    .info-card {
+
+        padding: 13px;
+    }
+
+    .info-icon {
+
+        width: 30px;
+
+        height: 30px;
+
+        font-size: 14px;
+    }
+
+    .info-card h3 {
+
+        font-size: 12px;
+    }
+
+    .info-card p {
+
+        font-size: 10px;
+    }
+
+    .cancel-btn,
+    .save-btn {
+
+        min-height: 43px;
+
+        padding: 12px 15px;
+
+        font-size: 12px;
+    }
+}

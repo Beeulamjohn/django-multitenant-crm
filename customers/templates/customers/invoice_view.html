@@ -1,0 +1,187 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html
+    lang="en"
+    data-theme="{{ theme|default:'dark' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Invoice {{ invoice.invoice_number }}
+    </title>
+
+    <style>
+
+        :root {
+            --accent-color: {{ accent_color|default:"#2563eb" }};
+        }
+
+    </style>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/invoice_view.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="invoice-detail-page">
+
+
+    <div class="detail-header">
+
+        <div>
+
+            <h1>
+                Invoice Details
+            </h1>
+
+            <p>
+                {{ invoice.invoice_number }}
+            </p>
+
+        </div>
+
+
+        <div class="detail-actions">
+
+            <a
+                href="{% url 'invoice_list' %}"
+                class="back-btn"
+            >
+                Back
+            </a>
+
+            <a
+                href="{% url 'invoice_edit' invoice.id %}"
+                class="btn-primary"
+            >
+                <i class="fas fa-edit"></i>
+                Edit
+            </a>
+
+            <a
+                href="{% url 'invoice_print' invoice.id %}"
+                class="btn-primary"
+                target="_blank"
+            >
+                <i class="fas fa-print"></i>
+                Print
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="invoice-detail-card">
+
+
+        <div class="invoice-top">
+
+            <div>
+
+                <h2>
+                    INVOICE
+                </h2>
+
+                <p>
+                    Invoice No:
+                    <strong>
+                        {{ invoice.invoice_number }}
+                    </strong>
+                </p>
+
+            </div>
+
+
+            <span
+                class="status {{ invoice.payment_status|lower }}"
+            >
+                {{ invoice.payment_status }}
+            </span>
+
+        </div>
+
+
+        <div class="invoice-info-grid">
+
+
+            <div>
+
+                <span>
+                    Customer
+                </span>
+
+                <strong>
+                    {{ invoice.customer.name }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Invoice Date
+                </span>
+
+                <strong>
+                    {{ invoice.invoice_date }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Due Date
+                </span>
+
+                <strong>
+                    {{ invoice.due_date|default:"-" }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Total Amount
+                </span>
+
+                <strong>
+                    ₹{{ invoice.total_amount }}
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,927 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en"
+      data-theme="{% if appearance_settings.theme == 'dark' %}dark{% else %}light{% endif %}">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Fee & Discount Settings | FlowTenant</title>
+
+
+    <!-- BILLING APPEARANCE SETTINGS -->
+
+    <style>
+
+        :root {
+
+            --accent-color:
+                {{ appearance_settings.accent_color|default:"#2563eb" }};
+
+        }
+
+    </style>
+
+
+    <link rel="stylesheet"
+          href="{% static 'css/billing_fee_settings.css' %}">
+
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="billing-settings-page">
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fas fa-cogs"></i>
+
+            <h2>Settings</h2>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <ul>
+
+                <li>
+                    <a href="{% url 'billing_settings' %}">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_general_settings' %}">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>General Billing</span>
+                    </a>
+                </li>
+                <li>
+    <a href="{% url 'billing_company_profile_settings' %}">
+        <i class="fas fa-building"></i>
+        <span>Company Profile</span>
+    </a>
+</li>
+
+                <li>
+                    <a href="{% url 'billing_invoice_settings' %}">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Invoice Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_payment_settings' %}">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_tax_settings' %}">
+                        <i class="fas fa-percent"></i>
+                        <span>Tax &amp; GST Settings</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="{% url 'billing_fee_settings' %}">
+                        <i class="fas fa-money-check-dollar"></i>
+                        <span>Fee &amp; Discount</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_late_fee_settings' %}">
+                        <i class="fas fa-clock"></i>
+                        <span>Late Fee Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_reminder_settings' %}">
+                        <i class="fas fa-bell"></i>
+                        <span>Payment Reminders</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_appearance_settings' %}">
+                        <i class="fas fa-palette"></i>
+                        <span>Invoice Appearance</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'billing_bank_settings' %}">
+                        <i class="fas fa-building-columns"></i>
+                        <span>Bank &amp; Payment</span>
+                    </a>
+                </li>
+
+               
+
+            </ul>
+
+        </nav>
+
+    </aside>
+    <main class="settings-content">
+
+        <header class="page-header">
+
+            <div class="header-content">
+
+                <div class="breadcrumb">
+
+                    <span>Settings</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <span>Billing</span>
+
+                    <i class="fas fa-chevron-right"></i>
+
+                    <strong>Fee &amp; Discount</strong>
+
+                </div>
+
+
+                <h1>Fee &amp; Discount Settings</h1>
+
+
+                <p>
+                    Configure default fee behavior, discounts and
+                    invoice discount rules for your company.
+                </p>
+
+            </div>
+
+
+            <div class="header-icon">
+
+                <i class="fas fa-money-check-dollar"></i>
+
+            </div>
+
+        </header>
+
+
+        <!-- MESSAGES -->
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message {{ message.tags }}">
+
+                        {% if message.tags == "success" %}
+
+                            <i class="fas fa-circle-check"></i>
+
+                        {% elif message.tags == "error" %}
+
+                            <i class="fas fa-circle-exclamation"></i>
+
+                        {% elif message.tags == "warning" %}
+
+                            <i class="fas fa-triangle-exclamation"></i>
+
+                        {% else %}
+
+                            <i class="fas fa-circle-info"></i>
+
+                        {% endif %}
+
+                        <span>{{ message }}</span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST"
+              class="fee-settings-form">
+
+            {% csrf_token %}
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+
+                        <i class="fas fa-money-bill-wave"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>Fee Configuration</h2>
+
+                        <p>
+                            Configure the default fee behavior used
+                            throughout your billing system.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+
+                                <i class="fas fa-toggle-on"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3>Fee System Enabled</h3>
+
+                                <p>
+                                    Enable fee configuration and fee
+                                    collection for your company.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="fee_system_enabled"
+                                   value="1"
+                                   {% if settings.fee_system_enabled or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="default_fee_type">
+
+                                Default Fee Type
+
+                                <span class="required">*</span>
+
+                            </label>
+
+
+                            <select id="default_fee_type"
+                                    name="default_fee_type"
+                                    required>
+
+                                <option value="Admission Fee"
+                                    {% if settings.default_fee_type == "Admission Fee" %}
+                                    selected
+                                    {% endif %}>
+                                    Admission Fee
+                                </option>
+
+                                <option value="Tuition Fee"
+                                    {% if settings.default_fee_type == "Tuition Fee" or not settings.default_fee_type %}
+                                    selected
+                                    {% endif %}>
+                                    Tuition Fee
+                                </option>
+
+                                <option value="Exam Fee"
+                                    {% if settings.default_fee_type == "Exam Fee" %}
+                                    selected
+                                    {% endif %}>
+                                    Exam Fee
+                                </option>
+
+                                <option value="Library Fee"
+                                    {% if settings.default_fee_type == "Library Fee" %}
+                                    selected
+                                    {% endif %}>
+                                    Library Fee
+                                </option>
+
+                                <option value="Transport Fee"
+                                    {% if settings.default_fee_type == "Transport Fee" %}
+                                    selected
+                                    {% endif %}>
+                                    Transport Fee
+                                </option>
+
+                                <option value="Other"
+                                    {% if settings.default_fee_type == "Other" %}
+                                    selected
+                                    {% endif %}>
+                                    Other
+                                </option>
+
+                            </select>
+
+
+                            <small>
+                                Default fee type selected when creating
+                                a new fee record.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Fee Management
+                            </label>
+
+                            <div class="info-box">
+
+                                <i class="fas fa-circle-info"></i>
+
+                                <span>
+                                    Individual student/course fees are
+                                    managed through Fee Configuration.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+
+                        <i class="fas fa-pen-to-square"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>Custom Fees</h2>
+
+                        <p>
+                            Control whether staff can create customized
+                            fee amounts.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+
+                                <i class="fas fa-sliders"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3>Allow Custom Fees</h3>
+
+                                <p>
+                                    Allow authorized users to enter a
+                                    custom fee amount instead of using
+                                    a predefined fee configuration.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="allow_custom_fees"
+                                   value="1"
+                                   {% if settings.allow_custom_fees or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+
+                        <i class="fas fa-tags"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>Discount Settings</h2>
+
+                        <p>
+                            Configure default discount behavior for invoices.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+
+                                <i class="fas fa-percent"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3>Allow Discounts</h3>
+
+                                <p>
+                                    Allow discounts to be applied to
+                                    invoice fee amounts.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="allow_discounts"
+                                   value="1"
+                                   {% if settings.allow_discounts or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="default_discount_type">
+
+                                Default Discount Type
+
+                            </label>
+
+
+                            <select id="default_discount_type"
+                                    name="default_discount_type">
+
+                                <option value="percentage"
+                                    {% if settings.default_discount_type == "percentage" or not settings.default_discount_type %}
+                                    selected
+                                    {% endif %}>
+                                    Percentage (%)
+                                </option>
+
+                                <option value="fixed"
+                                    {% if settings.default_discount_type == "fixed" %}
+                                    selected
+                                    {% endif %}>
+                                    Fixed Amount
+                                </option>
+
+                            </select>
+
+
+                            <small>
+                                Default discount calculation method.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="default_discount_value">
+
+                                Default Discount Value
+
+                            </label>
+
+
+                            <input type="number"
+                                   id="default_discount_value"
+                                   name="default_discount_value"
+                                   value="{{ settings.default_discount_value|default:'0.00' }}"
+                                   min="0"
+                                   step="0.01">
+
+                            <small>
+                                Default discount amount or percentage.
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="maximum_discount">
+
+                                Maximum Discount
+
+                            </label>
+
+
+                            <input type="number"
+                                   id="maximum_discount"
+                                   name="maximum_discount"
+                                   value="{{ settings.maximum_discount|default:'100.00' }}"
+                                   min="0"
+                                   step="0.01">
+
+                            <small>
+                                Maximum permitted discount based on
+                                the selected discount type.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+
+                        <i class="fas fa-gears"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>Discount Behavior</h2>
+
+                        <p>
+                            Control how discounts are applied and displayed.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+
+                                <i class="fas fa-arrow-down"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3>Apply Discount Before Tax</h3>
+
+                                <p>
+                                    Calculate the discount before GST/tax
+                                    is calculated on the invoice.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="apply_discount_before_tax"
+                                   value="1"
+                                   {% if settings.apply_discount_before_tax or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+
+                                <i class="fas fa-calculator"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3>Round Fee Amounts</h3>
+
+                                <p>
+                                    Round fee calculations to whole currency
+                                    amounts where applicable.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="round_fee_amounts"
+                                   value="1"
+                                   {% if settings.round_fee_amounts %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-option">
+
+                        <div class="option-info">
+
+                            <div class="option-icon">
+
+                                <i class="fas fa-eye"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3>Show Discount on Invoice</h3>
+
+                                <p>
+                                    Display the applied discount amount
+                                    clearly on the generated invoice.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                   name="show_discount_on_invoice"
+                                   value="1"
+                                   {% if settings.show_discount_on_invoice or not settings %}
+                                   checked
+                                   {% endif %}>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="settings-card">
+
+                <div class="card-header">
+
+                    <div class="section-icon">
+
+                        <i class="fas fa-chart-pie"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>Fee &amp; Discount Summary</h2>
+
+                        <p>
+                            Review the current configuration.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="summary-grid">
+
+
+                        <div class="summary-item">
+
+                            <span>Fee System</span>
+
+                            {% if settings.fee_system_enabled %}
+
+                                <strong class="status-enabled">
+                                    Enabled
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="status-disabled">
+                                    Disabled
+                                </strong>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Default Fee</span>
+
+                            <strong>
+                                {{ settings.default_fee_type }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Discounts</span>
+
+                            {% if settings.allow_discounts %}
+
+                                <strong class="status-enabled">
+                                    Allowed
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="status-disabled">
+                                    Disabled
+                                </strong>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Discount Type</span>
+
+                            <strong>
+                                {{ settings.default_discount_type|title }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Default Discount</span>
+
+                            <strong>
+                                {{ settings.default_discount_value }}
+                                {% if settings.default_discount_type == "percentage" %}
+                                    %
+                                {% endif %}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>Invoice Display</span>
+
+                            {% if settings.show_discount_on_invoice %}
+
+                                <strong class="status-enabled">
+                                    Show Discount
+                                </strong>
+
+                            {% else %}
+
+                                <strong class="status-disabled">
+                                    Hide Discount
+                                </strong>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+            <div class="form-actions">
+
+                <button type="reset"
+                        class="btn btn-secondary">
+
+                    <i class="fas fa-rotate-left"></i>
+
+                    Reset
+
+                </button>
+
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Fee Settings
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

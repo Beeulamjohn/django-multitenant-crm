@@ -1,0 +1,304 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Management | FlowTenant CRM</title>
+
+    <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link rel="stylesheet"
+          href="{% static 'css/employee_list.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+
+            <h1>
+                <i class="fas fa-users"></i>
+                Employee Management
+            </h1>
+
+            <p>
+                Manage all employees in your company.
+            </p>
+
+        </div>
+
+        <div class="header-buttons">
+
+            <a href="{% url 'employee_dashboard' %}"
+               class="btn-back">
+
+                <i class="fas fa-arrow-left"></i>
+                Back
+
+            </a>
+
+            <a href="{% url 'employee_added' %}"
+               class="btn">
+
+                <i class="fas fa-user-plus"></i>
+                Add Employee
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="search-box">
+
+        <i class="fas fa-search"></i>
+
+        <input type="text"
+               id="searchInput"
+               placeholder="Search employee...">
+
+    </div>
+
+
+    <div class="summary">
+
+        <div class="summary-card">
+
+            <i class="fas fa-users"></i>
+
+            <h2>
+                {{ total }}
+            </h2>
+
+            <p>
+                Total Employees
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <i class="fas fa-user-check"></i>
+
+            <h2>
+                {{ active_employees }}
+            </h2>
+
+            <p>
+                Active Staff
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table id="employeeTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for employee in employees %}
+
+                <tr>
+
+                    <td>
+                        {{ employee.employee_id }}
+                    </td>
+
+
+                    <td>
+
+                        <strong>
+                            {{ employee.first_name }}
+                            {{ employee.last_name }}
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+                        {{ employee.department|default:"-" }}
+                    </td>
+
+
+                    <td>
+                        {{ employee.role|default:"-" }}
+                    </td>
+
+
+                    <td>
+                        {{ employee.email }}
+                    </td>
+
+
+                    <td>
+                        {{ employee.phone }}
+                    </td>
+
+
+                    <td>
+
+                        {% if employee.employment_status == "Active" %}
+
+                            <span class="badge active">
+                                Active
+                            </span>
+
+                        {% elif employee.employment_status == "Inactive" %}
+
+                            <span class="badge inactive">
+                                Inactive
+                            </span>
+
+                        {% elif employee.employment_status == "Resigned" %}
+
+                            <span class="badge resigned">
+                                Resigned
+                            </span>
+
+                        {% elif employee.employment_status == "Terminated" %}
+
+                            <span class="badge terminated">
+                                Terminated
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge inactive">
+                                {{ employee.employment_status }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        <a href="{% url 'edit_employee' employee.id %}"
+                           class="action edit"
+                           title="Edit Employee">
+
+                            <i class="fas fa-edit"></i>
+
+                        </a>
+
+
+                        <a href="{% url 'delete_employee' employee.id %}"
+                           class="action delete"
+                           title="Delete Employee"
+                           onclick="return confirm('Are you sure you want to delete this employee?');">
+
+                            <i class="fas fa-trash"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="8"
+                        class="empty">
+
+                        <i class="fas fa-users-slash"></i>
+
+                        <br>
+                        <br>
+
+                        No Employees Found
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const input = document.getElementById("searchInput");
+
+input.addEventListener("keyup", function () {
+
+    const value = this.value.toLowerCase();
+
+    const rows = document.querySelectorAll(
+        "#employeeTable tbody tr"
+    );
+
+    rows.forEach(function (row) {
+
+        row.style.display =
+            row.innerText.toLowerCase().includes(value)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+</script>
+
+</body>
+
+</html>

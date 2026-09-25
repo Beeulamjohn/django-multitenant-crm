@@ -1,0 +1,1579 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+    lang="{{ appearance.language|default:'en' }}"
+    data-theme="{{ appearance.theme|default:'light' }}"
+    data-font-size="{{ appearance.font_size|default:'medium' }}"
+    data-dashboard-layout="{{ appearance.dashboard_layout|default:'grid' }}"
+    data-sidebar-style="{{ appearance.sidebar_style|default:'expanded' }}"
+>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Salary Management Dashboard</title>
+    <style>
+        :root {
+            --accent-color:
+                {{ appearance.accent_color|default:"#2563eb" }};
+        }
+    </style>
+
+    <link rel="stylesheet"
+          href="{% static 'css/salary_dashboard.css' %}">
+
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body class="salary-body">
+
+<div class="dashboard">
+
+
+    <aside class="sidebar">
+
+
+            
+<div class="company-brand">
+
+    {% if company_profile and company_profile.company_logo %}
+
+        <img
+            src="{{ company_profile.company_logo.url }}"
+            alt="{{ company_profile.company_name }}"
+            class="company-logo"
+        >
+
+    {% else %}
+
+        <img
+            src="{% static 'images/default-logo.png' %}"
+            alt="Default Company Logo"
+            class="company-logo"
+        >
+
+    {% endif %}
+
+
+    <div class="company-info">
+
+        <h2>
+            {{ company_profile.company_name|default:company.company_name }}
+        </h2>
+
+        <span>
+            Salary Management System
+        </span>
+
+    </div>
+
+</div>
+
+
+        <ul>
+            {% if company.company_type == "salary" %}
+
+            <li class="active">
+
+                <a href="{% url 'salary_dashboard' %}">
+
+                    <i class="fas fa-chart-line"></i>
+
+                    <span>Dashboard</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="{% url 'employee_salary_list' %}">
+
+                    <i class="fas fa-users"></i>
+
+                    <span>Employees</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+<a href="{% url 'salary_structure_list' %}">
+
+<i class="fas fa-wallet"></i>
+
+<span>
+Salary Structure
+</span>
+
+</a>
+
+</li>
+
+            <li>
+
+                <a href="{% url 'salary_payroll_list' %}">
+
+                    <i class="fas fa-file-invoice-dollar"></i>
+
+                    <span>Payroll</span>
+
+                </a>
+
+            </li>
+
+            <li>
+    <a href="{% url 'attendance_dashboard' %}">
+        <i class="fas fa-calendar-check"></i>
+        <span>Attendance</span>
+    </a>
+</li>
+
+            <li>
+
+                <a href="{% url 'payslip_list' %}">
+
+                    <i class="fas fa-file-pdf"></i>
+
+                    <span>Payslips</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="{% url 'bonus_list' %}">
+
+                    <i class="fas fa-gift"></i>
+
+                    <span>Bonus</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="{% url 'deduction_list' %}">
+
+                    <i class="fas fa-percent"></i>
+
+                    <span>Deductions</span>
+
+                </a>
+
+            </li>
+
+            <li>
+    <a href="{% url 'salary_report' %}">
+        <i class="fas fa-chart-pie"></i>
+        <span>Salary Reports</span>
+    </a>
+</li>
+<li>
+    <a href="{% url 'salary_settings_page' %}">
+        <i class="fas fa-sliders"></i>
+        <span>Settings</span>
+    </a>
+</li>
+<li>
+    <a href="{% url 'logout_salary' %}">
+        <i class="fas fa-right-from-bracket"></i>
+        <span>Logout</span>
+    </a>
+</li>
+{% endif %}
+
+        </ul>
+
+    </aside>
+
+
+    <main class="main-content">
+
+       
+
+        <div class="header">
+
+
+            <div class="header-left">
+
+                <h1>
+
+                    <i class="fas fa-money-check-dollar"></i>
+
+                    Salary Management Dashboard
+
+                </h1>
+
+                <p>
+
+                    Welcome back,
+
+                    <strong>{{ request.user.username }}</strong>
+
+                </p>
+
+
+            </div>
+
+        
+<div class="search-box">
+
+                <i class="fas fa-search"></i>
+
+                <input type="text"
+                       placeholder="Search invoices, students, payments...">
+
+            </div>
+            <div class="header-right">
+
+                <a href="{% url 'home' %}" class="back-btn">
+                   
+                    Home
+                </a>
+
+                
+
+            </div>
+
+
+        </div>
+
+
+<div class="cards">
+
+
+    <div class="card salary">
+
+        <div class="card-icon">
+
+            <i class="fas fa-indian-rupee-sign"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h2>
+
+                ₹{{ total_salary_paid|default:"0" }}
+
+            </h2>
+
+            <p>
+
+                Total Salary Paid
+
+            </p>
+
+            <span class="card-footer">
+
+                <i class="fas fa-arrow-trend-up"></i>
+
+                This Financial Year
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================
+            EMPLOYEES PAID
+    ====================================== -->
+
+    <div class="card paid">
+
+        <div class="card-icon">
+
+            <i class="fas fa-user-check"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h2>
+
+                {{ employees_paid|default:"0" }}
+
+            </h2>
+
+            <p>
+
+                Employees Paid
+
+            </p>
+
+            <span class="card-footer">
+
+                <i class="fas fa-circle-check"></i>
+
+                Salary Processed
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================
+            PENDING SALARY
+    ====================================== -->
+
+    <div class="card pending">
+
+        <div class="card-icon">
+
+            <i class="fas fa-clock"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h2>
+
+                {{ pending_salary|default:"0" }}
+
+            </h2>
+
+            <p>
+
+                Pending Salary
+
+            </p>
+
+            <span class="card-footer">
+
+                <i class="fas fa-hourglass-half"></i>
+
+                Awaiting Payment
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================
+            MONTHLY PAYROLL
+    ====================================== -->
+
+    <div class="card payroll">
+
+        <div class="card-icon">
+
+            <i class="fas fa-file-invoice-dollar"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h2>
+
+                ₹{{ monthly_payroll|default:"0" }}
+
+            </h2>
+
+            <p>
+
+                Monthly Payroll
+
+            </p>
+
+            <span class="card-footer">
+
+                <i class="fas fa-calendar-days"></i>
+
+                Current Month
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================
+            TOTAL EMPLOYEES
+    ====================================== -->
+
+    <div class="card employees">
+
+        <div class="card-icon">
+
+            <i class="fas fa-users"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h2>
+
+                {{ total_employees|default:"0" }}
+
+            </h2>
+
+            <p>
+
+                Total Employees
+
+            </p>
+
+            <span class="card-footer">
+
+                <i class="fas fa-building"></i>
+
+                Active Staff
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================
+            SALARY EXPENSE
+    ====================================== -->
+
+    <div class="card expense">
+
+        <div class="card-icon">
+
+            <i class="fas fa-wallet"></i>
+
+        </div>
+
+        <div class="card-content">
+
+            <h2>
+
+                ₹{{ salary_expense|default:"0" }}
+
+            </h2>
+
+            <p>
+
+                Salary Expense
+
+            </p>
+
+            <span class="card-footer">
+
+                <i class="fas fa-chart-line"></i>
+
+                Overall Payroll Cost
+
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ======================================
+        PAYROLL MANAGEMENT MODULES
+====================================== -->
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <h2>Payroll Management System</h2>
+
+    </div>
+
+    <div class="feature-grid">
+
+        <!-- ======================================
+                Employee Salary
+        ======================================= -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon employee">
+
+                <i class="fas fa-users"></i>
+
+            </div>
+
+            <h3>Employee Salary</h3>
+
+            <p>
+
+                Manage employee salary structures,
+                monthly salaries, revisions and
+                complete salary records.
+
+            </p>
+
+            <ul>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Salary Structure
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Basic Salary
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Salary Revision
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Employee Salary History
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- ======================================
+                Payroll Processing
+        ======================================= -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon payroll">
+
+                <i class="fas fa-money-check-dollar"></i>
+
+            </div>
+
+            <h3>Payroll Processing</h3>
+
+            <p>
+
+                Generate monthly payroll with
+                automatic calculations and salary
+                processing.
+
+            </p>
+
+            <ul>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Monthly Payroll
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Automatic Calculation
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Payroll Approval
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Payroll History
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- ======================================
+                Payslip Generation
+        ======================================= -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon payslip">
+
+                <i class="fas fa-file-pdf"></i>
+
+            </div>
+
+            <h3>Payslip Generation</h3>
+
+            <p>
+
+                Create professional salary slips
+                for employees with PDF export
+                and printing support.
+
+            </p>
+
+            <ul>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Generate Payslip
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    PDF Download
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Print Payslip
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Email Payslip
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- ======================================
+                Bonus Management
+        ======================================= -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon bonus">
+
+                <i class="fas fa-gift"></i>
+
+            </div>
+
+            <h3>Bonus Management</h3>
+
+            <p>
+
+                Manage employee bonuses,
+                incentives, rewards and
+                performance benefits.
+
+            </p>
+
+            <ul>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Festival Bonus
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Performance Incentives
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Annual Bonus
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Bonus Reports
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- ======================================
+                Deductions
+        ======================================= -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon deduction">
+
+                <i class="fas fa-minus-circle"></i>
+
+            </div>
+
+            <h3>Deductions</h3>
+
+            <p>
+
+                Configure salary deductions,
+                loan recovery, fines and
+                miscellaneous deductions.
+
+            </p>
+
+            <ul>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Loan Deduction
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Advance Recovery
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Penalty Deduction
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Other Deductions
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- ======================================
+                Attendance Integration
+        ======================================= -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon attendance">
+
+                <i class="fas fa-calendar-check"></i>
+
+            </div>
+
+            <h3>Attendance Integration</h3>
+
+            <p>
+
+                Automatically calculate salary
+                using attendance, leave and
+                overtime information.
+
+            </p>
+
+            <ul>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Attendance Tracking
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Leave Management
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Overtime Calculation
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Working Days
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- ======================================
+                Tax Management
+        ======================================= -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon tax">
+
+                <i class="fas fa-percent"></i>
+
+            </div>
+
+            <h3>Tax Management</h3>
+
+            <p>
+
+                Automatically calculate taxes,
+                PF, ESI and professional tax
+                for employee payroll.
+
+            </p>
+
+            <ul>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    PF Calculation
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    ESI Calculation
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Professional Tax
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Income Tax
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- ======================================
+                Salary Reports
+        ======================================= -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon report">
+
+                <i class="fas fa-chart-column"></i>
+
+            </div>
+
+            <h3>Salary Reports</h3>
+
+            <p>
+
+                Generate payroll reports,
+                department reports and
+                monthly salary analytics.
+
+            </p>
+
+            <ul>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Payroll Report
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Salary Analytics
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Department Report
+
+                </li>
+
+                <li>
+
+                    <i class="fas fa-check"></i>
+
+                    Export PDF & Excel
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ======================================
+            RECENT PAYROLL
+====================================== -->
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <h2>
+
+            Recent Payroll
+
+        </h2>
+
+       
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="dashboard-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Payroll ID</th>
+
+                    <th>Employee</th>
+
+                    <th>Department</th>
+
+                    <th>Month</th>
+
+                    <th>Basic Salary</th>
+
+                    <th>Deductions</th>
+
+                    <th>Net Salary</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for payroll in payrolls %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ payroll.payroll_number }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {% if payroll.employee %}
+
+                            {{ payroll.employee.first_name }}
+                            {{ payroll.employee.last_name }}
+
+                        {% else %}
+
+                            N/A
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {{ payroll.employee.department|default:"N/A" }}
+
+                    </td>
+
+                    <td>
+
+                        {{ payroll.pay_month }}
+
+                    </td>
+
+                    <td>
+
+                        ₹{{ payroll.basic_salary }}
+
+                    </td>
+
+                    <td>
+
+                        ₹{{ payroll.total_deductions }}
+
+                    </td>
+
+                    <td class="amount">
+
+                        ₹{{ payroll.net_salary }}
+
+                    </td>
+
+                    <td>
+
+                        {% if payroll.status == "Paid" %}
+
+                            <span class="status paid">
+
+                                Paid
+
+                            </span>
+
+                        {% elif payroll.status == "Processing" %}
+
+                            <span class="status partial">
+
+                                Processing
+
+                            </span>
+
+                        {% elif payroll.status == "Pending" %}
+
+                            <span class="status pending">
+
+                                Pending
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="status overdue">
+
+                                Cancelled
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a href="{% url 'payroll_detail' payroll.id %}"
+                           class="table-btn view">
+
+                            <i class="fas fa-eye"></i>
+
+                        </a>
+
+                        <a href="{% url 'payroll_update' payroll.id %}"
+                           class="table-btn edit">
+
+                            <i class="fas fa-edit"></i>
+
+                        </a>
+
+                        <a href="{% url 'payroll_delete' payroll.id %}"
+                           class="table-btn delete">
+
+                            <i class="fas fa-trash"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ======================================
+            RECENT PAYSLIPS
+====================================== -->
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <h2>
+
+            Recent Payslips
+
+        </h2>
+
+        
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="dashboard-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Payslip No.</th>
+
+                    <th>Employee</th>
+
+                    <th>Department</th>
+
+                    <th>Salary Month</th>
+
+                    <th>Net Salary</th>
+
+                    <th>Generated Date</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for payslip in payslips %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ payslip.payslip_number }}
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        {% if payslip.employee %}
+
+                            {{ payslip.employee.first_name }}
+                            {{ payslip.employee.last_name }}
+
+                        {% else %}
+
+                            N/A
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {{ payslip.employee.department|default:"N/A" }}
+
+                    </td>
+
+                    <td>
+
+                        {{ payslip.salary_month }}
+
+                    </td>
+
+                    <td class="amount">
+
+                        ₹{{ payslip.net_salary }}
+
+                    </td>
+
+                    <td>
+
+                        {{ payslip.generated_date }}
+
+                    </td>
+
+                    <td>
+
+                        {% if payslip.status == "Generated" %}
+
+                            <span class="status paid">
+
+                                Generated
+
+                            </span>
+
+                        {% elif payslip.status == "Sent" %}
+
+                            <span class="status partial">
+
+                                Sent
+
+                            </span>
+
+                        {% elif payslip.status == "Pending" %}
+
+                            <span class="status pending">
+
+                                Pending
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="status overdue">
+
+                                Cancelled
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a href="{% url 'payslip_detail' payslip.id %}"
+                           class="table-btn view">
+
+                            <i class="fas fa-eye"></i>
+
+                        </a>
+
+                        <a href="{% url 'payslip_download' payslip.id %}"
+                           class="table-btn edit">
+
+                            <i class="fas fa-download"></i>
+
+                        </a>
+
+                        <a href="{% url 'payslip_delete' payslip.id %}"
+                           class="table-btn delete">
+
+                            <i class="fas fa-trash"></i>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+</main>
+
+</div>
+
+<!-- ======================================
+        PAGE ANIMATIONS
+====================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =====================================
+            Summary Cards
+    ====================================== */
+
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach((card, index) => {
+
+        card.style.opacity = "0";
+        card.style.transform = "translateY(30px)";
+
+        setTimeout(() => {
+
+            card.style.transition = "all .5s ease";
+
+            card.style.opacity = "1";
+
+            card.style.transform = "translateY(0)";
+
+        }, index * 120);
+
+    });
+
+
+    /* =====================================
+            Feature Cards
+    ====================================== */
+
+    const featureCards = document.querySelectorAll(".feature-card");
+
+    featureCards.forEach((card, index) => {
+
+        card.style.opacity = "0";
+
+        card.style.transform = "translateY(40px)";
+
+        setTimeout(() => {
+
+            card.style.transition = "all .6s ease";
+
+            card.style.opacity = "1";
+
+            card.style.transform = "translateY(0)";
+
+        }, index * 120);
+
+    });
+
+
+    /* =====================================
+            Statistics Cards
+    ====================================== */
+
+    const stats = document.querySelectorAll(".stat-box");
+
+    stats.forEach((card, index) => {
+
+        card.style.opacity = "0";
+
+        card.style.transform = "scale(.90)";
+
+        setTimeout(() => {
+
+            card.style.transition = ".5s";
+
+            card.style.opacity = "1";
+
+            card.style.transform = "scale(1)";
+
+        }, index * 100);
+
+    });
+
+
+    /* =====================================
+            Analytics Cards
+    ====================================== */
+
+    const analytics = document.querySelectorAll(".analytics-card");
+
+    analytics.forEach((card, index) => {
+
+        card.style.opacity = "0";
+
+        card.style.transform = "translateY(30px)";
+
+        setTimeout(() => {
+
+            card.style.transition = ".5s";
+
+            card.style.opacity = "1";
+
+            card.style.transform = "translateY(0)";
+
+        }, index * 130);
+
+    });
+
+
+    /* =====================================
+            Tables
+    ====================================== */
+
+    const tables = document.querySelectorAll(".table-card");
+
+    tables.forEach((table, index) => {
+
+        table.style.opacity = "0";
+
+        table.style.transform = "translateY(25px)";
+
+        setTimeout(() => {
+
+            table.style.transition = ".5s";
+
+            table.style.opacity = "1";
+
+            table.style.transform = "translateY(0)";
+
+        }, index * 150);
+
+    });
+
+
+    /* =====================================
+            Quick Actions
+    ====================================== */
+
+    const actions = document.querySelectorAll(".action-card");
+
+    actions.forEach((card, index) => {
+
+        card.style.opacity = "0";
+
+        card.style.transform = "scale(.9)";
+
+        setTimeout(() => {
+
+            card.style.transition = ".45s";
+
+            card.style.opacity = "1";
+
+            card.style.transform = "scale(1)";
+
+        }, index * 100);
+
+    });
+
+
+    /* =====================================
+            Hover Effect
+    ====================================== */
+
+    const hoverCards = document.querySelectorAll(
+
+        ".card, .feature-card, .analytics-card, .action-card"
+
+    );
+
+    hoverCards.forEach(card => {
+
+        card.addEventListener("mouseenter", function(){
+
+            this.style.transform = "translateY(-8px)";
+
+        });
+
+        card.addEventListener("mouseleave", function(){
+
+            this.style.transform = "translateY(0)";
+
+        });
+
+    });
+
+
+    /* =====================================
+            Search Box Focus
+    ====================================== */
+
+    const search = document.querySelector(".search-box input");
+
+    if(search){
+
+        search.addEventListener("focus", function(){
+
+            this.parentElement.classList.add("active");
+
+        });
+
+        search.addEventListener("blur", function(){
+
+            this.parentElement.classList.remove("active");
+
+        });
+
+    }
+
+
+    /* =====================================
+            Notification Bell
+    ====================================== */
+
+    const bell = document.querySelector(".notification");
+
+    if(bell){
+
+        bell.addEventListener("click", function(){
+
+            this.classList.toggle("shake");
+
+        });
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>

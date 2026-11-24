@@ -26,8 +26,9 @@ SECRET_KEY = 'django-insecure-q7izvd38l)=g5sjp+22w)cre&+z)r8j*r&_(tta068^-2q4%kz
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "127.0.0.1",
+    "django-multitenant-crm.onrender.com",
     "localhost",
+    "127.0.0.1",
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
